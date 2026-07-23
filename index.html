@@ -6,19 +6,19 @@
     <title>IPA NEW CEAS Guide</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #fef0f4 0%, #e6f3f7 50%, #f3eafd 100%); padding: 20px; min-height: 100vh; }
-        .container { max-width: 1200px; margin: 0 auto; background: #fffdfd; border-radius: 20px; box-shadow: 0 10px 40px rgba(173, 139, 175, 0.15); overflow: hidden; }
-        .header { background: linear-gradient(135deg, #f8c8dc 0%, #c8e6f5 50%, #d8c5ec 100%); color: #5a4a5e; padding: 36px 30px; text-align: center; position: relative; }
-        .header h1 { font-size: 2.1em; margin-bottom: 10px; letter-spacing: 0.3px; color: #6b5a72; }
-        .header p { opacity: 0.85; font-size: 1.1em; color: #6b5a72; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #eaf3fb 0%, #eaf3fb 50%, #f4f9fd 100%); padding: 20px; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 40px rgba(30, 90, 160, 0.12); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #cfe1f3 0%, #a9c8e6 50%, #b9d6ee 100%); color: #2a4a6a; padding: 36px 30px; text-align: center; position: relative; }
+        .header h1 { font-size: 2.1em; margin-bottom: 10px; letter-spacing: 0.3px; color: #1a3a5a; }
+        .header p { opacity: 0.85; font-size: 1.1em; color: #1a3a5a; }
         .header .badge-row { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
-        .header .badge-row span { background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(155, 130, 165, 0.30); padding: 5px 12px; border-radius: 16px; font-size: 0.85em; color: #6b5a72; }
+        .header .badge-row span { background: rgba(255, 255, 255, 0.65); border: 1px solid rgba(40, 90, 150, 0.30); padding: 5px 12px; border-radius: 16px; font-size: 0.85em; color: #1a3a5a; }
 
-        .tab-nav { display: flex; background: #faf4f7; border-bottom: 2px solid #ead7e0; flex-wrap: wrap; }
-        .tab-button { flex: 1; min-width: 150px; padding: 15px 18px; background: none; border: none; cursor: pointer; font-size: 1em; font-weight: 600; color: #8b7484; transition: all 0.3s; position: relative; }
-        .tab-button:hover { background: #fdeef3; color: #a07590; }
-        .tab-button.active { color: #a07590; background: #fffdfd; }
-        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: #d8a8be; }
+        .tab-nav { display: flex; background: #eef4fa; border-bottom: 2px solid #c7d8ea; flex-wrap: wrap; }
+        .tab-button { flex: 1; min-width: 150px; padding: 15px 18px; background: none; border: none; cursor: pointer; font-size: 1em; font-weight: 600; color: #34597a; transition: all 0.3s; position: relative; }
+        .tab-button:hover { background: #dbe9f5; color: #1a5a8e; }
+        .tab-button.active { color: #1a5a8e; background: #ffffff; }
+        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: #5b9bd5; }
         .tab-content { display: none; padding: 30px; animation: fadeIn 0.3s; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -30,38 +30,38 @@
         #indexSearchInput,
         #caseLawSearchInput,
         #flowSearchInput,
-        #euaaQueryInput { width: 100%; padding: 15px 50px 15px 20px; font-size: 1em; border: 2px solid #e0e0e0; border-radius: 10px; transition: all 0.3s; }
+        #euaaQueryInput { width: 100%; padding: 15px 50px 15px 20px; font-size: 1em; border: 2px solid #c7d8ea; border-radius: 10px; transition: all 0.3s; }
         #searchInput:focus,
         #guideSearchInput:focus,
         #indexSearchInput:focus,
         #caseLawSearchInput:focus,
         #flowSearchInput:focus,
-        #euaaQueryInput:focus { outline: none; border-color: #d8a8be; box-shadow: 0 0 0 4px rgba(216, 168, 190, 0.20); }
+        #euaaQueryInput:focus { outline: none; border-color: #5b9bd5; box-shadow: 0 0 0 4px rgba(91, 155, 213, 0.22); }
 
-        .clear-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: #e8a5b6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; display: none; }
-        .clear-btn:hover { background: #d893a4; }
+        .clear-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: #5b9bd5; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; display: none; }
+        .clear-btn:hover { background: #3f7fb8; }
         .results { margin-top: 20px; }
-        .result-item, .index-section { background: #fdf6f9; padding: 20px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #d8a8be; transition: all 0.3s; }
-        .result-item:hover, .index-section:hover { box-shadow: 0 4px 12px rgba(216, 168, 190, 0.20); transform: translateX(5px); }
-        .result-item h3, .index-section h3 { color: #a07590; margin-bottom: 10px; font-size: 1.3em; }
-        .badge { display: inline-block; background: #fce4ec; color: #a07590; padding: 4px 12px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; margin-right: 6px; }
-        .meta { color: #8b7484; font-size: 0.9em; margin: 8px 0; }
-        .description { color: #5a4a5e; line-height: 1.6; margin: 10px 0; }
-        .keyword-tag { display: inline-block; background: #f3d8e3; color: #a07590; padding: 3px 10px; border-radius: 10px; font-size: 0.85em; margin: 3px; }
-        .result-item a { display: inline-block; margin-top: 10px; color: #a07590; text-decoration: none; font-weight: 600; }
+        .result-item, .index-section { background: #f3f8fc; padding: 20px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #5b9bd5; transition: all 0.3s; }
+        .result-item:hover, .index-section:hover { box-shadow: 0 4px 12px rgba(91, 155, 213, 0.22); transform: translateX(5px); }
+        .result-item h3, .index-section h3 { color: #1a5a8e; margin-bottom: 10px; font-size: 1.3em; }
+        .badge { display: inline-block; background: #dbe9f5; color: #1a5a8e; padding: 4px 12px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; margin-right: 6px; }
+        .meta { color: #34597a; font-size: 0.9em; margin: 8px 0; }
+        .description { color: #2a4a6a; line-height: 1.6; margin: 10px 0; }
+        .keyword-tag { display: inline-block; background: #c7d8ea; color: #1a5a8e; padding: 3px 10px; border-radius: 10px; font-size: 0.85em; margin: 3px; }
+        .result-item a { display: inline-block; margin-top: 10px; color: #1a5a8e; text-decoration: none; font-weight: 600; }
         .result-item a:hover { text-decoration: underline; }
-        .no-results { text-align: center; padding: 60px 20px; color: #b39cad; }
+        .no-results { text-align: center; padding: 60px 20px; color: #6a8aab; }
         .highlight { background-color: #fff7c2; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
         .stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: linear-gradient(135deg, #f8c8dc 0%, #c8e6f5 100%); color: #6b5a72; padding: 20px; border-radius: 10px; text-align: center; }
-        .stat-card h3 { font-size: 2em; margin-bottom: 5px; color: #5a4a5e; }
-        .stat-card p { opacity: 0.8; font-size: 0.9em; color: #6b5a72; }
+        .stat-card { background: linear-gradient(135deg, #cfe1f3 0%, #a9c8e6 100%); color: #1a3a5a; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-card h3 { font-size: 2em; margin-bottom: 5px; color: #2a4a6a; }
+        .stat-card p { opacity: 0.8; font-size: 0.9em; color: #1a3a5a; }
 
-        .category-filter select { padding: 10px 15px; border: 2px solid #ead7e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: #fffdfd; }
-        .subsection { margin-left: 20px; margin-top: 15px; padding: 15px; background: #fffdfd; border-radius: 8px; border-left: 3px solid #c8e6f5; }
-        .subsection h4 { color: #7e9cb3; font-size: 1.1em; margin-bottom: 10px; }
+        .category-filter select { padding: 10px 15px; border: 2px solid #c7d8ea; border-radius: 8px; font-size: 1em; cursor: pointer; background: #ffffff; }
+        .subsection { margin-left: 20px; margin-top: 15px; padding: 15px; background: #ffffff; border-radius: 8px; border-left: 3px solid #a9c8e6; }
+        .subsection h4 { color: #34597a; font-size: 1.1em; margin-bottom: 10px; }
         .subsection ul { margin-left: 20px; }
-        .subsection li { margin: 8px 0; color: #6b5a72; line-height: 1.6; }
+        .subsection li { margin: 8px 0; color: #1a3a5a; line-height: 1.6; }
         @media (max-width: 768px) {
             .header h1 { font-size: 1.5em; }
             .tab-button { font-size: 0.9em; padding: 12px 10px; }
@@ -71,15 +71,15 @@
         /* Regulation article lists / EUR-Lex link */
         .reg-link {
             margin-left: 15px;
-            color: #a07590;
+            color: #1a5a8e;
             text-decoration: none;
             font-size: 0.9em;
             transition: color 0.3s;
         }
-        .reg-link:hover { color: #7e5e74; text-decoration: underline; }
+        .reg-link:hover { color: #34597a; text-decoration: underline; }
 
         .article-link {
-            color: #a07590;
+            color: #1a5a8e;
             text-decoration: none;
             font-size: 1.1em;
             margin-right: 8px;
@@ -92,51 +92,51 @@
         .related-guidelines {
             margin-top: 15px;
             padding: 12px;
-            background: #f5eaf0;
-            border-left: 3px solid #d8a8be;
+            background: #f3f8fc;
+            border-left: 3px solid #5b9bd5;
             border-radius: 4px;
         }
-        .related-guidelines strong { color: #7e5e74; display: block; margin-bottom: 8px; }
+        .related-guidelines strong { color: #34597a; display: block; margin-bottom: 8px; }
         .related-guidelines ul { margin: 0; padding-left: 20px; list-style-type: none; }
         .related-guidelines ul li { margin: 5px 0; }
         .related-guidelines ul li::before {
             content: "→ ";
-            color: #a07590;
+            color: #1a5a8e;
             font-weight: bold;
             margin-right: 5px;
         }
-        .related-guidelines a { color: #7e5e74; text-decoration: none; font-size: 0.95em; }
-        .related-guidelines a:hover { text-decoration: underline; color: #a07590; }
+        .related-guidelines a { color: #34597a; text-decoration: none; font-size: 0.95em; }
+        .related-guidelines a:hover { text-decoration: underline; color: #1a5a8e; }
 
         /* Article Search: article number+title bold pink, details normal */
-        #articleResults li .article-number-title { color: #c2185b; font-weight: bold; }
+        #articleResults li .article-number-title { color: #1a5a8e; font-weight: bold; }
         #articleResults li .article-detail { color: #2e2e2e; font-weight: normal; }
 
         /* Grounds Index table styling (from exhaustive reference) */
         .flow-table-wrapper { overflow-x: auto; }
         .flow-table { width: 100%; border-collapse: collapse; margin-top: 14px; background: white; }
-        .flow-table th, .flow-table td { border: 1px solid #e0e0e0; padding: 10px 12px; vertical-align: top; text-align: left; }
-        .flow-table th { background: #d8a8be; color: #fffdfd; font-size: 0.95em; }
-        .flow-table tr.refugee { background: #e6f3f7; }
-        .flow-table tr.subsidiary { background: #f0fde8; }
-        .flow-table tr.exclusion { background: #fdecea; }
-        .flow-table tr.withdrawal { background: #fde2e8; }
-        .flow-table tr.cessation { background: #f4ecf0; }
-        .flow-table tr.procedure { background: #fdf5d8; }
-        .flow-table tr.ipa { background: #f0e6fa; }
+        .flow-table th, .flow-table td { border: 1px solid #c7d8ea; padding: 10px 12px; vertical-align: top; text-align: left; }
+        .flow-table th { background: #5b9bd5; color: #ffffff; font-size: 0.95em; }
+        .flow-table tr.refugee { background: #eaf3fb; }
+        .flow-table tr.subsidiary { background: #e6f0f8; }
+        .flow-table tr.exclusion { background: #e7ecf6; }
+        .flow-table tr.withdrawal { background: #d6e0f0; }
+        .flow-table tr.cessation { background: #eef2f7; }
+        .flow-table tr.procedure { background: #dbe9f5; }
+        .flow-table tr.ipa { background: #cfe1f3; }
         .flow-legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; font-size: 0.92em; }
         .flow-legend span { padding: 5px 10px; border-radius: 4px; font-weight: 600; }
-        .flow-legend .l-refugee { background: #e6f3f7; color: #5a7d8c; }
-        .flow-legend .l-subsidiary { background: #f0fde8; color: #5a7d4e; }
-        .flow-legend .l-exclusion { background: #fdecea; color: #a85a5a; }
-        .flow-legend .l-withdrawal { background: #fde2e8; color: #a85a7e; }
-        .flow-legend .l-cessation { background: #f4ecf0; color: #6b5a72; }
-        .flow-legend .l-procedure { background: #fdf5d8; color: #8b7e3a; }
-        .flow-legend .l-ipa { background: #f0e6fa; color: #7a5ea8; }
+        .flow-legend .l-refugee { background: #eaf3fb; color: #1a3a5a; }
+        .flow-legend .l-subsidiary { background: #e6f0f8; color: #2a5285; }
+        .flow-legend .l-exclusion { background: #e7ecf6; color: #7a5ea8; }
+        .flow-legend .l-withdrawal { background: #d6e0f0; color: #1a3a5a; }
+        .flow-legend .l-cessation { background: #eef2f7; color: #1a3a5a; }
+        .flow-legend .l-procedure { background: #dbe9f5; color: #1a5a8e; }
+        .flow-legend .l-ipa { background: #cfe1f3; color: #1a5a8e; }
 
         .flow-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
         .euaa-query-btn {
-            background: #b89bc4;
+            background: #5b9bd5;
             color: white;
             border: none;
             padding: 10px 16px;
@@ -150,39 +150,39 @@
         /* EUAA Case Law styling */
         .case-law-actions-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
         .case-law-filters { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .case-law-filters select { padding: 10px 15px; border: 2px solid #ead7e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: #fffdfd; }
+        .case-law-filters select { padding: 10px 15px; border: 2px solid #c7d8ea; border-radius: 8px; font-size: 1em; cursor: pointer; background: #ffffff; }
         @media (max-width: 768px) { .case-law-filters { grid-template-columns: 1fr; } }
         .case-card {
-            background: #fdf6f9; padding: 20px; margin-bottom: 15px; border-radius: 10px;
-            border-left: 4px solid #b89bc4; transition: all 0.3s;
+            background: #f3f8fc; padding: 20px; margin-bottom: 15px; border-radius: 10px;
+            border-left: 4px solid #5b9bd5; transition: all 0.3s;
         }
-        .case-card:hover { box-shadow: 0 4px 12px rgba(184, 155, 196, 0.20); transform: translateX(5px); }
-        .case-card h3 { color: #7a5ea8; margin-bottom: 10px; font-size: 1.25em; }
+        .case-card:hover { box-shadow: 0 4px 12px rgba(91, 155, 213, 0.22); transform: translateX(5px); }
+        .case-card h3 { color: #1a5a8e; margin-bottom: 10px; font-size: 1.25em; }
         .case-badge {
-            display: inline-block; background: #f0e6fa; color: #7a5ea8;
+            display: inline-block; background: #cfe1f3; color: #1a5a8e;
             padding: 4px 12px; border-radius: 12px; font-size: 0.8em;
             font-weight: bold; margin-bottom: 8px; margin-right: 8px;
         }
         .case-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
         .case-actions a {
             display: inline-block; margin-top: 10px; margin-right: 12px;
-            color: #7a5ea8; text-decoration: none; font-weight: 700;
+            color: #1a5a8e; text-decoration: none; font-weight: 700;
         }
         .case-actions a:hover { text-decoration: underline; }
         .theme-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .theme-chip {
-            background: #f0e6fa; color: #7a5ea8; border: 1px solid #b89bc4;
+            background: #cfe1f3; color: #1a5a8e; border: 1px solid #5b9bd5;
             padding: 6px 10px; border-radius: 16px; font-size: 0.9em;
             cursor: pointer; transition: all 0.2s; user-select: none;
         }
         .theme-chip:hover { transform: translateY(-1px); }
-        .theme-chip.active { background: #7a5ea8; color: white; }
-        .pub-card { border-left-color: #d8a8be; }
-        .pub-card h3 { color: #a07590; }
-        .pub-actions a { color: #a07590; font-weight: 700; text-decoration: none; margin-right: 12px; }
+        .theme-chip.active { background: #1a5a8e; color: white; }
+        .pub-card { border-left-color: #5b9bd5; }
+        .pub-card h3 { color: #1a5a8e; }
+        .pub-actions a { color: #1a5a8e; font-weight: 700; text-decoration: none; margin-right: 12px; }
         .pub-actions a:hover { text-decoration: underline; }
 
-        .footer-note { text-align: right; font-style: italic; color: #b39cad; margin-top: 30px; font-size: 0.9em; padding: 12px 30px; }
+        .footer-note { text-align: right; font-style: italic; color: #6a8aab; margin-top: 30px; font-size: 0.9em; padding: 12px 30px; }
     </style>
 </head>
 <body>
@@ -264,7 +264,7 @@
 
         <!-- ======== EUAA CASE FLOW TAB ======== -->
         <div id="grounds-tab" class="tab-content">
-            <h2 style="color:#a07590; margin-bottom: 6px;">🔁 Grounds Index — Exhaustive Quick Reference (QR & APR)</h2>
+            <h2 style="color:#1a5a8e; margin-bottom: 6px;">🔁 Grounds Index — Exhaustive Quick Reference (QR & APR)</h2>
             <p class="meta" style="margin-bottom:12px;">Colour-coded by theme: Refugee (blue) · Subsidiary (green) · Exclusion (red) · Withdrawal (light red) · Cessation (grey) · APR Procedure (yellow) · IPA (purple)</p>
 
             <div class="flow-legend">
@@ -318,10 +318,7 @@
 
                 <div class="search-box" style="margin-top: 10px;">
                     <input type="text" id="euaaQueryInput" placeholder="🔎 EUAA live query (opens caselaw.euaa.europa.eu in a new tab with this keyword)…">
-                    <div class="flow-actions" style="margin-top:8px;">
-                        <button class="euaa-query-btn" onclick="openEUAAFromInput()">🔎 Search on EUAA</button>
-                        <button class="euaa-query-btn" style="background:#1976d2;" onclick="openEUAAAdvancedSearch()">⚙️ EUAA Advanced Search</button>
-                    </div>
+                    <div class="flow-actions" style="margin-top:8px;"><a class="euaa-query-btn" id="btnEuaaSearch" href="https://caselaw.euaa.europa.eu/Pages/search.aspx" target="_blank" rel="noopener noreferrer">🔎 Search on EUAA</a><a class="euaa-query-btn" id="btnEuaaAdvanced" href="https://caselaw.euaa.europa.eu/Pages/search.aspx" target="_blank" rel="noopener noreferrer">⚙️ EUAA Advanced Search</a></div>
                 </div>
 
                 <div class="case-law-filters">
@@ -338,7 +335,7 @@
 
             <hr style="margin:30px 0; border:none; border-top:1px solid #eee;" />
 
-            <h2 style="color:#a07590; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
+            <h2 style="color:#1a5a8e; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
             <div class="search-section">
                 <div class="search-box">
                     <input type="text" id="pubSearchInput" placeholder="🔍 Search Quarterly Overviews by issue, keywords, or themes…" oninput="searchPublications()">
@@ -421,7 +418,7 @@
             return `
                 <div class="result-item">
                     <span class="badge">${r.number}</span>
-                    <span class="badge" style="background:#fff2cc;color:#8b6f00;">${r.short_title}</span>
+                    <span class="badge" style="background:#e1ecf6;color:#0e3e66;">${r.short_title}</span>
                     <h3>${title}</h3>
                     <div class="meta">${metaBits.join(' · ')}</div>
                     <div class="description">${desc}</div>
@@ -480,7 +477,7 @@
             return `
                 <div class="result-item">
                     <span class="badge">${g.category || 'EUAA'}</span>
-                    <span class="badge" style="background:#fff8e1;color:#8b6f00;">📅 ${g.date || ''}</span>
+                    <span class="badge" style="background:#e1ecf6;color:#0e3e66;">📅 ${g.date || ''}</span>
                     <h3>${title}</h3>
                     <div class="description">${desc}</div>
                     ${keywords ? `<div style="margin-top:6px;">${keywords}</div>` : ''}
@@ -640,17 +637,17 @@
             // IPA
             { cls: "ipa", instrument: "QR", article: "Art. 8(1)", theme: "Internal Protection Alternative", text: "Availability of a safe and reasonable internal protection alternative." },
 
-            // Manifestly Unfounded (APR)
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(a)", theme: "Manifestly Unfounded", text: "Claim unrelated to international protection." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(b)", theme: "Manifestly Unfounded", text: "Clearly inconsistent or implausible claim." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(c)", theme: "Manifestly Unfounded", text: "Claim based on false or misleading information." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(d)", theme: "Manifestly Unfounded", text: "Failure to apply promptly without justification." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(e)", theme: "Manifestly Unfounded", text: "Application made to delay or frustrate removal." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(f)", theme: "Manifestly Unfounded", text: "Repeat application without new elements." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(g)", theme: "Manifestly Unfounded", text: "Failure to comply with procedural obligations." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(h)", theme: "Manifestly Unfounded", text: "Unlawful entry or stay without justification." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(i)", theme: "Manifestly Unfounded", text: "Application from a safe country of origin." },
-            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(j)", theme: "Manifestly Unfounded", text: "Dependent application without individual grounds." },
+            // Accelerated Procedures / Manifestly Unfounded (APR)
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(a)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Claim unrelated to international protection." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(b)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Clearly inconsistent or implausible claim." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(c)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Claim based on false or misleading information." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(d)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Failure to apply promptly without justification." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(e)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Application made to delay or frustrate removal." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(f)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Repeat application without new elements." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(g)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Failure to comply with procedural obligations." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(h)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Unlawful entry or stay without justification." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(i)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Application from a safe country of origin." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(j)", theme: "Accelerated Procedures / Manifestly Unfounded", text: "Dependent application without individual grounds." },
 
             // Withdrawal Refugee
             { cls: "withdrawal", instrument: "QR", article: "Art. 12(2)(a)", theme: "Withdrawal – Refugee", text: "Withdrawal due to international crimes." },
@@ -743,6 +740,8 @@
 
     /* ========== EUAA CASE LAW (PDF library) ========== */
     function openEUAAAdvancedSearch() {
+        const a = document.getElementById("btnEuaaAdvanced");
+        if (a && a.click) { a.click(); return; }
         window.open('https://caselaw.euaa.europa.eu/Pages/search.aspx', '_blank');
     }
     function openEUAAQuery(q) {
@@ -750,10 +749,13 @@
         const url = query
             ? 'https://caselaw.euaa.europa.eu/pages/searchresults.aspx?Keywords=' + encodeURIComponent(query)
             : 'https://caselaw.euaa.europa.eu/Pages/search.aspx';
+        const btn = document.getElementById('btnEuaaSearch');
+        if (btn) { btn.setAttribute('href', url || 'https://caselaw.euaa.europa.eu/Pages/search.aspx'); }
+        if (btn && btn.click) { btn.click(); return; }
         window.open(url, '_blank');
     }
     function openEUAAFromInput() {
-        const v = document.getElementById('euaaQueryInput').value;
+        const v = (document.getElementById('euaaQueryInput') || {}).value || '';
         openEUAAQuery(v);
     }
 
@@ -863,10 +865,11 @@
             }
             const themes = (c.themes || []).map(t => `<span class="keyword-tag">${t}</span>`).join('');
             const pdfLink = c.pdf ? `<a href="${c.pdf}" target="_blank">📄 Open PDF →</a>` : '';
-            const euaaFallback = c.title ? `https://caselaw.euaa.europa.eu/pages/searchresults.aspx?Keywords=${encodeURIComponent(c.title)}` : 'https://caselaw.euaa.europa.eu/Pages/search.aspx';
-            const euaaLink = c.euaa_url
-                ? `<a href="${c.euaa_url}" target="_blank" rel="noopener">🔗 Open in EUAA Caselaw Database →</a>`
-                : `<a href="${euaaFallback}" target="_blank" rel="noopener">🔗 Open in EUAA Caselaw Database →</a>`;
+            const euaaFallback = c.title
+                ? 'https://caselaw.euaa.europa.eu/pages/searchresults.aspx?Keywords=' + encodeURIComponent(c.title)
+                : 'https://caselaw.euaa.europa.eu/Pages/search.aspx';
+            const euaaUrl = c.euaa_url || euaaFallback;
+            const euaaLink = `<a href="${euaaUrl}" target="_blank" rel="noopener noreferrer">🔗 Open in EUAA Caselaw Database →</a>`;
             const srcLink = c.source_url ? `<a href="${c.source_url}" target="_blank">⚖️ Official Source →</a>` : '';
             const metaBits = [];
             if (c.case_number) metaBits.push(`<span class="case-badge">${c.case_number}</span>`);
@@ -977,8 +980,8 @@
             const metaBits = [];
             if (p.issue) metaBits.push(`<span class="case-badge">Issue ${p.issue}</span>`);
             if (p.date) metaBits.push(`<span class="case-badge">${p.date}</span>`);
-            const viewLink = p.url ? `<a href="${p.url}" target="_blank">🔗 EUAA Publication →</a>` : '';
-            const pdfLink = p.pdf_url ? `<a href="${p.pdf_url}" target="_blank">📄 Download PDF →</a>` : '';
+            const viewLink = p.url ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer">🔗 EUAA Publication →</a>` : '';
+            const pdfLink = p.pdf_url ? `<a href="${p.pdf_url}" target="_blank" rel="noopener noreferrer">📄 Download PDF →</a>` : '';
             return `
                 <div class="case-card pub-card">
                     <div class="case-meta-row">${metaBits.join('')}</div>
