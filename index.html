@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPA NEW CEAS Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(33, 150, 243, 0.2); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%); color: white; padding: 36px 30px; text-align: center; position: relative; }
+        .header h1 { font-size: 2.1em; margin-bottom: 10px; letter-spacing: 0.3px; }
+        .header p { opacity: 0.95; font-size: 1.1em; }
+        .header .badge-row { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+        .header .badge-row span { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); padding: 5px 12px; border-radius: 16px; font-size: 0.85em; }
+
+        .tab-nav { display: flex; background: #f5f5f5; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; }
+        .tab-button { flex: 1; min-width: 150px; padding: 15px 18px; background: none; border: none; cursor: pointer; font-size: 1em; font-weight: 600; color: #666; transition: all 0.3s; position: relative; }
+        .tab-button:hover { background: #e3f2fd; color: #0d47a1; }
+        .tab-button.active { color: #0d47a1; background: white; }
+        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: #0d47a1; }
+        .tab-content { display: none; padding: 30px; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .search-section { margin-bottom: 20px; }
+        .search-box { position: relative; }
+        #searchInput,
+        #guideSearchInput,
+        #indexSearchInput,
+        #caseLawSearchInput,
+        #flowSearchInput,
+        #euaaQueryInput { width: 100%; padding: 15px 50px 15px 20px; font-size: 1em; border: 2px solid #e0e0e0; border-radius: 10px; transition: all 0.3s; }
+        #searchInput:focus,
+        #guideSearchInput:focus,
+        #indexSearchInput:focus,
+        #caseLawSearchInput:focus,
+        #flowSearchInput:focus,
+        #euaaQueryInput:focus { outline: none; border-color: #0d47a1; box-shadow: 0 0 0 4px rgba(13, 71, 161, 0.12); }
+
+        .clear-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; display: none; }
+        .clear-btn:hover { background: #d32f2f; }
+        .results { margin-top: 20px; }
+        .result-item, .index-section { background: #f8f9fa; padding: 20px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #0d47a1; transition: all 0.3s; }
+        .result-item:hover, .index-section:hover { box-shadow: 0 4px 12px rgba(13, 71, 161, 0.15); transform: translateX(5px); }
+        .result-item h3, .index-section h3 { color: #0d47a1; margin-bottom: 10px; font-size: 1.3em; }
+        .badge { display: inline-block; background: #e3f2fd; color: #0d47a1; padding: 4px 12px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; margin-right: 6px; }
+        .meta { color: #666; font-size: 0.9em; margin: 8px 0; }
+        .description { color: #333; line-height: 1.6; margin: 10px 0; }
+        .keyword-tag { display: inline-block; background: #bbdefb; color: #1565c0; padding: 3px 10px; border-radius: 10px; font-size: 0.85em; margin: 3px; }
+        .result-item a { display: inline-block; margin-top: 10px; color: #0d47a1; text-decoration: none; font-weight: 600; }
+        .result-item a:hover { text-decoration: underline; }
+        .no-results { text-align: center; padding: 60px 20px; color: #999; }
+        .highlight { background-color: #ffeb3b; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+        .stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-card h3 { font-size: 2em; margin-bottom: 5px; }
+        .stat-card p { opacity: 0.9; font-size: 0.9em; }
+
+        .category-filter select { padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: white; }
+        .subsection { margin-left: 20px; margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 3px solid #90caf9; }
+        .subsection h4 { color: #1976d2; font-size: 1.1em; margin-bottom: 10px; }
+        .subsection ul { margin-left: 20px; }
+        .subsection li { margin: 8px 0; color: #555; line-height: 1.6; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5em; }
+            .tab-button { font-size: 0.9em; padding: 12px 10px; }
+            .tab-content { padding: 20px; }
+        }
+
+        /* Regulation article lists / EUR-Lex link */
+        .reg-link {
+            margin-left: 15px;
+            color: #0d47a1;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+        .reg-link:hover { color: #1565c0; text-decoration: underline; }
+
+        .article-link {
+            color: #0d47a1;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-right: 8px;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .article-link:hover { transform: scale(1.2); }
+
+        /* Related EUAA Guidelines inside Protection Index entries */
+        .related-guidelines {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f8ff;
+            border-left: 3px solid #0d47a1;
+            border-radius: 4px;
+        }
+        .related-guidelines strong { color: #1565c0; display: block; margin-bottom: 8px; }
+        .related-guidelines ul { margin: 0; padding-left: 20px; list-style-type: none; }
+        .related-guidelines ul li { margin: 5px 0; }
+        .related-guidelines ul li::before {
+            content: "→ ";
+            color: #0d47a1;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .related-guidelines a { color: #1565c0; text-decoration: none; font-size: 0.95em; }
+        .related-guidelines a:hover { text-decoration: underline; color: #0d47a1; }
+
+        /* Protection Index: article number+title bold pink, details normal black */
+        #protectionResults li .article-number-title { color: #e91e63; font-weight: bold; }
+        #protectionResults li .article-detail { color: #000; font-weight: normal; }
+
+        /* EUAA Case Flow table styling (from exhaustive reference) */
+        .flow-table-wrapper { overflow-x: auto; }
+        .flow-table { width: 100%; border-collapse: collapse; margin-top: 14px; background: white; }
+        .flow-table th, .flow-table td { border: 1px solid #e0e0e0; padding: 10px 12px; vertical-align: top; text-align: left; }
+        .flow-table th { background: #0d47a1; color: #fff; font-size: 0.95em; }
+        .flow-table tr.refugee { background: #e6f2ff; }
+        .flow-table tr.subsidiary { background: #e6ffe6; }
+        .flow-table tr.exclusion { background: #ffe6e6; }
+        .flow-table tr.withdrawal { background: #ffd6d6; }
+        .flow-table tr.cessation { background: #ececec; }
+        .flow-table tr.procedure { background: #fff2cc; }
+        .flow-table tr.ipa { background: #f0e6ff; }
+        .flow-legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; font-size: 0.92em; }
+        .flow-legend span { padding: 5px 10px; border-radius: 4px; font-weight: 600; }
+        .flow-legend .l-refugee { background: #e6f2ff; color: #0d47a1; }
+        .flow-legend .l-subsidiary { background: #e6ffe6; color: #1b5e20; }
+        .flow-legend .l-exclusion { background: #ffe6e6; color: #b71c1c; }
+        .flow-legend .l-withdrawal { background: #ffd6d6; color: #880e4f; }
+        .flow-legend .l-cessation { background: #ececec; color: #424242; }
+        .flow-legend .l-procedure { background: #fff2cc; color: #8b6f00; }
+        .flow-legend .l-ipa { background: #f0e6ff; color: #4a148c; }
+
+        .flow-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+        .euaa-query-btn {
+            background: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+        .euaa-query-btn:hover { filter: brightness(0.95); }
+
+        /* EUAA Case Law styling */
+        .case-law-actions-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+        .case-law-filters { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .case-law-filters select { padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: white; }
+        @media (max-width: 768px) { .case-law-filters { grid-template-columns: 1fr; } }
+        .case-card {
+            background: #f8f9fa; padding: 20px; margin-bottom: 15px; border-radius: 10px;
+            border-left: 4px solid #6a1b9a; transition: all 0.3s;
+        }
+        .case-card:hover { box-shadow: 0 4px 12px rgba(106, 27, 154, 0.15); transform: translateX(5px); }
+        .case-card h3 { color: #6a1b9a; margin-bottom: 10px; font-size: 1.25em; }
+        .case-badge {
+            display: inline-block; background: #f3e5f5; color: #6a1b9a;
+            padding: 4px 12px; border-radius: 12px; font-size: 0.8em;
+            font-weight: bold; margin-bottom: 8px; margin-right: 8px;
+        }
+        .case-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+        .case-actions a {
+            display: inline-block; margin-top: 10px; margin-right: 12px;
+            color: #6a1b9a; text-decoration: none; font-weight: 700;
+        }
+        .case-actions a:hover { text-decoration: underline; }
+        .theme-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .theme-chip {
+            background: #f3e5f5; color: #6a1b9a; border: 1px solid #6a1b9a;
+            padding: 6px 10px; border-radius: 16px; font-size: 0.9em;
+            cursor: pointer; transition: all 0.2s; user-select: none;
+        }
+        .theme-chip:hover { transform: translateY(-1px); }
+        .theme-chip.active { background: #6a1b9a; color: white; }
+        .pub-card { border-left-color: #0d47a1; }
+        .pub-card h3 { color: #0d47a1; }
+        .pub-actions a { color: #0d47a1; font-weight: 700; text-decoration: none; margin-right: 12px; }
+        .pub-actions a:hover { text-decoration: underline; }
+
+        .footer-note { text-align: right; font-style: italic; color: #888; margin-top: 30px; font-size: 0.9em; padding: 12px 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 IPA NEW CEAS Guide</h1>
+            <p>The Common European Asylum System — practical, article-level reference for IPA caseworkers</p>
+            <div class="badge-row">
+                <span>🇪🇺 7 Regulations</span>
+                <span>📖 27 EUAA Guidelines</span>
+                <span>⚖️ Protection Index</span>
+                <span>🔁 EUAA Case Flow</span>
+                <span>📚 EUAA Case Law</span>
+            </div>
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-button active" onclick="switchTab('regulations')">📋 Regulations</button>
+            <button class="tab-button" onclick="switchTab('guidelines')">📖 EUAA Guidelines</button>
+            <button class="tab-button" onclick="switchTab('protection')">⚖️ Protection Index</button>
+            <button class="tab-button" onclick="switchTab('flow')">🔁 EUAA Case Flow</button>
+            <button class="tab-button" onclick="switchTab('case-law')">📚⚖️ EUAA Case Law</button>
+        </div>
+
+        <!-- ======== REGULATIONS TAB ======== -->
+        <div id="regulations-tab" class="tab-content active">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="reg-count">7</h3><p>EU CEAS Instruments</p></div>
+                <div class="stat-card"><h3>2024</h3><p>Adoption Year</p></div>
+                <div class="stat-card"><h3>2026</h3><p>Application</p></div>
+            </div>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 Search regulations (e.g., screening, asylum, qualification, reception)…" oninput="performSearch()">
+                    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+                </div>
+            </div>
+            <div class="results" id="regulationsResults"></div>
+        </div>
+
+        <!-- ======== EUAA GUIDELINES TAB ======== -->
+        <div id="guidelines-tab" class="tab-content">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="guide-count">27</h3><p>EUAA Guidelines</p></div>
+                <div class="stat-card"><h3>2024–2026</h3><p>Years</p></div>
+                <div class="stat-card"><h3 id="guide-cat-count">0</h3><p>Categories</p></div>
+            </div>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="guideSearchInput" placeholder="🔍 Search EUAA guidelines (e.g., vulnerability, interview, SOGIESC)…" oninput="searchGuidelines()">
+                    <button class="clear-btn" id="guideClearBtn" onclick="clearGuideSearch()">✕</button>
+                </div>
+                <div class="category-filter" style="margin-top: 10px;">
+                    <label>Filter by category: </label>
+                    <select id="categorySelect" onchange="filterByCategory()">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+            </div>
+            <div class="results" id="guidelinesResults"></div>
+        </div>
+
+        <!-- ======== PROTECTION INDEX TAB ======== -->
+        <div id="protection-tab" class="tab-content">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="pi-categories">8</h3><p>Categories</p></div>
+                <div class="stat-card"><h3 id="pi-regulations">7</h3><p>Regulations</p></div>
+                <div class="stat-card"><h3 id="pi-items">206</h3><p>Article-Level Items</p></div>
+            </div>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="indexSearchInput" placeholder="🔍 Search the Protection Index (e.g., credibility, detention, vulnerability, interview)…" oninput="searchProtectionIndex()">
+                    <button class="clear-btn" id="indexClearBtn" onclick="clearIndexSearch()">✕</button>
+                </div>
+                <div class="meta" id="indexSearchStats" style="margin-top:10px;"></div>
+            </div>
+            <div class="results" id="protectionResults"></div>
+        </div>
+
+        <!-- ======== EUAA CASE FLOW TAB ======== -->
+        <div id="flow-tab" class="tab-content">
+            <h2 style="color:#0d47a1; margin-bottom: 6px;">🔁 EUAA Case Flow — Exhaustive Quick Reference (QR & APR)</h2>
+            <p class="meta" style="margin-bottom:12px;">Colour-coded by theme: Refugee (blue) · Subsidiary (green) · Exclusion (red) · Withdrawal (light red) · Cessation (grey) · APR Procedure (yellow) · IPA (purple)</p>
+
+            <div class="flow-legend">
+                <span class="l-refugee">Refugee</span>
+                <span class="l-subsidiary">Subsidiary</span>
+                <span class="l-exclusion">Exclusion</span>
+                <span class="l-withdrawal">Withdrawal</span>
+                <span class="l-cessation">Cessation</span>
+                <span class="l-procedure">APR Procedure</span>
+                <span class="l-ipa">IPA</span>
+            </div>
+
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="flowSearchInput" placeholder="🔍 Search the case flow by article, theme, or keyword (e.g., exclusion, IPA, manifestly unfounded)…" oninput="searchFlow()">
+                    <button class="clear-btn" id="flowClearBtn" onclick="clearFlowSearch()">✕</button>
+                </div>
+                <div class="meta" id="flowSearchStats" style="margin-top:10px;"></div>
+            </div>
+
+            <div class="flow-table-wrapper">
+                <table class="flow-table" id="flowTable">
+                    <thead>
+                        <tr>
+                            <th>Instrument</th>
+                            <th>Article</th>
+                            <th>Theme</th>
+                            <th>Short Operational Reference</th>
+                        </tr>
+                    </thead>
+                    <tbody id="flowTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="footer-note">Author: IPA NEW CEAS Guide</div>
+        </div>
+
+        <!-- ======== EUAA CASE LAW TAB ======== -->
+        <div id="case-law-tab" class="tab-content">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="case-law-count">0</h3><p>Case Law Entries</p></div>
+                <div class="stat-card"><h3 id="case-law-themes">0</h3><p>Themes</p></div>
+                <div class="stat-card"><h3 id="case-law-years">—</h3><p>Years</p></div>
+            </div>
+
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="caseLawSearchInput" placeholder="🔍 Search EUAA Case Law by case name, number, or themes…" oninput="searchCaseLaw()">
+                    <button class="clear-btn" id="caseLawClearBtn" onclick="clearCaseLawSearch()">✕</button>
+                </div>
+
+                <div class="search-box" style="margin-top: 10px;">
+                    <input type="text" id="euaaQueryInput" placeholder="🔎 EUAA live query (opens caselaw.euaa.europa.eu in a new tab with this keyword)…">
+                    <div class="flow-actions" style="margin-top:8px;">
+                        <button class="euaa-query-btn" onclick="openEUAAFromInput()">🔎 Search on EUAA</button>
+                        <button class="euaa-query-btn" style="background:#1976d2;" onclick="openEUAAAdvancedSearch()">⚙️ EUAA Advanced Search</button>
+                    </div>
+                </div>
+
+                <div class="case-law-filters">
+                    <select id="caseLawCourtSelect" onchange="searchCaseLaw()"><option value="all">All Courts</option></select>
+                    <select id="caseLawCountrySelect" onchange="searchCaseLaw()"><option value="all">All Countries</option></select>
+                    <select id="caseLawYearSelect" onchange="searchCaseLaw()"><option value="all">All Years</option></select>
+                    <select id="caseLawThemeSelect" onchange="searchCaseLaw()"><option value="all">All Themes</option></select>
+                </div>
+                <div class="theme-chips" id="caseLawThemeChips"></div>
+                <div class="meta" id="caseLawSearchStats" style="margin-top:10px;"></div>
+            </div>
+
+            <div class="results" id="caseLawResults"></div>
+
+            <hr style="margin:30px 0; border:none; border-top:1px solid #eee;" />
+
+            <h2 style="color:#0d47a1; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="pubSearchInput" placeholder="🔍 Search Quarterly Overviews by issue, keywords, or themes…" oninput="searchPublications()">
+                    <button class="clear-btn" id="pubClearBtn" onclick="clearPublicationsSearch()">✕</button>
+                </div>
+                <div class="case-law-filters">
+                    <select id="pubYearSelect" onchange="searchPublications()"><option value="all">All Years</option></select>
+                    <select id="pubIssueSelect" onchange="searchPublications()"><option value="all">All Issues</option></select>
+                    <select id="pubThemeSelect" onchange="searchPublications()"><option value="all">All Themes</option></select>
+                    <select id="pubDummySelect" disabled><option>—</option></select>
+                </div>
+                <div class="theme-chips" id="pubThemeChips"></div>
+                <div class="meta" id="pubSearchStats" style="margin-top:10px;"></div>
+            </div>
+            <div class="results" id="pubResults"></div>
+        </div>
+    </div>
+
+    <script>
+    /* =========================================================
+       IPA NEW CEAS Guide – main script
+       ========================================================= */
+    let database = null;
+
+    async function loadDatabase() {
+        try {
+            const response = await fetch('complete_database.json');
+            database = await response.json();
+            displayRegulations(database.regulations);
+            displayGuidelines(database.euaa_guidelines);
+            displayProtectionIndex(database.protection_index.categories);
+            renderCaseFlowTable(buildFlowRows(database));
+            initializeCaseLawFilters(database.case_law || []);
+            initializePublications(database.euaa_case_law_publications || []);
+        } catch (error) {
+            console.error('Error loading database:', error);
+            const flowBody = document.getElementById('flowTableBody');
+            if (flowBody) flowBody.innerHTML = '<tr><td colspan="4" class="no-results"><h3>Error loading database</h3><p>Please check the console for details.</p></td></tr>';
+        }
+    }
+
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabName + '-tab').classList.add('active');
+        if (window.event && window.event.target) window.event.target.classList.add('active');
+    }
+
+    function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    /* ========== REGULATIONS ========== */
+    function performSearch() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        document.getElementById('clearBtn').style.display = q ? 'block' : 'none';
+        if (!q) { displayRegulations(database.regulations); return; }
+        const filtered = database.regulations.filter(r =>
+            `${r.title} ${r.description} ${(r.keywords || []).join(' ')}`.toLowerCase().includes(q)
+        );
+        displayRegulations(filtered, q);
+    }
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('clearBtn').style.display = 'none';
+        displayRegulations(database.regulations);
+    }
+    function displayRegulations(regs, highlight = null) {
+        const container = document.getElementById('regulationsResults');
+        if (!regs.length) { container.innerHTML = '<div class="no-results"><h3>No regulations match your search.</h3></div>'; return; }
+        container.innerHTML = regs.map(r => {
+            let title = r.title, desc = r.description;
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                desc  = desc.replace(re, '<span class="highlight">$1</span>');
+            }
+            const keywords = (r.keywords || []).map(k => `<span class="keyword-tag">${k}</span>`).join('');
+            const metaBits = [];
+            if (r.adopted) metaBits.push(`📅 Adopted ${r.adopted}`);
+            if (r.application) metaBits.push(`🟢 Applies from ${r.application}`);
+            return `
+                <div class="result-item">
+                    <span class="badge">${r.number}</span>
+                    <span class="badge" style="background:#fff2cc;color:#8b6f00;">${r.short_title}</span>
+                    <h3>${title}</h3>
+                    <div class="meta">${metaBits.join(' · ')}</div>
+                    <div class="description">${desc}</div>
+                    ${keywords ? `<div style="margin-top:6px;">${keywords}</div>` : ''}
+                    <div style="margin-top:10px;">
+                        <a href="${r.eur_lex_url}" target="_blank">📄 EUR-Lex →</a>
+                        ${r.url ? `<a href="${r.url}" target="_blank" class="reg-link" title="Open full regulation">📄 View Regulation →</a>` : ''}
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    /* ========== EUAA GUIDELINES ========== */
+    function initializeCategoryFilter() {
+        const cats = [...new Set(database.euaa_guidelines.map(g => g.category))].sort();
+        const sel = document.getElementById('categorySelect');
+        cats.forEach(c => {
+            const o = document.createElement('option');
+            o.value = c; o.textContent = c;
+            sel.appendChild(o);
+        });
+        const cc = document.getElementById('guide-cat-count');
+        if (cc) cc.textContent = cats.length;
+    }
+    function searchGuidelines() {
+        const q = document.getElementById('guideSearchInput').value.toLowerCase();
+        document.getElementById('guideClearBtn').style.display = q ? 'block' : 'none';
+        if (!q) { displayGuidelines(database.euaa_guidelines); return; }
+        const filtered = database.euaa_guidelines.filter(g =>
+            `${g.title} ${g.description} ${(g.keywords || []).join(' ')} ${g.category}`.toLowerCase().includes(q)
+        );
+        displayGuidelines(filtered, q);
+    }
+    function clearGuideSearch() {
+        document.getElementById('guideSearchInput').value = '';
+        document.getElementById('guideClearBtn').style.display = 'none';
+        document.getElementById('categorySelect').value = 'all';
+        displayGuidelines(database.euaa_guidelines);
+    }
+    function filterByCategory() {
+        const cat = document.getElementById('categorySelect').value;
+        if (cat === 'all') { displayGuidelines(database.euaa_guidelines); return; }
+        displayGuidelines(database.euaa_guidelines.filter(g => g.category === cat));
+    }
+    function displayGuidelines(guides, highlight = null) {
+        const container = document.getElementById('guidelinesResults');
+        if (!guides.length) { container.innerHTML = '<div class="no-results"><h3>No guidelines match.</h3></div>'; return; }
+        container.innerHTML = guides.map(g => {
+            let title = g.title, desc = g.description || '';
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                desc  = desc.replace(re, '<span class="highlight">$1</span>');
+            }
+            const keywords = (g.keywords || []).map(k => `<span class="keyword-tag">${k}</span>`).join('');
+            return `
+                <div class="result-item">
+                    <span class="badge">${g.category || 'EUAA'}</span>
+                    <span class="badge" style="background:#fff8e1;color:#8b6f00;">📅 ${g.date || ''}</span>
+                    <h3>${title}</h3>
+                    <div class="description">${desc}</div>
+                    ${keywords ? `<div style="margin-top:6px;">${keywords}</div>` : ''}
+                    <a href="${g.url}" target="_blank">📄 EUAA Publication →</a>
+                </div>`;
+        }).join('');
+    }
+
+    /* ========== PROTECTION INDEX (formerly Caseworker Index) ========== */
+    function searchProtectionIndex() {
+        const q = document.getElementById('indexSearchInput').value.toLowerCase().trim();
+        const clearBtn = document.getElementById('indexClearBtn');
+        const stats = document.getElementById('indexSearchStats');
+        clearBtn.style.display = q ? 'block' : 'none';
+        if (!q) { displayProtectionIndex(database.protection_index.categories); stats.textContent = ''; return; }
+
+        const filtered = [];
+        let totalMatches = 0;
+        for (const cat of database.protection_index.categories) {
+            const subs = (cat.subsections || []).filter(s => {
+                const blob = `${s.name} ${(s.items||[]).join(' ')} ${(s.keywords||[]).join(' ')}`.toLowerCase();
+                return blob.includes(q);
+            });
+            if (subs.length) {
+                filtered.push({ ...cat, subsections: subs });
+                totalMatches += subs.length;
+            }
+        }
+        stats.textContent = `Found ${totalMatches} subsection(s) matching "${q}"`;
+        displayProtectionIndex(filtered, q);
+    }
+    function clearIndexSearch() {
+        document.getElementById('indexSearchInput').value = '';
+        document.getElementById('indexClearBtn').style.display = 'none';
+        document.getElementById('indexSearchStats').textContent = '';
+        displayProtectionIndex(database.protection_index.categories);
+    }
+    function displayProtectionIndex(categories, highlight = null) {
+        const container = document.getElementById('protectionResults');
+        if (!categories || !categories.length) {
+            container.innerHTML = '<div class="no-results"><h3>😔 No results</h3><p>Try different keywords like: credibility, detention, vulnerability, interview, IPA…</p></div>';
+            return;
+        }
+        container.innerHTML = categories.map(cat => `
+            <div class="index-section">
+                <h3>${cat.name}</h3>
+                <div class="meta">
+                    ${cat.regulation || ''}
+                    ${cat.url ? `<a href="${cat.url}" target="_blank" class="reg-link" title="Open full regulation in EUR-Lex">📄 View Regulation →</a>` : ''}
+                </div>
+                ${(cat.subsections || []).map(subsec => {
+                    let name = subsec.name;
+                    if (highlight) {
+                        const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                        name = name.replace(re, '<span class="highlight">$1</span>');
+                    }
+                    return `
+                        <div class="subsection">
+                            <h4>${name}</h4>
+                            <ul>
+                                ${(subsec.items || []).map(item => {
+                                    let displayItem = item;
+                                    if (item.startsWith('Art ')) {
+                                        const colon = item.indexOf(':');
+                                        if (colon !== -1) {
+                                            const after = item.substring(colon + 1).trim();
+                                            const firstParen = after.indexOf('(');
+                                            if (firstParen !== -1) {
+                                                let depth = 0, closeIdx = -1;
+                                                for (let i = firstParen; i < after.length; i++) {
+                                                    if (after[i] === '(') depth++;
+                                                    if (after[i] === ')') {
+                                                        depth--;
+                                                        if (depth === 0) { closeIdx = i; break; }
+                                                    }
+                                                }
+                                                const numberTitle = item.substring(0, colon + 1) + ' ' + after.substring(0, firstParen).trim();
+                                                const detail = after.substring(firstParen + 1, closeIdx).trim();
+                                                displayItem = '<span class="article-number-title">' + numberTitle + '</span> <span class="article-detail">' + detail + '</span>';
+                                            } else {
+                                                displayItem = '<span class="article-number-title">' + item + '</span>';
+                                            }
+                                        } else {
+                                            displayItem = '<span class="article-number-title">' + item + '</span>';
+                                        }
+                                    }
+                                    if (highlight) {
+                                        const re = new RegExp('(' + escapeRegex(highlight) + ')', 'gi');
+                                        displayItem = displayItem.replace(re, '<span class="highlight">$1</span>');
+                                    }
+                                    const artMatch = item.match(/Art(?:icle)?\s+(\d+(?:-\d+)?(?:\(\d+\))?)/i);
+                                    if (artMatch && cat.url) {
+                                        const artNum = artMatch[1];
+                                        const artLink = cat.url + '#art_' + artNum.replace(/-.*/, '');
+                                        displayItem = '<a href="' + artLink + '" target="_blank" class="article-link" title="Open Article ' + artNum + '">📖</a> ' + displayItem;
+                                    }
+                                    return '<li>' + displayItem + '</li>';
+                                }).join('')}
+                            </ul>
+                            ${subsec.related_guidelines && subsec.related_guidelines.length ? `
+                                <div class="related-guidelines">
+                                    <strong>📚 Related EUAA Guidelines:</strong>
+                                    <ul>
+                                        ${subsec.related_guidelines.map(g =>
+                                            `<li><a href="${g.url}" target="_blank">${g.title} →</a></li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>` : ''}
+                            <div style="margin-top:10px;">
+                                ${(subsec.keywords || []).map(k => `<span class="keyword-tag">${k}</span>`).join('')}
+                            </div>
+                        </div>`;
+                }).join('')}
+            </div>`).join('');
+    }
+
+    /* ========== EUAA CASE FLOW (QR & APR Exhaustive Reference) ========== */
+    function buildFlowRows(db) {
+        // Prefer database.case_flow array if present, otherwise fall back to a hard-coded
+        // baseline derived from the EU_Asylum_Law_TRULY_EXHAUSTIVE_FINAL.html reference.
+        if (db.case_flow && Array.isArray(db.case_flow) && db.case_flow.length) return db.case_flow;
+        return [
+            // Refugee
+            { cls: "refugee", instrument: "QR", article: "Art. 13", theme: "Refugee – Grant", text: "Grant of refugee status where qualification criteria are met." },
+            { cls: "refugee", instrument: "QR", article: "Art. 9(1)", theme: "Persecution", text: "Defines acts which may amount to persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 9(2)", theme: "Persecution", text: "Illustrative list of acts of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(a)", theme: "Ground – Race", text: "Race constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(b)", theme: "Ground – Religion", text: "Religion constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(c)", theme: "Ground – Nationality", text: "Nationality constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(d)", theme: "Ground – Political Opinion", text: "Political opinion constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(e)", theme: "Ground – MPSG", text: "Membership of a particular social group constitutes a ground of persecution." },
+
+            // Subsidiary
+            { cls: "subsidiary", instrument: "QR", article: "Art. 18", theme: "Subsidiary – Grant", text: "Grant of subsidiary protection status." },
+            { cls: "subsidiary", instrument: "QR", article: "Art. 15(a)", theme: "Serious Harm", text: "Risk of death penalty or execution." },
+            { cls: "subsidiary", instrument: "QR", article: "Art. 15(b)", theme: "Serious Harm", text: "Risk of torture or inhuman or degrading treatment." },
+            { cls: "subsidiary", instrument: "QR", article: "Art. 15(c)", theme: "Serious Harm", text: "Serious and individual threat from indiscriminate violence." },
+
+            // Exclusion (Refugee)
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(1)(a)", theme: "Exclusion – Refugee", text: "Exclusion due to protection from another UN agency." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(1)(b)", theme: "Exclusion – Refugee", text: "Exclusion due to recognition of equivalent rights." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(2)(a)", theme: "Exclusion – Refugee", text: "Exclusion for crimes against peace, war crimes or crimes against humanity." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(2)(b)", theme: "Exclusion – Refugee", text: "Exclusion for serious non‑political crimes." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(2)(c)", theme: "Exclusion – Refugee", text: "Exclusion for acts contrary to UN principles." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(3)", theme: "Exclusion – Refugee", text: "Exclusion applies to instigators or participants." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(4)", theme: "Exclusion – Refugee", text: "Exclusion for danger to State security." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(5)", theme: "Exclusion – Refugee", text: "Exclusion for danger to the community." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 14(1)(b)", theme: "Exclusion – Refugee", text: "Revocation based on exclusion grounds." },
+            // Exclusion (Subsidiary)
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(a)", theme: "Exclusion – Subsidiary", text: "Exclusion for international crimes." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(b)", theme: "Exclusion – Subsidiary", text: "Exclusion for serious crime." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(c)", theme: "Exclusion – Subsidiary", text: "Exclusion for acts contrary to UN principles." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(d)", theme: "Exclusion – Subsidiary", text: "Exclusion for danger to the community or State security." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(2)", theme: "Exclusion – Subsidiary", text: "Exclusion applies to instigators or participants." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 19(1)(b)", theme: "Exclusion – Subsidiary", text: "Refusal or withdrawal of subsidiary protection on exclusion grounds." },
+
+            // IPA
+            { cls: "ipa", instrument: "QR", article: "Art. 8(1)", theme: "Internal Protection Alternative", text: "Availability of a safe and reasonable internal protection alternative." },
+
+            // Manifestly Unfounded (APR)
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(a)", theme: "Manifestly Unfounded", text: "Claim unrelated to international protection." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(b)", theme: "Manifestly Unfounded", text: "Clearly inconsistent or implausible claim." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(c)", theme: "Manifestly Unfounded", text: "Claim based on false or misleading information." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(d)", theme: "Manifestly Unfounded", text: "Failure to apply promptly without justification." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(e)", theme: "Manifestly Unfounded", text: "Application made to delay or frustrate removal." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(f)", theme: "Manifestly Unfounded", text: "Repeat application without new elements." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(g)", theme: "Manifestly Unfounded", text: "Failure to comply with procedural obligations." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(h)", theme: "Manifestly Unfounded", text: "Unlawful entry or stay without justification." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(i)", theme: "Manifestly Unfounded", text: "Application from a safe country of origin." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(j)", theme: "Manifestly Unfounded", text: "Dependent application without individual grounds." },
+
+            // Withdrawal Refugee
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(2)(a)", theme: "Withdrawal – Refugee", text: "Withdrawal due to international crimes." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(2)(b)", theme: "Withdrawal – Refugee", text: "Withdrawal due to serious non‑political crime." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(2)(c)", theme: "Withdrawal – Refugee", text: "Withdrawal due to acts contrary to UN principles." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(3)", theme: "Withdrawal – Refugee", text: "Withdrawal applies to instigators or participants." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(4)", theme: "Withdrawal – Refugee", text: "Withdrawal due to danger to State security." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(5)", theme: "Withdrawal – Refugee", text: "Withdrawal due to danger to the community." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(b)", theme: "Withdrawal – Refugee", text: "Withdrawal following exclusion grounds." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(c)", theme: "Withdrawal – Refugee", text: "Withdrawal due to misrepresentation." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(d)", theme: "Withdrawal – Refugee", text: "Withdrawal where protection is no longer justified." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(e)", theme: "Withdrawal – Refugee", text: "Withdrawal following serious crime after recognition." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(2)", theme: "Not to Grant – Refugee", text: "Decision not to grant refugee status for security or public order reasons." },
+
+            // Withdrawal Subsidiary
+            { cls: "withdrawal", instrument: "QR", article: "Art. 19(1)(c)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to exclusion grounds." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(a)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to international crimes." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(b)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to serious crime." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(c)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to acts contrary to UN principles." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(d)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to danger to the community or State security." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(2)", theme: "Withdrawal – Subsidiary", text: "Withdrawal applies to instigators or participants." },
+
+            // Cessation Refugee
+            { cls: "cessation", instrument: "QR", article: "Art. 14(1)(a)", theme: "Cessation – Refugee", text: "Cessation where refugee protection is no longer required." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(a)", theme: "Cessation – Refugee", text: "Voluntary re‑availment of protection of country of origin." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(b)", theme: "Cessation – Refugee", text: "Voluntary re‑acquisition of nationality." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(c)", theme: "Cessation – Refugee", text: "Acquisition of a new nationality with protection." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(d)", theme: "Cessation – Refugee", text: "Voluntary re‑establishment in the country of origin." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(e)", theme: "Cessation – Refugee", text: "Circumstances leading to recognition have ceased." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(f)", theme: "Cessation – Refugee", text: "Stateless person able to return due to changed circumstances." },
+
+            // Cessation Subsidiary
+            { cls: "cessation", instrument: "QR", article: "Art. 19(1)(a)", theme: "Cessation – Subsidiary", text: "Cessation of subsidiary protection due to changed circumstances." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(1)", theme: "Cessation – Subsidiary", text: "General cessation clause for subsidiary protection." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(2)(a)", theme: "Cessation – Subsidiary", text: "Durable change in the country of origin." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(2)(b)", theme: "Cessation – Subsidiary", text: "Protection no longer required due to personal circumstances." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(3)", theme: "Cessation – Subsidiary", text: "Exception where risk of serious harm persists." }
+        ];
+    }
+
+    function renderCaseFlowTable(rows) {
+        const tbody = document.getElementById('flowTableBody');
+        if (!rows.length) {
+            tbody.innerHTML = '<tr><td colspan="4" class="no-results"><h3>No case flow entries</h3></td></tr>';
+            return;
+        }
+        tbody.innerHTML = rows.map(r => `
+            <tr class="${r.cls}">
+                <td><strong>${r.instrument}</strong></td>
+                <td>${r.article}</td>
+                <td>${r.theme}</td>
+                <td>${r.text}</td>
+            </tr>`).join('');
+    }
+
+    function searchFlow() {
+        const q = document.getElementById('flowSearchInput').value.toLowerCase().trim();
+        const clearBtn = document.getElementById('flowClearBtn');
+        const stats = document.getElementById('flowSearchStats');
+        clearBtn.style.display = q ? 'block' : 'none';
+        const allRows = buildFlowRows(database);
+        if (!q) {
+            renderCaseFlowTable(allRows);
+            stats.textContent = '';
+            return;
+        }
+        const filtered = allRows.filter(r =>
+            `${r.instrument} ${r.article} ${r.theme} ${r.text}`.toLowerCase().includes(q)
+        );
+        stats.textContent = `Showing ${filtered.length} of ${allRows.length} flow entries`;
+        renderFlowTableWithHighlight(filtered, q);
+    }
+    function renderFlowTableWithHighlight(rows, q) {
+        const tbody = document.getElementById('flowTableBody');
+        const re = new RegExp(`(${escapeRegex(q)})`, 'gi');
+        tbody.innerHTML = rows.map(r => `
+            <tr class="${r.cls}">
+                <td><strong>${r.instrument.replace(re, '<span class="highlight">$1</span>')}</strong></td>
+                <td>${r.article.replace(re, '<span class="highlight">$1</span>')}</td>
+                <td>${r.theme.replace(re, '<span class="highlight">$1</span>')}</td>
+                <td>${r.text.replace(re, '<span class="highlight">$1</span>')}</td>
+            </tr>`).join('');
+    }
+    function clearFlowSearch() {
+        document.getElementById('flowSearchInput').value = '';
+        document.getElementById('flowClearBtn').style.display = 'none';
+        document.getElementById('flowSearchStats').textContent = '';
+        renderCaseFlowTable(buildFlowRows(database));
+    }
+
+    /* ========== EUAA CASE LAW (PDF library) ========== */
+    function openEUAAAdvancedSearch() {
+        window.open('https://caselaw.euaa.europa.eu/Pages/search.aspx', '_blank');
+    }
+    function openEUAAQuery(q) {
+        const query = (q || '').trim();
+        const url = query
+            ? 'https://caselaw.euaa.europa.eu/pages/searchresults.aspx?Keywords=' + encodeURIComponent(query)
+            : 'https://caselaw.euaa.europa.eu/Pages/search.aspx';
+        window.open(url, '_blank');
+    }
+    function openEUAAFromInput() {
+        const v = document.getElementById('euaaQueryInput').value;
+        openEUAAQuery(v);
+    }
+
+    function initializeCaseLawFilters(cases) {
+        const courtSel = document.getElementById('caseLawCourtSelect');
+        const countrySel = document.getElementById('caseLawCountrySelect');
+        const yearSel = document.getElementById('caseLawYearSelect');
+        const themeSel = document.getElementById('caseLawThemeSelect');
+        const keepFirst = sel => { while (sel && sel.options.length > 1) sel.remove(1); };
+        keepFirst(courtSel); keepFirst(countrySel); keepFirst(yearSel); keepFirst(themeSel);
+
+        const courts = [...new Set((cases || []).map(c => c.court).filter(Boolean))].sort();
+        const countries = [...new Set((cases || []).map(c => c.country).filter(Boolean))].sort();
+        const years = [...new Set((cases || []).map(c => String(c.year)).filter(y => y && y !== 'undefined' && y !== 'null'))].sort((a,b) => b.localeCompare(a));
+        const themes = [...new Set((cases || []).flatMap(c => (c.themes || [])).filter(Boolean))].sort();
+
+        courts.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; courtSel.appendChild(o); });
+        countries.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; countrySel.appendChild(o); });
+        years.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; yearSel.appendChild(o); });
+        themes.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; themeSel.appendChild(o); });
+
+        const chipsEl = document.getElementById('caseLawThemeChips');
+        if (chipsEl) chipsEl.innerHTML = themes.slice(0, 20).map(t => `<span class="theme-chip" data-theme="${t}" onclick="toggleThemeChip('${t}')">${t}</span>`).join('');
+
+        const themesSet = new Set();
+        (cases || []).forEach(c => (c.themes || []).forEach(t => themesSet.add(t)));
+        document.getElementById('case-law-count').textContent = (cases || []).length;
+        document.getElementById('case-law-themes').textContent = themesSet.size;
+
+        if (years.length) {
+            const minY = years[years.length - 1];
+            const maxY = years[0];
+            document.getElementById('case-law-years').textContent = (minY === maxY) ? maxY : `${minY}–${maxY}`;
+        } else {
+            document.getElementById('case-law-years').textContent = '—';
+        }
+    }
+    function toggleThemeChip(theme) {
+        const sel = document.getElementById('caseLawThemeSelect');
+        const chipsEl = document.getElementById('caseLawThemeChips');
+        if (!sel) return;
+        sel.value = (sel.value === theme) ? 'all' : theme;
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.toggle('active', ch.getAttribute('data-theme') === sel.value));
+        searchCaseLaw();
+    }
+    function clearCaseLawSearch() {
+        document.getElementById('caseLawSearchInput').value = '';
+        document.getElementById('caseLawClearBtn').style.display = 'none';
+        document.getElementById('caseLawCourtSelect').value = 'all';
+        document.getElementById('caseLawCountrySelect').value = 'all';
+        document.getElementById('caseLawYearSelect').value = 'all';
+        document.getElementById('caseLawThemeSelect').value = 'all';
+        const chipsEl = document.getElementById('caseLawThemeChips');
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.remove('active'));
+        document.getElementById('caseLawSearchStats').textContent = '';
+        displayCaseLaw(database.case_law || []);
+    }
+    function searchCaseLaw() {
+        const q = document.getElementById('caseLawSearchInput').value.toLowerCase().trim();
+        const court = document.getElementById('caseLawCourtSelect').value;
+        const country = document.getElementById('caseLawCountrySelect').value;
+        const year = document.getElementById('caseLawYearSelect').value;
+        const theme = document.getElementById('caseLawThemeSelect').value;
+        const clearBtn = document.getElementById('caseLawClearBtn');
+        const stats = document.getElementById('caseLawSearchStats');
+
+        clearBtn.style.display = q ? 'block' : 'none';
+
+        const allCases = database.case_law || [];
+        const filtered = allCases.filter(c => {
+            if (court !== 'all' && (c.court || '') !== court) return false;
+            if (country !== 'all' && (c.country || '') !== country) return false;
+            if (year !== 'all' && String(c.year || '') !== year) return false;
+            if (theme !== 'all' && !(c.themes || []).includes(theme)) return false;
+            if (!q) return true;
+            const blob = `${c.title || ''} ${c.case_number || ''} ${(c.themes || []).join(' ')} ${c.summary || ''}`.toLowerCase();
+            return blob.includes(q);
+        });
+
+        const filterInfo = [
+            court !== 'all' ? `Court: ${court}` : null,
+            country !== 'all' ? `Country: ${country}` : null,
+            year !== 'all' ? `Year: ${year}` : null,
+            theme !== 'all' ? `Theme: ${theme}` : null
+        ].filter(Boolean).join(' • ');
+
+        if (q || filterInfo) {
+            stats.textContent = `Showing ${filtered.length} case(s)` + (q ? ` matching "${q}"` : '') + (filterInfo ? ` • ${filterInfo}` : '');
+        } else {
+            stats.textContent = '';
+        }
+        displayCaseLaw(filtered, q);
+    }
+    function displayCaseLaw(cases, highlight = null) {
+        const container = document.getElementById('caseLawResults');
+        if (!cases || !cases.length) {
+            container.innerHTML = '<div class="no-results"><h3>No case law found</h3><p>Use the search above, or click <strong>🔎 Search on EUAA</strong> to run a live query on caselaw.euaa.europa.eu.</p></div>';
+            return;
+        }
+        container.innerHTML = cases.map(c => {
+            let title = c.title || 'Untitled case';
+            let summary = c.summary || '';
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                summary = summary.replace(re, '<span class="highlight">$1</span>');
+            }
+            const themes = (c.themes || []).map(t => `<span class="keyword-tag">${t}</span>`).join('');
+            const pdfLink = c.pdf ? `<a href="${c.pdf}" target="_blank">📄 Open PDF →</a>` : '';
+            const euaaLink = c.euaa_url ? `<a href="${c.euaa_url}" target="_blank">🔗 EUAA Case Law →</a>` : '';
+            const srcLink = c.source_url ? `<a href="${c.source_url}" target="_blank">⚖️ Official Source →</a>` : '';
+            const metaBits = [];
+            if (c.case_number) metaBits.push(`<span class="case-badge">${c.case_number}</span>`);
+            if (c.court) metaBits.push(`<span class="case-badge">${c.court}</span>`);
+            if (c.country) metaBits.push(`<span class="case-badge">${c.country}</span>`);
+            if (c.year) metaBits.push(`<span class="case-badge">${c.year}</span>`);
+            return `
+                <div class="case-card">
+                    <div class="case-meta-row">${metaBits.join('')}</div>
+                    <h3>${title}</h3>
+                    ${summary ? `<div class="description">${summary}</div>` : ''}
+                    ${themes ? `<div style="margin-top:10px;">${themes}</div>` : ''}
+                    <div class="case-actions">${pdfLink}${euaaLink}${srcLink}</div>
+                </div>`;
+        }).join('');
+    }
+
+    /* ========== EUAA PUBLICATIONS (Quarterly Overview) ========== */
+    function initializePublications(pubList) {
+        const ySel = document.getElementById('pubYearSelect');
+        const iSel = document.getElementById('pubIssueSelect');
+        const tSel = document.getElementById('pubThemeSelect');
+        const chipsEl = document.getElementById('pubThemeChips');
+
+        const keepFirst = sel => { while (sel && sel.options.length > 1) sel.remove(1); };
+        keepFirst(ySel); keepFirst(iSel); keepFirst(tSel);
+
+        const years = [...new Set((pubList || []).map(p => (p.issue || '').split('/')[1]).filter(Boolean))].sort((a,b)=>b.localeCompare(a));
+        const issues = [...new Set((pubList || []).map(p => p.issue).filter(Boolean))].sort();
+        const themes = [...new Set((pubList || []).flatMap(p => (p.themes || [])).filter(Boolean))].sort();
+
+        years.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; ySel.appendChild(o); });
+        issues.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; iSel.appendChild(o); });
+        themes.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; tSel.appendChild(o); });
+
+        if (chipsEl) chipsEl.innerHTML = themes.slice(0, 20).map(t => `<span class="theme-chip" data-theme="${t}" onclick="togglePubThemeChip('${t}')">${t}</span>`).join('');
+
+        displayPublications(pubList);
+    }
+    function togglePubThemeChip(theme) {
+        const sel = document.getElementById('pubThemeSelect');
+        const chipsEl = document.getElementById('pubThemeChips');
+        if (!sel) return;
+        sel.value = (sel.value === theme) ? 'all' : theme;
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.toggle('active', ch.getAttribute('data-theme') === sel.value));
+        searchPublications();
+    }
+    function clearPublicationsSearch() {
+        document.getElementById('pubSearchInput').value = '';
+        document.getElementById('pubClearBtn').style.display = 'none';
+        document.getElementById('pubYearSelect').value = 'all';
+        document.getElementById('pubIssueSelect').value = 'all';
+        document.getElementById('pubThemeSelect').value = 'all';
+        const chipsEl = document.getElementById('pubThemeChips');
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.remove('active'));
+        document.getElementById('pubSearchStats').textContent = '';
+        displayPublications(database.euaa_case_law_publications || []);
+    }
+    function searchPublications() {
+        const q = document.getElementById('pubSearchInput').value.toLowerCase().trim();
+        const y = document.getElementById('pubYearSelect').value;
+        const issue = document.getElementById('pubIssueSelect').value;
+        const theme = document.getElementById('pubThemeSelect').value;
+        const clearBtn = document.getElementById('pubClearBtn');
+        const stats = document.getElementById('pubSearchStats');
+
+        clearBtn.style.display = q ? 'block' : 'none';
+
+        const pubs = database.euaa_case_law_publications || [];
+        const filtered = pubs.filter(p => {
+            const year = (p.issue || '').split('/')[1] || '';
+            if (y !== 'all' && year !== y) return false;
+            if (issue !== 'all' && p.issue !== issue) return false;
+            if (theme !== 'all' && !(p.themes || []).includes(theme)) return false;
+            if (!q) return true;
+            const blob = `${p.title || ''} ${p.issue || ''} ${(p.themes || []).join(' ')} ${(p.keywords || []).join(' ')} ${p.period || ''}`.toLowerCase();
+            return blob.includes(q);
+        });
+
+        const filterInfo = [
+            y !== 'all' ? `Year: ${y}` : null,
+            issue !== 'all' ? `Issue: ${issue}` : null,
+            theme !== 'all' ? `Theme: ${theme}` : null
+        ].filter(Boolean).join(' • ');
+
+        if (q || filterInfo) {
+            stats.textContent = `Showing ${filtered.length} issue(s)` + (q ? ` matching "${q}"` : '') + (filterInfo ? ` • ${filterInfo}` : '');
+        } else {
+            stats.textContent = '';
+        }
+        displayPublications(filtered, q);
+    }
+    function displayPublications(pubs, highlight = null) {
+        const container = document.getElementById('pubResults');
+        if (!pubs || !pubs.length) {
+            container.innerHTML = '<div class="no-results"><h3>No quarterly overviews found</h3><p>No issues match your search/filters.</p></div>';
+            return;
+        }
+        container.innerHTML = pubs.map(p => {
+            let title = p.title || 'Quarterly overview';
+            let period = p.period || '';
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                period = period.replace(re, '<span class="highlight">$1</span>');
+            }
+            const themes = (p.themes || []).map(t => `<span class="keyword-tag">${t}</span>`).join('');
+            const metaBits = [];
+            if (p.issue) metaBits.push(`<span class="case-badge">Issue ${p.issue}</span>`);
+            if (p.date) metaBits.push(`<span class="case-badge">${p.date}</span>`);
+            const viewLink = p.url ? `<a href="${p.url}" target="_blank">🔗 EUAA Publication →</a>` : '';
+            const pdfLink = p.pdf_url ? `<a href="${p.pdf_url}" target="_blank">📄 Download PDF →</a>` : '';
+            return `
+                <div class="case-card pub-card">
+                    <div class="case-meta-row">${metaBits.join('')}</div>
+                    <h3>${title}</h3>
+                    ${period ? `<div class="meta">Period: ${period}</div>` : ''}
+                    ${themes ? `<div style="margin-top:10px;">${themes}</div>` : ''}
+                    <div class="pub-actions">${viewLink}${pdfLink}</div>
+                </div>`;
+        }).join('');
+    }
+
+    window.addEventListener('DOMContentLoaded', loadDatabase);
+    </script>
+</body>
+</html>

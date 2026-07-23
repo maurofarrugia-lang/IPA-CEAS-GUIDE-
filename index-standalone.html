@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPA NEW CEAS Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(33, 150, 243, 0.2); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%); color: white; padding: 36px 30px; text-align: center; position: relative; }
+        .header h1 { font-size: 2.1em; margin-bottom: 10px; letter-spacing: 0.3px; }
+        .header p { opacity: 0.95; font-size: 1.1em; }
+        .header .badge-row { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+        .header .badge-row span { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); padding: 5px 12px; border-radius: 16px; font-size: 0.85em; }
+
+        .tab-nav { display: flex; background: #f5f5f5; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; }
+        .tab-button { flex: 1; min-width: 150px; padding: 15px 18px; background: none; border: none; cursor: pointer; font-size: 1em; font-weight: 600; color: #666; transition: all 0.3s; position: relative; }
+        .tab-button:hover { background: #e3f2fd; color: #0d47a1; }
+        .tab-button.active { color: #0d47a1; background: white; }
+        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: #0d47a1; }
+        .tab-content { display: none; padding: 30px; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .search-section { margin-bottom: 20px; }
+        .search-box { position: relative; }
+        #searchInput,
+        #guideSearchInput,
+        #indexSearchInput,
+        #caseLawSearchInput,
+        #flowSearchInput,
+        #euaaQueryInput { width: 100%; padding: 15px 50px 15px 20px; font-size: 1em; border: 2px solid #e0e0e0; border-radius: 10px; transition: all 0.3s; }
+        #searchInput:focus,
+        #guideSearchInput:focus,
+        #indexSearchInput:focus,
+        #caseLawSearchInput:focus,
+        #flowSearchInput:focus,
+        #euaaQueryInput:focus { outline: none; border-color: #0d47a1; box-shadow: 0 0 0 4px rgba(13, 71, 161, 0.12); }
+
+        .clear-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; display: none; }
+        .clear-btn:hover { background: #d32f2f; }
+        .results { margin-top: 20px; }
+        .result-item, .index-section { background: #f8f9fa; padding: 20px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #0d47a1; transition: all 0.3s; }
+        .result-item:hover, .index-section:hover { box-shadow: 0 4px 12px rgba(13, 71, 161, 0.15); transform: translateX(5px); }
+        .result-item h3, .index-section h3 { color: #0d47a1; margin-bottom: 10px; font-size: 1.3em; }
+        .badge { display: inline-block; background: #e3f2fd; color: #0d47a1; padding: 4px 12px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; margin-right: 6px; }
+        .meta { color: #666; font-size: 0.9em; margin: 8px 0; }
+        .description { color: #333; line-height: 1.6; margin: 10px 0; }
+        .keyword-tag { display: inline-block; background: #bbdefb; color: #1565c0; padding: 3px 10px; border-radius: 10px; font-size: 0.85em; margin: 3px; }
+        .result-item a { display: inline-block; margin-top: 10px; color: #0d47a1; text-decoration: none; font-weight: 600; }
+        .result-item a:hover { text-decoration: underline; }
+        .no-results { text-align: center; padding: 60px 20px; color: #999; }
+        .highlight { background-color: #ffeb3b; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+        .stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-card h3 { font-size: 2em; margin-bottom: 5px; }
+        .stat-card p { opacity: 0.9; font-size: 0.9em; }
+
+        .category-filter select { padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: white; }
+        .subsection { margin-left: 20px; margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 3px solid #90caf9; }
+        .subsection h4 { color: #1976d2; font-size: 1.1em; margin-bottom: 10px; }
+        .subsection ul { margin-left: 20px; }
+        .subsection li { margin: 8px 0; color: #555; line-height: 1.6; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5em; }
+            .tab-button { font-size: 0.9em; padding: 12px 10px; }
+            .tab-content { padding: 20px; }
+        }
+
+        /* Regulation article lists / EUR-Lex link */
+        .reg-link {
+            margin-left: 15px;
+            color: #0d47a1;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+        .reg-link:hover { color: #1565c0; text-decoration: underline; }
+
+        .article-link {
+            color: #0d47a1;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-right: 8px;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .article-link:hover { transform: scale(1.2); }
+
+        /* Related EUAA Guidelines inside Protection Index entries */
+        .related-guidelines {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f8ff;
+            border-left: 3px solid #0d47a1;
+            border-radius: 4px;
+        }
+        .related-guidelines strong { color: #1565c0; display: block; margin-bottom: 8px; }
+        .related-guidelines ul { margin: 0; padding-left: 20px; list-style-type: none; }
+        .related-guidelines ul li { margin: 5px 0; }
+        .related-guidelines ul li::before {
+            content: "→ ";
+            color: #0d47a1;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .related-guidelines a { color: #1565c0; text-decoration: none; font-size: 0.95em; }
+        .related-guidelines a:hover { text-decoration: underline; color: #0d47a1; }
+
+        /* Protection Index: article number+title bold pink, details normal black */
+        #protectionResults li .article-number-title { color: #e91e63; font-weight: bold; }
+        #protectionResults li .article-detail { color: #000; font-weight: normal; }
+
+        /* EUAA Case Flow table styling (from exhaustive reference) */
+        .flow-table-wrapper { overflow-x: auto; }
+        .flow-table { width: 100%; border-collapse: collapse; margin-top: 14px; background: white; }
+        .flow-table th, .flow-table td { border: 1px solid #e0e0e0; padding: 10px 12px; vertical-align: top; text-align: left; }
+        .flow-table th { background: #0d47a1; color: #fff; font-size: 0.95em; }
+        .flow-table tr.refugee { background: #e6f2ff; }
+        .flow-table tr.subsidiary { background: #e6ffe6; }
+        .flow-table tr.exclusion { background: #ffe6e6; }
+        .flow-table tr.withdrawal { background: #ffd6d6; }
+        .flow-table tr.cessation { background: #ececec; }
+        .flow-table tr.procedure { background: #fff2cc; }
+        .flow-table tr.ipa { background: #f0e6ff; }
+        .flow-legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; font-size: 0.92em; }
+        .flow-legend span { padding: 5px 10px; border-radius: 4px; font-weight: 600; }
+        .flow-legend .l-refugee { background: #e6f2ff; color: #0d47a1; }
+        .flow-legend .l-subsidiary { background: #e6ffe6; color: #1b5e20; }
+        .flow-legend .l-exclusion { background: #ffe6e6; color: #b71c1c; }
+        .flow-legend .l-withdrawal { background: #ffd6d6; color: #880e4f; }
+        .flow-legend .l-cessation { background: #ececec; color: #424242; }
+        .flow-legend .l-procedure { background: #fff2cc; color: #8b6f00; }
+        .flow-legend .l-ipa { background: #f0e6ff; color: #4a148c; }
+
+        .flow-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+        .euaa-query-btn {
+            background: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+        .euaa-query-btn:hover { filter: brightness(0.95); }
+
+        /* EUAA Case Law styling */
+        .case-law-actions-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+        .case-law-filters { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .case-law-filters select { padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: white; }
+        @media (max-width: 768px) { .case-law-filters { grid-template-columns: 1fr; } }
+        .case-card {
+            background: #f8f9fa; padding: 20px; margin-bottom: 15px; border-radius: 10px;
+            border-left: 4px solid #6a1b9a; transition: all 0.3s;
+        }
+        .case-card:hover { box-shadow: 0 4px 12px rgba(106, 27, 154, 0.15); transform: translateX(5px); }
+        .case-card h3 { color: #6a1b9a; margin-bottom: 10px; font-size: 1.25em; }
+        .case-badge {
+            display: inline-block; background: #f3e5f5; color: #6a1b9a;
+            padding: 4px 12px; border-radius: 12px; font-size: 0.8em;
+            font-weight: bold; margin-bottom: 8px; margin-right: 8px;
+        }
+        .case-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+        .case-actions a {
+            display: inline-block; margin-top: 10px; margin-right: 12px;
+            color: #6a1b9a; text-decoration: none; font-weight: 700;
+        }
+        .case-actions a:hover { text-decoration: underline; }
+        .theme-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .theme-chip {
+            background: #f3e5f5; color: #6a1b9a; border: 1px solid #6a1b9a;
+            padding: 6px 10px; border-radius: 16px; font-size: 0.9em;
+            cursor: pointer; transition: all 0.2s; user-select: none;
+        }
+        .theme-chip:hover { transform: translateY(-1px); }
+        .theme-chip.active { background: #6a1b9a; color: white; }
+        .pub-card { border-left-color: #0d47a1; }
+        .pub-card h3 { color: #0d47a1; }
+        .pub-actions a { color: #0d47a1; font-weight: 700; text-decoration: none; margin-right: 12px; }
+        .pub-actions a:hover { text-decoration: underline; }
+
+        .footer-note { text-align: right; font-style: italic; color: #888; margin-top: 30px; font-size: 0.9em; padding: 12px 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 IPA NEW CEAS Guide</h1>
+            <p>The Common European Asylum System — practical, article-level reference for IPA caseworkers</p>
+            <div class="badge-row">
+                <span>🇪🇺 7 Regulations</span>
+                <span>📖 27 EUAA Guidelines</span>
+                <span>⚖️ Protection Index</span>
+                <span>🔁 EUAA Case Flow</span>
+                <span>📚 EUAA Case Law</span>
+            </div>
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-button active" onclick="switchTab('regulations')">📋 Regulations</button>
+            <button class="tab-button" onclick="switchTab('guidelines')">📖 EUAA Guidelines</button>
+            <button class="tab-button" onclick="switchTab('protection')">⚖️ Protection Index</button>
+            <button class="tab-button" onclick="switchTab('flow')">🔁 EUAA Case Flow</button>
+            <button class="tab-button" onclick="switchTab('case-law')">📚⚖️ EUAA Case Law</button>
+        </div>
+
+        <!-- ======== REGULATIONS TAB ======== -->
+        <div id="regulations-tab" class="tab-content active">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="reg-count">7</h3><p>EU CEAS Instruments</p></div>
+                <div class="stat-card"><h3>2024</h3><p>Adoption Year</p></div>
+                <div class="stat-card"><h3>2026</h3><p>Application</p></div>
+            </div>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 Search regulations (e.g., screening, asylum, qualification, reception)…" oninput="performSearch()">
+                    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+                </div>
+            </div>
+            <div class="results" id="regulationsResults"></div>
+        </div>
+
+        <!-- ======== EUAA GUIDELINES TAB ======== -->
+        <div id="guidelines-tab" class="tab-content">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="guide-count">27</h3><p>EUAA Guidelines</p></div>
+                <div class="stat-card"><h3>2024–2026</h3><p>Years</p></div>
+                <div class="stat-card"><h3 id="guide-cat-count">0</h3><p>Categories</p></div>
+            </div>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="guideSearchInput" placeholder="🔍 Search EUAA guidelines (e.g., vulnerability, interview, SOGIESC)…" oninput="searchGuidelines()">
+                    <button class="clear-btn" id="guideClearBtn" onclick="clearGuideSearch()">✕</button>
+                </div>
+                <div class="category-filter" style="margin-top: 10px;">
+                    <label>Filter by category: </label>
+                    <select id="categorySelect" onchange="filterByCategory()">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+            </div>
+            <div class="results" id="guidelinesResults"></div>
+        </div>
+
+        <!-- ======== PROTECTION INDEX TAB ======== -->
+        <div id="protection-tab" class="tab-content">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="pi-categories">8</h3><p>Categories</p></div>
+                <div class="stat-card"><h3 id="pi-regulations">7</h3><p>Regulations</p></div>
+                <div class="stat-card"><h3 id="pi-items">206</h3><p>Article-Level Items</p></div>
+            </div>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="indexSearchInput" placeholder="🔍 Search the Protection Index (e.g., credibility, detention, vulnerability, interview)…" oninput="searchProtectionIndex()">
+                    <button class="clear-btn" id="indexClearBtn" onclick="clearIndexSearch()">✕</button>
+                </div>
+                <div class="meta" id="indexSearchStats" style="margin-top:10px;"></div>
+            </div>
+            <div class="results" id="protectionResults"></div>
+        </div>
+
+        <!-- ======== EUAA CASE FLOW TAB ======== -->
+        <div id="flow-tab" class="tab-content">
+            <h2 style="color:#0d47a1; margin-bottom: 6px;">🔁 EUAA Case Flow — Exhaustive Quick Reference (QR & APR)</h2>
+            <p class="meta" style="margin-bottom:12px;">Colour-coded by theme: Refugee (blue) · Subsidiary (green) · Exclusion (red) · Withdrawal (light red) · Cessation (grey) · APR Procedure (yellow) · IPA (purple)</p>
+
+            <div class="flow-legend">
+                <span class="l-refugee">Refugee</span>
+                <span class="l-subsidiary">Subsidiary</span>
+                <span class="l-exclusion">Exclusion</span>
+                <span class="l-withdrawal">Withdrawal</span>
+                <span class="l-cessation">Cessation</span>
+                <span class="l-procedure">APR Procedure</span>
+                <span class="l-ipa">IPA</span>
+            </div>
+
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="flowSearchInput" placeholder="🔍 Search the case flow by article, theme, or keyword (e.g., exclusion, IPA, manifestly unfounded)…" oninput="searchFlow()">
+                    <button class="clear-btn" id="flowClearBtn" onclick="clearFlowSearch()">✕</button>
+                </div>
+                <div class="meta" id="flowSearchStats" style="margin-top:10px;"></div>
+            </div>
+
+            <div class="flow-table-wrapper">
+                <table class="flow-table" id="flowTable">
+                    <thead>
+                        <tr>
+                            <th>Instrument</th>
+                            <th>Article</th>
+                            <th>Theme</th>
+                            <th>Short Operational Reference</th>
+                        </tr>
+                    </thead>
+                    <tbody id="flowTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="footer-note">Author: IPA NEW CEAS Guide</div>
+        </div>
+
+        <!-- ======== EUAA CASE LAW TAB ======== -->
+        <div id="case-law-tab" class="tab-content">
+            <div class="stats-panel">
+                <div class="stat-card"><h3 id="case-law-count">0</h3><p>Case Law Entries</p></div>
+                <div class="stat-card"><h3 id="case-law-themes">0</h3><p>Themes</p></div>
+                <div class="stat-card"><h3 id="case-law-years">—</h3><p>Years</p></div>
+            </div>
+
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="caseLawSearchInput" placeholder="🔍 Search EUAA Case Law by case name, number, or themes…" oninput="searchCaseLaw()">
+                    <button class="clear-btn" id="caseLawClearBtn" onclick="clearCaseLawSearch()">✕</button>
+                </div>
+
+                <div class="search-box" style="margin-top: 10px;">
+                    <input type="text" id="euaaQueryInput" placeholder="🔎 EUAA live query (opens caselaw.euaa.europa.eu in a new tab with this keyword)…">
+                    <div class="flow-actions" style="margin-top:8px;">
+                        <button class="euaa-query-btn" onclick="openEUAAFromInput()">🔎 Search on EUAA</button>
+                        <button class="euaa-query-btn" style="background:#1976d2;" onclick="openEUAAAdvancedSearch()">⚙️ EUAA Advanced Search</button>
+                    </div>
+                </div>
+
+                <div class="case-law-filters">
+                    <select id="caseLawCourtSelect" onchange="searchCaseLaw()"><option value="all">All Courts</option></select>
+                    <select id="caseLawCountrySelect" onchange="searchCaseLaw()"><option value="all">All Countries</option></select>
+                    <select id="caseLawYearSelect" onchange="searchCaseLaw()"><option value="all">All Years</option></select>
+                    <select id="caseLawThemeSelect" onchange="searchCaseLaw()"><option value="all">All Themes</option></select>
+                </div>
+                <div class="theme-chips" id="caseLawThemeChips"></div>
+                <div class="meta" id="caseLawSearchStats" style="margin-top:10px;"></div>
+            </div>
+
+            <div class="results" id="caseLawResults"></div>
+
+            <hr style="margin:30px 0; border:none; border-top:1px solid #eee;" />
+
+            <h2 style="color:#0d47a1; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="pubSearchInput" placeholder="🔍 Search Quarterly Overviews by issue, keywords, or themes…" oninput="searchPublications()">
+                    <button class="clear-btn" id="pubClearBtn" onclick="clearPublicationsSearch()">✕</button>
+                </div>
+                <div class="case-law-filters">
+                    <select id="pubYearSelect" onchange="searchPublications()"><option value="all">All Years</option></select>
+                    <select id="pubIssueSelect" onchange="searchPublications()"><option value="all">All Issues</option></select>
+                    <select id="pubThemeSelect" onchange="searchPublications()"><option value="all">All Themes</option></select>
+                    <select id="pubDummySelect" disabled><option>—</option></select>
+                </div>
+                <div class="theme-chips" id="pubThemeChips"></div>
+                <div class="meta" id="pubSearchStats" style="margin-top:10px;"></div>
+            </div>
+            <div class="results" id="pubResults"></div>
+        </div>
+    </div>
+
+<script>
+/* Auto-generated: full database embedded for offline double-click use */
+const EMBEDDED_DATABASE = {"definitions":[{"term":"Third-country national","definition":"A person who is not a citizen of the Union and does not enjoy the right to free movement under Union law.","regulation":""},{"term":"Stateless person","definition":"A person not considered a national by any State under the operation of its law.","regulation":""},{"term":"Applicant","definition":"A third-country national or stateless person who has made an application for international protection pending a final decision.","regulation":""},{"term":"Application for international protection","definition":"A request for protection seeking refugee or subsidiary protection status.","regulation":""},{"term":"Refugee","definition":"Defined in Regulation 2024/1347: a person with a well‑founded fear of persecution for specific grounds.","regulation":""},{"term":"Person eligible for subsidiary protection","definition":"Defined in Regulation 2024/1347: faces real risk of serious harm if returned.","regulation":""},{"term":"Beneficiary of international protection","definition":"A person granted refugee or subsidiary protection status.","regulation":""},{"term":"Beneficiary of temporary protection","definition":"Person benefiting from temporary protection as defined in Eurodac Regulation.","regulation":""},{"term":"Admitted person","definition":"A person accepted for admission under Resettlement Regulation or national resettlement scheme.","regulation":""},{"term":"Family member","definition":"Spouse/partner, minor child, or parent/adult responsible for a minor applicant or beneficiary.","regulation":""},{"term":"Relative","definition":"Adult aunt/uncle or grandparent.","regulation":""},{"term":"Minor","definition":"A person below the age of 18 years.","regulation":""},{"term":"Unaccompanied minor","definition":"A minor arriving without an adult responsible, or left unaccompanied after arrival.","regulation":""},{"term":"Representative","definition":"A person/organisation appointed to assist an unaccompanied minor.","regulation":""},{"term":"Applicant in need of special procedural guarantees","definition":"Applicant with limited ability to benefit from procedure due to individual circumstances.","regulation":""},{"term":"Examination of an application","definition":"Assessment of admissibility or merits, excluding responsibility determination.","regulation":""},{"term":"Final decision","definition":"Decision no longer subject to remedy or final under national law.","regulation":""},{"term":"Withdrawal of an application","definition":"Explicit or implicit withdrawal of an application or protection.","regulation":""},{"term":"Subsequent application","definition":"A new application after a final decision on a previous one.","regulation":""},{"term":"Member State responsible","definition":"The Member State responsible per Regulation 2024/1351.","regulation":""},{"term":"Migratory pressure","definition":"Arrivals of such scale that they create disproportionate obligations on a Member State.","regulation":""},{"term":"Significant migratory situation","definition":"Cumulative arrivals causing system capacity to be reached.","regulation":""},{"term":"Illegal stay","definition":"As defined in Schengen Borders Code.","regulation":""},{"term":"Absconding","definition":"Not remaining available to authorities under defined conditions.","regulation":""},{"term":"Risk of absconding","definition":"Risk based on objective criteria in national law.","regulation":""},{"term":"Search and rescue operations","definition":"As defined in the 1979 Hamburg Convention.","regulation":""},{"term":"Biometric data","definition":"Fingerprint data, facial image data, or both.","regulation":""},{"term":"Fingerprint data","definition":"Captured fingerprints used for comparison.","regulation":""},{"term":"Facial image data","definition":"Images used for biometric comparison.","regulation":""},{"term":"Eurodac data","definition":"All biometric/alphanumeric data stored in Eurodac.","regulation":""},{"term":"Hit","definition":"A biometric match within Eurodac.","regulation":""},{"term":"Dataset","definition":"A set of biometric, identity or alphanumeric data in Eurodac.","regulation":""},{"term":"Identity data","definition":"Personal identity details stored in CIR/Eurodac.","regulation":""},{"term":"CIR","definition":"Common Identity Repository established by Regulation 2019/818.","regulation":""},{"term":"Residence document","definition":"Authorisation to stay, excluding visas and temporary permits during assessment.","regulation":""},{"term":"Visa","definition":"Authorisation for transit or intended stay.","regulation":""},{"term":"Diploma or qualification","definition":"Qualification obtained after ≥1 academic year in a recognised Member State programme.","regulation":""},{"term":"Education establishment","definition":"Recognised public/private institution providing education or training.","regulation":""},{"term":"EU Solidarity Coordinator","definition":"Person appointed under Regulation 2024/1351.","regulation":""},{"term":"Benefitting Member State","definition":"Member State receiving solidarity contributions.","regulation":""},{"term":"Contributing Member State","definition":"Member State providing solidarity contributions.","regulation":""},{"term":"National Access Point","definition":"Designated channel for Eurodac queries.","regulation":""},{"term":"Europol Access Point","definition":"Europol’s designated Eurodac access channel.","regulation":""},{"term":"eu-LISA","definition":"Agency responsible for operational management of Eurodac.","regulation":""},{"term":"Adequate capacity","definition":"Capacity required for asylum/return border procedures.","regulation":""},{"term":"refugee","definition":"Defined per Regulation 2024/1347: fear of persecution on protected grounds","regulation":"1348/2024"},{"term":"person eligible for subsidiary protection","definition":"Faces real risk of serious harm per Regulation 2024/1347","regulation":"1348/2024"},{"term":"refugee status","definition":"Recognition as refugee","regulation":"1348/2024"},{"term":"subsidiary protection status","definition":"Recognition as subsidiary protection beneficiary","regulation":"1348/2024"},{"term":"international protection","definition":"Refugee or subsidiary protection status","regulation":"1348/2024"},{"term":"minor","definition":"Person under 18 years","regulation":"1348/2024"},{"term":"unaccompanied minor","definition":"Minor without adult responsible","regulation":"1348/2024"},{"term":"final decision","definition":"Decision no longer challengeable under Chapter V","regulation":"1348/2024"},{"term":"examination of application","definition":"Assessment of admissibility or merits","regulation":"1348/2024"},{"term":"biometric data","definition":"As defined in Regulation 2024/1358","regulation":"1348/2024"},{"term":"adequate capacity","definition":"Capacity needed for border procedures","regulation":"1348/2024"},{"term":"application for international protection","definition":"Request for protection","regulation":"1348/2024"},{"term":"applicant","definition":"Person with pending application","regulation":"1348/2024"},{"term":"applicant needing special procedural guarantees","definition":"Applicant with limited ability to comply","regulation":"1348/2024"},{"term":"stateless person","definition":"Not considered national by any State","regulation":"1348/2024"},{"term":"determining authority","definition":"Body responsible for examining applications","regulation":"1348/2024"},{"term":"withdrawal of international protection","definition":"Revocation or refusal to renew protection","regulation":"1348/2024"},{"term":"remain in the Member State","definition":"Right to remain on territory/border/transit zones","regulation":"1348/2024"},{"term":"subsequent application","definition":"Application after final decision","regulation":"1348/2024"},{"term":"Member State responsible","definition":"State responsible under Regulation 2024/1351","regulation":"1348/2024"},{"term":"applicant for international protection","definition":"Person applying for refugee/subsidiary protection","regulation":"1358/2024"},{"term":"person registered for admission","definition":"Person registered under resettlement procedures","regulation":"1358/2024"},{"term":"person admitted under national resettlement scheme","definition":"Person admitted through national resettlement pathway","regulation":"1358/2024"},{"term":"humanitarian status under national law","definition":"National protection equivalent to international protection standards","regulation":"1358/2024"},{"term":"Member State of origin","definition":"State transmitting data to Eurodac","regulation":"1358/2024"},{"term":"third-country national","definition":"Person who is not EU citizen","regulation":"1358/2024"},{"term":"illegal stay","definition":"Presence on territory without meeting legal entry/residence conditions","regulation":"1358/2024"},{"term":"beneficiary of international protection","definition":"Refugee or subsidiary protection holder","regulation":"1358/2024"},{"term":"beneficiary of temporary protection","definition":"Person under temporary protection regime","regulation":"1358/2024"},{"term":"hit","definition":"Biometric match in Eurodac","regulation":"1358/2024"},{"term":"National Access Point","definition":"Designated national interface for Eurodac queries","regulation":"1358/2024"},{"term":"Europol Access Point","definition":"Europol's interface for Eurodac queries","regulation":"1358/2024"},{"term":"eu-LISA","definition":"Agency managing Eurodac","regulation":"1358/2024"},{"term":"Eurodac data","definition":"Biometric and alphanumeric stored datasets","regulation":"1358/2024"},{"term":"serious criminal offences","definition":"Offences under Framework Decision 2002/584/JHA","regulation":"1358/2024"},{"term":"terrorist offences","definition":"Offences under Directive 2017/541","regulation":"1358/2024"},{"term":"fingerprint data","definition":"Biometric fingerprint information","regulation":"1358/2024"},{"term":"facial image data","definition":"Biometric facial imagery","regulation":"1358/2024"},{"term":"biometric data","definition":"Fingerprints and/or facial images","regulation":"1358/2024"},{"term":"alphanumeric data","definition":"Names, dates of birth and other text data","regulation":"1358/2024"},{"term":"residence document","definition":"Authorisation to stay","regulation":"1358/2024"},{"term":"identity data","definition":"Stored personal identity information","regulation":"1358/2024"},{"term":"CIR","definition":"Common Identity Repository","regulation":"1358/2024"},{"term":"dataset","definition":"A complete record for an individual in Eurodac","regulation":"1358/2024"},{"term":"child/minor","definition":"Person below age 18","regulation":"1358/2024"},{"term":"third-country national","definition":"A person who is not an EU citizen and not enjoying free movement rights","regulation":"1351/2024"},{"term":"stateless person","definition":"A person not considered a national by any State","regulation":"1351/2024"},{"term":"application for international protection","definition":"A request for protection seeking refugee or subsidiary protection","regulation":"1351/2024"},{"term":"applicant","definition":"A person who has made such an application and awaits final decision","regulation":"1351/2024"},{"term":"examination of an application","definition":"Examination of admissibility or merits excluding responsibility procedures","regulation":"1351/2024"},{"term":"withdrawal of an application","definition":"Explicit or implicit withdrawal of an application","regulation":"1351/2024"},{"term":"beneficiary of international protection","definition":"Person granted protection under Regulation 2024/1347","regulation":"1351/2024"},{"term":"family member","definition":"Spouse/partner; minor child; parent or adult responsible for minor","regulation":"1351/2024"},{"term":"relative","definition":"Adult aunt/uncle or grandparent","regulation":"1351/2024"},{"term":"minor","definition":"A person below 18 years","regulation":"1351/2024"},{"term":"unaccompanied minor","definition":"A minor arriving without an adult responsible","regulation":"1351/2024"},{"term":"representative","definition":"Person or organisation assisting an unaccompanied minor","regulation":"1351/2024"},{"term":"residence document","definition":"Authorisation to stay, excluding visas and temporary permits","regulation":"1351/2024"},{"term":"visa","definition":"Authorisation for transit or intended stay","regulation":"1351/2024"},{"term":"diploma or qualification","definition":"Qualification obtained after ≥1 academic year in a Member State programme","regulation":"1351/2024"},{"term":"education establishment","definition":"Recognised education or vocational institution","regulation":"1351/2024"},{"term":"absconding","definition":"Failure to remain available to competent authorities","regulation":"1351/2024"},{"term":"risk of absconding","definition":"Objective reasons to believe a person may abscond","regulation":"1351/2024"},{"term":"benefitting Member State","definition":"State benefitting from solidarity contributions","regulation":"1351/2024"},{"term":"contributing Member State","definition":"State providing solidarity contributions","regulation":"1351/2024"},{"term":"transfer","definition":"Implementation of a decision under Article 42","regulation":"1351/2024"},{"term":"relocation","definition":"Transfer from benefitting to contributing Member State","regulation":"1351/2024"},{"term":"search and rescue operations","definition":"Operations under the 1979 Hamburg Convention","regulation":"1351/2024"},{"term":"migratory pressure","definition":"Arrivals causing disproportionate obligations on a Member State","regulation":"1351/2024"},{"term":"significant migratory situation","definition":"Cumulative arrivals reaching system limits","regulation":"1351/2024"},{"term":"reception conditions","definition":"Defined in Directive 2024/1346","regulation":"1351/2024"},{"term":"admitted person","definition":"Person accepted under Resettlement Regulation or national scheme","regulation":"1351/2024"},{"term":"EU Solidarity Coordinator","definition":"Coordinator appointed under Article 15","regulation":"1351/2024"},{"term":"application for international protection / application","definition":"Request for protection made to a Member State by a third‑country national or stateless person understood to be seeking refugee or subsidiary protection status.","regulation":"D1346/2024"},{"term":"applicant","definition":"A third‑country national or stateless person who has made an application for international protection that has not yet received a final decision.","regulation":"D1346/2024"},{"term":"family members","definition":"Where the family existed before arrival and is present in the same Member State during the procedure: (a) spouse or unmarried partner treated as equivalent to spouse; (b) minor or adult dependent children of the couple or of the applicant (unmarried); (c) where the applicant is a minor and unmarried, the father, mother or another adult responsible (including an adult sibling).","regulation":"D1346/2024"},{"term":"minor","definition":"A third‑country national or stateless person below 18 years of age.","regulation":"D1346/2024"},{"term":"unaccompanied minor","definition":"A minor arriving unaccompanied by an adult responsible (by law or practice) and not effectively taken into such care, including a minor left unaccompanied after entry.","regulation":"D1346/2024"},{"term":"reception conditions","definition":"The full set of measures that Member States grant to applicants under the Directive.","regulation":"D1346/2024"},{"term":"material reception conditions","definition":"Reception conditions including housing, food, clothing and personal hygiene products provided in kind, as financial allowances, in vouchers or a combination, as well as a daily expenses allowance.","regulation":"D1346/2024"},{"term":"daily expenses allowance","definition":"Allowance provided periodically (monetary, vouchers, in kind or a combination) that includes a monetary amount to enable a minimum degree of autonomy in daily life.","regulation":"D1346/2024"},{"term":"detention","definition":"Confinement of an applicant by a Member State within a particular place where the person is deprived of freedom of movement.","regulation":"D1346/2024"},{"term":"accommodation centre","definition":"Any place used for the collective housing of applicants.","regulation":"D1346/2024"},{"term":"risk of absconding","definition":"Specific reasons and circumstances in an individual case, based on objective criteria defined by national law, to believe that an applicant might abscond.","regulation":"D1346/2024"},{"term":"absconding","definition":"Action by which an applicant does not remain available to competent administrative or judicial authorities, such as by leaving the Member State’s territory without permission, for reasons not beyond the applicant’s control.","regulation":"D1346/2024"},{"term":"representative","definition":"Natural person or organisation (including a public authority) appointed with necessary skills and expertise to represent, assist and act on behalf of an unaccompanied minor to safeguard the child’s best interests and well‑being and to enable the child to benefit from rights and comply with obligations under the Directive.","regulation":"D1346/2024"},{"term":"applicant with special reception needs","definition":"An applicant who needs special conditions or guarantees in order to benefit from the rights and comply with the obligations under the Directive.","regulation":"D1346/2024"}],"euaa_guidelines":[{"title":"Practical Guide on Registration and Lodging of Applications","category":"Access to Asylum Procedure","date":"12/2025","url":"https://www.euaa.europa.eu/publications/practical-guide-registration-and-lodging-applications-international-protection","description":"Assists officers in daily work to register applications for international protection and supports officers responsible for lodging applications.","keywords":["registration","lodging","access","application"]},{"title":"Practical Guide on Free Legal Counselling","category":"Legal Assistance","date":"10/2025","url":"https://euaa.europa.eu/publications/practical-guide-free-legal-counselling","description":"Guidance for design of national systems of free legal counselling within CEAS framework.","keywords":["legal aid","counselling","assistance","lawyer"]},{"title":"Practical Guide on Information Provision in the Asylum Procedure","category":"Information Provision","date":"12/2024","url":"https://www.euaa.europa.eu/publications/practical-guide-information-provision-asylum-procedure","description":"Supports information providers during the asylum procedure with methodological guidance.","keywords":["information","communication","applicant rights"]},{"title":"Practical Guide on Evidence and Risk Assessment","category":"Examination of Application","date":"01/2024","url":"https://euaa.europa.eu/publications/practical-guide-evidence-assessment","description":"Comprehensive methodology on gathering information, credibility assessment, and risk assessment.","keywords":["evidence","credibility","risk assessment","COI"]},{"title":"Practical Guide on Audio Recording of Personal Interviews","category":"Interview Process","date":"10/2025","url":"https://euaa.europa.eu/publications/practical-guide-audio-recording-personal-interviews","description":"Guidance on setting up fit-for-purpose process for audio recording of personal interviews.","keywords":["audio recording","interview","documentation"]},{"title":"Practical Guide on Membership of a Particular Social Group","category":"Qualification","date":"05/2025","url":"https://euaa.europa.eu/publications/practical-guide-membership-particular-social-group","description":"Assistance in applying the persecution ground of membership of particular social group.","keywords":["particular social group","persecution","LGBTQI","gender"]},{"title":"Guidance on Remote Interviews","category":"Interview Process","date":"04/2025","url":"https://euaa.europa.eu/publications/guidance-remote-interviews","description":"Guidance on remote interviews in context of asylum procedure and migration management regulations.","keywords":["remote interview","online","virtual","COVID"]},{"title":"Practical Guide on Nationality","category":"Qualification","date":"03/2025","url":"https://euaa.europa.eu/publications/practical-guide-nationality-concepts-related-nationality-and-statelessness-context-international-protection","description":"Explains concepts of nationality and statelessness and implications for international protection assessment.","keywords":["nationality","stateless","citizenship"]},{"title":"Practical Guide on SOGIESC - Examination Procedure","category":"Vulnerable Groups","date":"11/2024","url":"https://euaa.europa.eu/publications/practical-guide-SOGIESC-examination-procedure","description":"Guidance on examining applications with SOGIESC-based claims (sexual orientation, gender identity, expression, sex characteristics).","keywords":["SOGIESC","LGBTQI","sexual orientation","gender identity"]},{"title":"Practical Guide on Interpretation in the Asylum Procedure","category":"Language Services","date":"02/2024","url":"https://euaa.europa.eu/publications/practical-guide-interpretation-asylum-procedure","description":"Informs interpreters on their role, key principles, and guidance on interpreting in line with international standards.","keywords":["interpretation","translator","language","interpreter"]},{"title":"Practical Guide on Qualification for International Protection","category":"Qualification","date":"04/2018","url":"https://euaa.europa.eu/publications/practical-guide-qualification-international-protection","description":"Assists case officers in examining applications and applying legal criteria for refugee status and subsidiary protection.","keywords":["qualification","refugee status","subsidiary protection"]},{"title":"Guidance on the Dublin Procedure","category":"Dublin Procedure","date":"03/2020","url":"https://www.euaa.europa.eu/publications/guidance-dublin-procedure","description":"Operational standards and indicators for implementing Dublin III Regulation in harmonised way.","keywords":["Dublin","responsibility","family reunification"]},{"title":"Practical Guide on Family Tracing - Part I","category":"Family Unity","date":"04/2025","url":"https://euaa.europa.eu/publications/practical-guide-family-tracing-part-i","description":"Supports EU+ countries in tracing family members of unaccompanied children in line with best interests.","keywords":["family tracing","unaccompanied minors","children","best interests"]},{"title":"Practical Guide on Family Tracing - Part II","category":"Family Unity","date":"04/2025","url":"https://euaa.europa.eu/publications/practical-guide-family-tracing-part-ii","description":"Supports case officers in prioritisation of family cases under asylum and migration management regulation.","keywords":["family tracing","prioritisation","family members"]},{"title":"Practical Guide on Exclusion for Serious Crimes","category":"Exclusion","date":"12/2021","url":"https://euaa.europa.eu/publications/practical-guide-exclusion-serious-non-political-crimes","description":"Explains constitutive elements of serious non-political crimes exclusion ground.","keywords":["exclusion","serious crimes","criminal","Article 12"]},{"title":"Practical Guide on Quality Assurance in Asylum Procedures","category":"Quality Assurance","date":"05/2024","url":"https://euaa.europa.eu/publications/practical-guide-quality-assurance-asylum-procedures","description":"Supports asylum administrations to implement quality assurance methodology and develop quality management systems.","keywords":["quality","QA","standards","monitoring"]},{"title":"Operational Standards and Indicators on the Asylum Procedure","category":"Operational Standards","date":"11/2025","url":"https://www.euaa.europa.eu/sites/default/files/publications/2025-12/2025_Operational-Standards-and-Indicators-on-the-Asylum-Procedure_EN.pdf","description":"Practical tool to support Member States achieve fair and effective asylum procedures and strengthen CEAS.","keywords":["operational standards","indicators","best practices"]},{"title":"Operational Standards on Vulnerability-related Aspects","category":"Vulnerable Groups","date":"11/2025","url":"https://euaa.europa.eu/publications/operational-standards-indicators-vulnerability-related-aspects-asylum-procedure","description":"Standards and indicators for applicants in vulnerable situations with theoretical introduction to vulnerability.","keywords":["vulnerability","special needs","victims","trauma"]},{"title":"Guidance on Contingency Planning and Preparedness","category":"Crisis Management","date":"05/2024","url":"https://euaa.europa.eu/publications/guidance-contingency-planning-preparedness-asylum-procedure","description":"Operational standards on contingency planning to help EU+ countries build or review national contingency plans.","keywords":["contingency","crisis","emergency","preparedness"]},{"title":"Practical Guide on the Management of a Reception Centre","category":"Reception","date":"12/2025","url":"https://www.euaa.europa.eu/publications/practical-guide-management-reception-centre-arrival","description":"Supports national administrations in implementing key aspects of collective reception centres management.","keywords":["reception","accommodation","centre management"]},{"title":"Guidelines on Alternatives to Detention","category":"Detention","date":"12/2024","url":"https://euaa.europa.eu/publications/guidelines-alternatives-detention","description":"Guidelines on defining, establishing, deciding, implementing, reviewing and ending alternatives to detention.","keywords":["detention","alternatives","liberty","border procedure"]},{"title":"Practical Guide on SOGIESC - Reception","category":"Vulnerable Groups","date":"11/2024","url":"https://euaa.europa.eu/publications/practical-guide-SOGIESC-reception","description":"Guidance on reception conditions for applicants with diverse SOGIESC.","keywords":["SOGIESC","reception","LGBTQI","accommodation"]},{"title":"Country Guidance: Syria","category":"Country Guidance","date":"12/2025","url":"https://www.euaa.europa.eu/country-guidance-syria","description":"Member States' joint assessment of situation in Syria following fall of Assad regime.","keywords":["Syria","COI","country guidance","Assad"]},{"title":"Country Guidance: Iran","category":"Country Guidance","date":"01/2025","url":"https://www.euaa.europa.eu/country-guidance-iran","description":"Latest update of Country Guidance on Iran with common analysis and guidance.","keywords":["Iran","COI","country guidance","persecution"]},{"title":"Country Guidance: Explained","category":"Country Guidance","date":"02/2025","url":"https://www.euaa.europa.eu/country-guidance-explained-0","description":"General guidance and methodological framework for EUAA country guidance documents.","keywords":["methodology","COI","country guidance","framework"]},{"title":"Self-Assessment Tool on Quality of the Asylum Procedure","category":"Quality Assurance","date":"08/2025","url":"https://reliefweb.int/report/world/self-assessment-tool-quality-asylum-procedure-august-2025","description":"IT solution facilitating efficient self-assessment of quality of asylum procedures.","keywords":["self-assessment","quality","monitoring","tool"]},{"title":"Asylum Report 2025","category":"Statistics & Reports","date":"2025","url":"https://www.euaa.europa.eu/publications/asylum-report-2025","description":"Overview of key developments in asylum in 2024, summarising changes to policies, practice and laws.","keywords":["statistics","report","trends","data"]}],"regulations":[{"id":"reg_screening","title":"Screening Regulation","number":"2024/1356","adopted":"14 May 2024","eur_lex_url":"https://eur-lex.europa.eu/eli/reg/2024/1356/oj/eng","description":"Screening of third-country nationals at external borders","keywords":["screening","border","security check","biometric","health check"]},{"id":"reg_procedure","title":"Asylum Procedure Regulation","number":"2024/1348","adopted":"14 May 2024","eur_lex_url":"https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1348","description":"Common procedure for international protection","keywords":["procedure","interview","decision","admissibility","border procedure"]},{"id":"reg_eurodac","title":"Eurodac Regulation","number":"2024/1358","adopted":"14 May 2024","eur_lex_url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401358","description":"Biometric data comparison system","keywords":["fingerprint","biometric","database","identification"]},{"id":"reg_management","title":"Asylum & Migration Management Regulation","number":"2024/1351","adopted":"14 May 2024","eur_lex_url":"https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32024R1351","description":"Solidarity mechanism and responsibility allocation","keywords":["solidarity","relocation","responsibility","Dublin"]},{"id":"reg_qualification","title":"Qualification Regulation","number":"2024/1347","adopted":"14 May 2024","eur_lex_url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401347","description":"Standards for qualification as refugee or subsidiary protection","keywords":["refugee","subsidiary protection","persecution","serious harm"]},{"id":"dir_reception","title":"Reception Conditions Directive","number":"2024/1346","adopted":"14 May 2024","eur_lex_url":"https://eur-lex.europa.eu/eli/dir/2024/1346/oj/eng","description":"Standards for reception of applicants","keywords":["reception","accommodation","material conditions","healthcare"]},{"id":"reg_crisis","title":"Crisis Regulation","number":"2024/1359","adopted":"14 May 2024","eur_lex_url":"https://eur-lex.europa.eu/eli/reg/2024/1359/oj/eng","description":"Addressing situations of crisis and force majeure","keywords":["crisis","emergency","force majeure","instrumentalisation"]}],"caseworker_index":{"categories":[{"id":"screening","name":"1️⃣ Screening Regulation","regulation":"Regulation (EU) 2024/1356","subsections":[{"name":"A. Scope & Application","items":["Art 1-3: Subject matter (Subject matter (Scope and objectives of screening))","Art 5: Screening at the external border (Screening at the external border (Persons subject to screening (irregular entry, SAR disembarkation, border applicants, non-fulfilment of entry conditions)))","Art 6: Authorisation to enter the territory of a Member State (Authorisation to enter the territory of a Member State (Border screening procedures))","Art 7: Screening within the territory (Screening within the territory (SAR (search and rescue) disembarkation screening))","Art 8: Requirements concerning the screening (Requirements concerning the screening (Post-irregular entry screening))","Art 9: Obligations of third-country nationals subjected to the screening (Obligations of third-country nationals subjected to the screening (Maximum 7-day screening duration))"],"keywords":["scope","application","SAR","irregular entry","duration","timeline"],"related_guidelines":[{"title":"Practical Guide on Registration and Lodging of Applications","url":"https://www.euaa.europa.eu/publications/practical-guide-registration-and-lodging-applications-international-protection"}]},{"name":"B. Identity & Security Checks","items":["Art 10: Monitoring of fundamental rights (Monitoring of fundamental rights (Identity verification and document checks))","Art 11: Provision of information (Provision of information (Security database checks (SIS, Interpol, national databases)))","Art 14: Identification or verification of identity (Identification or verification of identity (Biometric data collection (fingerprints, facial image)))"],"keywords":["identity","security","biometrics","database","verification","fingerprints"],"related_guidelines":[]},{"name":"C. Health & Vulnerability","items":["Art 12: Preliminary health checks and vulnerabilities (Preliminary health checks and vulnerabilities (Health screening and medical checks))","Art 13: Guarantees for minors (Guarantees for minors (Vulnerability assessment (trafficking indicators, special needs)))","Art 15: Security check (Security check (Child's best interests and safeguards))","Age assessment referral procedures"],"keywords":["health","vulnerability","medical","trafficking","minors","best interests","age assessment"],"related_guidelines":[{"title":"Operational Standards on Vulnerability-related Aspects","url":"https://euaa.europa.eu/publications/operational-standards-indicators-vulnerability-related-aspects-asylum-procedure"},{"title":"Practical Guide on Family Tracing - Part I","url":"https://euaa.europa.eu/publications/practical-guide-family-tracing-part-i"}]},{"name":"D. Information & Procedural Rights","items":["Art 16: Arrangements for identification and security checks (Arrangements for identification and security checks (Information provision and access to assistance))","Art 17: Screening form (Screening form (Screening report preparation and content))","Art 18: Completion of the screening (Completion of the screening (Referral to appropriate procedure (asylum, return, security)))","Art 25: Final provisions (Final provisions (Fundamental rights monitoring))"],"keywords":["information","rights","report","referral","monitoring","fundamental rights"],"related_guidelines":[{"title":"Practical Guide on Information Provision in the Asylum Procedure","url":"https://www.euaa.europa.eu/publications/practical-guide-information-provision-asylum-procedure"},{"title":"Asylum Report 2025","url":"https://www.euaa.europa.eu/publications/asylum-report-2025"},{"title":"Practical Guide on Quality Assurance in Asylum Procedures","url":"https://euaa.europa.eu/publications/practical-guide-quality-assurance-asylum-procedures"}]}],"url":"https://eur-lex.europa.eu/eli/reg/2024/1356/oj/eng"},{"id":"apr","name":"2️⃣ Asylum Procedure Regulation (APR)","regulation":"Regulation (EU) 2024/1348","subsections":[{"name":"A. Access to Procedure","items":["Art 27-28: Registering applications for international protection (Making vs lodging an application)","Art 29: Documents provided to the applicant (Registration of applications)","Art 10: Right to remain during the administrative procedure (Right to remain during examination)","Art 53-55: Exceptions to the asylum border procedure (Subsequent applications (admissibility, fresh elements))","Re-applications after withdrawal or rejection"],"keywords":["access","lodging","registration","right to remain","subsequent","re-application"],"related_guidelines":[{"title":"Practical Guide on Registration and Lodging of Applications","url":"https://www.euaa.europa.eu/publications/practical-guide-registration-and-lodging-applications-international-protection"}]},{"name":"B. Procedural Tracks","items":["Art 34: Examination of applications (Regular procedure)","Art 42: Accelerated examination procedure (Accelerated procedure (grounds, time limits))","Art 43-44: Conditions for applying the asylum border procedure (Border procedure (scope, 12-week limit))","Art 36: Decisions on applications (Inadmissibility grounds)","Art 61-64: The concept of safe country of origin (Safe country of origin concept)","Art 59: The concept of safe third country (Safe third country)","Art 58: The concept of first country of asylum (First country of asylum)"],"keywords":["border procedure","accelerated","regular","inadmissibility","safe country","third country"],"related_guidelines":[{"title":"Guidelines on Alternatives to Detention","url":"https://euaa.europa.eu/publications/guidelines-alternatives-detention"}]},{"name":"C. Examination of Claim","items":["Art 31: Applications on behalf of adults requiring assistance to exercise legal capacity (Examination requirements and standards)","Art 4: Competent authorities (Burden and standard of proof (see also Qualification Reg Art 4))","Art 35: Duration of the examination procedure (Assessment of facts and circumstances)","Credibility assessment and benefit of doubt","Internal protection alternative","Exclusion grounds assessment","Nexus to Convention grounds"],"keywords":["examination","credibility","proof","benefit of doubt","IPA","exclusion","nexus"],"related_guidelines":[{"title":"Practical Guide on Evidence and Risk Assessment","url":"https://euaa.europa.eu/publications/practical-guide-evidence-assessment"},{"title":"Practical Guide on Exclusion for Serious Crimes","url":"https://euaa.europa.eu/publications/practical-guide-exclusion-serious-non-political-crimes"}]},{"name":"D. Interview & Guarantees","items":["Art 32-33: Applications on behalf of accompanied minors (Personal interview (conduct, recording, exceptions))","Art 14: Report and recording of personal interviews (Interpretation and language assistance)","Art 15-17: Right to legal counselling and legal assistance and representation (Legal assistance and representation)","Art 16: Free legal counselling in the administrative procedure (Free legal aid eligibility)","Comment right on interview report","Recording of interviews"],"keywords":["interview","interpreter","legal aid","recording","comment","representation"],"related_guidelines":[{"title":"Practical Guide on Audio Recording of Personal Interviews","url":"https://euaa.europa.eu/publications/practical-guide-audio-recording-personal-interviews"},{"title":"Practical Guide on Interpretation in the Asylum Procedure","url":"https://euaa.europa.eu/publications/practical-guide-interpretation-asylum-procedure"},{"title":"Practical Guide on Free Legal Counselling","url":"https://euaa.europa.eu/publications/practical-guide-free-legal-counselling"}]},{"name":"E. Time Limits & Decisions","items":["Art 40: Explicit withdrawal of applications (Examination time limits (6 months general rule))","Art 44: Decisions in the framework of the asylum border procedure (Border procedure deadlines (12 weeks))","Art 42: Accelerated examination procedure (Accelerated procedure deadlines (2 months))","Art 38: Decision on the admissibility of the application (Explicit withdrawal)","Art 39: Decision on the merits of an application (Implicit withdrawal (failure to comply))","Decision notification requirements"],"keywords":["time limits","deadlines","withdrawal","decision","notification"],"related_guidelines":[]},{"name":"F. Vulnerable Applicants","items":["Unaccompanied minors (guardian appointment, best interests)","Special procedural needs identification","Torture survivors and trauma-informed interviewing","Medical reports and expert evidence","Gender-sensitive assessment","LGBTIQ+ applicants","Victims of trafficking"],"keywords":["vulnerable","minors","UAM","torture","trauma","gender","LGBTIQ","trafficking"],"related_guidelines":[{"title":"Operational Standards on Vulnerability-related Aspects","url":"https://euaa.europa.eu/publications/operational-standards-indicators-vulnerability-related-aspects-asylum-procedure"},{"title":"Practical Guide on Membership of a Particular Social Group","url":"https://euaa.europa.eu/publications/practical-guide-membership-particular-social-group"}]},{"name":"G. Appeals & Remedies","items":["Art 67-68: The right to an effective remedy (Right to effective remedy and appeal)","Art 68: Suspensive effect of appeal (Suspensive effect of appeals)","Appeal time limits","Judicial review standards","Legal aid in appeal proceedings"],"keywords":["appeal","remedy","suspensive effect","judicial review","legal aid"],"related_guidelines":[{"title":"Practical Guide on Free Legal Counselling","url":"https://euaa.europa.eu/publications/practical-guide-free-legal-counselling"}]}],"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1348"},{"id":"eurodac","name":"3️⃣ Eurodac Regulation (Recast)","regulation":"Regulation (EU) 2024/1358","subsections":[{"name":"A. Data Categories & Collection","items":["Art 14-18: Special provisions relating to minors (Data categories (Cat 1 applicants, Cat 2 irregular border, Cat 3 irregular stay))","Art 15: Collection and transmission of biometric data (Facial image collection requirements)","Art 3: System architecture and basic principles (Age threshold (≥ 6 years))","Art 14: Special provisions relating to minors (Biometric data quality standards)","Multiple identity detection"],"keywords":["data categories","biometrics","facial image","age threshold","quality"],"related_guidelines":[{"title":"Practical Guide on Quality Assurance in Asylum Procedures","url":"https://euaa.europa.eu/publications/practical-guide-quality-assurance-asylum-procedures"},{"title":"Self-Assessment Tool on Quality of the Asylum Procedure","url":"https://reliefweb.int/report/world/self-assessment-tool-quality-asylum-procedure-august-2025"}]},{"name":"B. Responsibility Determination","items":["Art 21: Recording of data (Biometric comparison and hit detection)","Art 25: Information on the status of relocation of the data subject (AMMR responsibility determination support)","Art 26: Collection and transmission of biometric data (Asylum authority access rights)","Art 22: Collection and transmission of biometric data (Hit notification procedures)","Secondary movement tracing","Dublin/AMMR evidence generation"],"keywords":["responsibility","Dublin","AMMR","hit","comparison","secondary movement"],"related_guidelines":[{"title":"Guidance on the Dublin Procedure","url":"https://www.euaa.europa.eu/publications/guidance-dublin-procedure"}]},{"name":"C. Law Enforcement Interface","items":["Art 33: Conditions for access to Eurodac by designated authorities (Europol access and queries)","Art 32: Procedure for comparison of biometric or alphanumeric data with Eurodac data (National law enforcement authority access)","Art 31: Marking of data (Serious crime conditions (terrorism, serious criminal offences))","Safeguards and proportionality"],"keywords":["law enforcement","Europol","serious crime","terrorism","police access"],"related_guidelines":[]},{"name":"D. Data Protection","items":["Art 28: Comparison of facial image data (Retention periods (Cat 1: 3 years after status, Cat 2/3: 3 years))","Art 29: Data storage (Correction and erasure rights)","Art 37: Transmission (Security of processing and technical safeguards)","Art 40: Access to, and rectification or erasure of, data recorded in Eurodac (EDPS supervision and oversight)","Access logs and audit trails"],"keywords":["data protection","retention","erasure","EDPS","security","audit"],"related_guidelines":[]}],"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401358"},{"id":"ammr","name":"4️⃣ Asylum & Migration Management Regulation (AMMR)","regulation":"Regulation (EU) 2024/1351","subsections":[{"name":"A. Responsibility Criteria","items":["Art 15-17: Provisions relating to personal interviews (Provisions relating to personal interviews (Family unity criteria (spouse, children, siblings)))","Art 19: Termination of the procedure (Termination of the procedure (Residence documents and visas issued))","Art 21: Determination of the Member State responsible (Determination of the Member State responsible (Irregular entry (first entry point)))","Art 22: Family members who are beneficiaries of international protection (Family members who are beneficiaries of international protection (Irregular stay))","Art 18: Information for applicants (Information for applicants (Dependency clause (humanitarian grounds)))","Art 14: Personal interview (Personal interview (Hierarchy of criteria (chronological application)))"],"keywords":["responsibility","family unity","entry","visa","dependency","hierarchy"],"related_guidelines":[{"title":"Guidance on the Dublin Procedure","url":"https://www.euaa.europa.eu/publications/guidance-dublin-procedure"}]},{"name":"B. Procedural Steps","items":["Art 30: Unaccompanied minors (Unaccompanied minors (Take-charge request (new applicant)))","Art 32: Discretionary clauses (Discretionary clauses (Take-back request (absconded/secondary movement)))","Art 31: Dependency (Dependency (Reply deadlines and tacit acceptance (Art 31(3))))","Art 35: Examination of an application for international protection (Examination of an application for international protection (Transfer decision issuance))","Art 36: Cessation of responsibility (Cessation of responsibility (Transfer execution deadline (6 months, extended if detained)))","Art 38: Submitting a take-back notification (Submitting a take-back notification (Cessation of responsibility))"],"keywords":["take charge","take back","transfer","deadline","tacit acceptance","cessation"],"related_guidelines":[]},{"name":"C. Solidarity Mechanism","items":["Art 44: Costs of transfer (Costs of transfer (Solidarity framework overview))","Art 45: Exchange of relevant information before a transfer is carried out (Exchange of relevant information before a transfer is carried out (Solidarity contributions (relocation, financial, sponsorship)))","Art 46: Exchange of health data before a transfer is carried out (Exchange of health data before a transfer is carried out (Relocation mechanism))","Art 47: Cooperation on fraud (Cooperation on fraud (Financial contribution alternative))","Art 48: Conciliation (Conciliation (Return sponsorship))","Art 52: Solidarity contributions (Solidarity contributions (Annual solidarity pool and allocation key))"],"keywords":["solidarity","relocation","financial contribution","sponsorship","pool"],"related_guidelines":[]},{"name":"D. Crisis & Pressure","items":["Art 54: The Solidarity Pool (The Solidarity Pool (Disproportionate migratory pressure (definition, thresholds)))","Art 55: Solidarity response plans (Solidarity response plans (Commission assessment and activation))","Temporary solidarity increase","Extended deadlines during pressure"],"keywords":["crisis","pressure","migratory pressure","activation","solidarity increase"],"related_guidelines":[{"title":"Guidance on Contingency Planning and Preparedness","url":"https://euaa.europa.eu/publications/guidance-contingency-planning-preparedness-asylum-procedure"}]}],"url":"https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32024R1351"},{"id":"qualification","name":"5️⃣ Qualification Regulation","regulation":"Regulation (EU) 2024/1347","subsections":[{"name":"A. Refugee Status","items":["Art 2: Material scope (Material scope (Refugee definition (well-founded fear, persecution)))","Art 7: Actors of protection (Actors of protection (Actors of persecution (State, parties/organisations, non-State actors)))","Art 8: Internal protection alternative (Internal protection alternative (Actors of protection (State, international organisations, NGOs)))","Art 9: Acts of persecution (Acts of persecution (Acts of persecution (serious human rights violations)))","Art 10: Reasons for persecution (Reasons for persecution (Internal protection alternative (IPA)))","Art 11: Cessation (Cessation (Convention grounds (race, religion, nationality, political opinion, PSG)))","Nexus requirement (causal link)"],"keywords":["refugee","persecution","well-founded fear","actors","IPA","convention grounds"],"related_guidelines":[{"title":"Practical Guide on Membership of a Particular Social Group","url":"https://euaa.europa.eu/publications/practical-guide-membership-particular-social-group"},{"title":"Country Guidance: Iran","url":"https://www.euaa.europa.eu/country-guidance-iran"}]},{"name":"B. Subsidiary Protection","items":["Art 2: Material scope (Material scope (Subsidiary protection definition))","Art 16: Cessation (Cessation (Serious harm (death penalty, torture, serious individual threat)))","Art 15: Serious harm (Serious harm (Indiscriminate violence in armed conflict))","Lower threshold than refugee status","Future-focused risk assessment"],"keywords":["subsidiary protection","serious harm","torture","armed conflict","indiscriminate violence"],"related_guidelines":[{"title":"Practical Guide on Qualification for International Protection","url":"https://euaa.europa.eu/publications/practical-guide-qualification-international-protection"}]},{"name":"C. Exclusion Clauses","items":["Art 12: Exclusion (Exclusion (Refugee exclusion (Art 1F Geneva Convention)))","Art 17: Exclusion (Exclusion (Subsidiary protection exclusion))","Crimes against peace, war crimes, crimes against humanity","Serious non-political crimes","Acts contrary to UN purposes and principles","Proportionality assessment"],"keywords":["exclusion","war crimes","crimes against humanity","1F","serious crime"],"related_guidelines":[{"title":"Practical Guide on Exclusion for Serious Crimes","url":"https://euaa.europa.eu/publications/practical-guide-exclusion-serious-non-political-crimes"}]},{"name":"D. Cessation & Revocation","items":["Art 13: Granting of refugee status (Granting of refugee status (Cessation (changed circumstances, re-availment)))","Art 14: Withdrawal of refugee status (Withdrawal of refugee status (Revocation (fraud, misrepresentation, concealment)))","Art 23: Maintaining family unity (Maintaining family unity (Security grounds for withdrawal))","Voluntary re-availment of national protection","Durable change in country of origin"],"keywords":["cessation","revocation","changed circumstances","fraud","security"],"related_guidelines":[]},{"name":"E. Rights & Benefits","items":["Art 24: Residence permits (Residence permits (Residence permit (duration, renewal)))","Art 25: Travel document (Travel document (Travel document issuance))","Art 26: Freedom of movement within the Member State (Freedom of movement within the Member State (Access to employment and self-employment))","Art 29: Access to education (Access to education (Social welfare and assistance))","Art 30: Access to procedures for recognition of qualifications and validation of skills (Access to procedures for recognition of qualifications and validation of skills (Healthcare access))","Art 34: Access to accommodation (Access to accommodation (Integration measures and language courses))"],"keywords":["rights","residence permit","travel document","employment","social welfare","integration"],"related_guidelines":[]}],"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401347"},{"id":"reception","name":"6️⃣ Reception Conditions Directive (Recast)","regulation":"Directive (EU) 2024/1346","subsections":[{"name":"A. Scope & Material Conditions","items":["Art 3: Scope (Scope (Scope of application))","Art 17: Employment (Employment (Material reception conditions (housing, food, clothing, health)))","Art 20: Arrangements for material reception conditions (Arrangements for material reception conditions (Reduction or withdrawal of material conditions (grounds, safeguards)))","Standards of living (dignity, adequate standard)","Cash vs in-kind provision"],"keywords":["material conditions","housing","allowance","reduction","withdrawal","dignity"],"related_guidelines":[]},{"name":"B. Detention","items":["Art 8: Allocation of applicants to a geographical area (Allocation of applicants to a geographical area (Grounds for detention (identity, evidence, security, public order)))","Art 9: Restrictions of freedom of movement (Restrictions of freedom of movement (Detention guarantees (judicial review, legal assistance, information)))","Art 11: Guarantees for detained applicants (Guarantees for detained applicants (Detention of vulnerable persons (minors, families, victims)))","Alternatives to detention (reporting, financial guarantees, residence restrictions)","Proportionality and necessity test","Maximum detention duration"],"keywords":["detention","grounds","judicial review","alternatives","proportionality","vulnerable"],"related_guidelines":[{"title":"Guidelines on Alternatives to Detention","url":"https://euaa.europa.eu/publications/guidelines-alternatives-detention"}]},{"name":"C. Labour Market & Education","items":["Art 15: Medical screening (Medical screening (Access to employment (timeline, restrictions)))","Art 16: Schooling and education of minors (Schooling and education of minors (Vocational training and education access))","Qualification recognition","Professional licences","Access to education for minors"],"keywords":["employment","labour market","vocational training","education","qualifications"],"related_guidelines":[]},{"name":"D. Vulnerable Persons","items":["Art 21: Reception conditions in a Member State other than the one in which the applicant is required to be present (Reception conditions in a Member State other than the one in which the applicant is required to be present (Definition and categories of vulnerable persons))","Art 22: Health care (Health care (Assessment of special reception needs))","Art 23: Reduction or withdrawal of material reception conditions (Reduction or withdrawal of material reception conditions (Minors (education, family unity, recreation)))","Art 24: Applicants with special reception needs (Applicants with special reception needs (Unaccompanied minors (guardianship, tracing, accommodation)))","Art 25: Assessment of special reception needs (Assessment of special reception needs (Victims of torture, rape, violence (medical/psychological care)))"],"keywords":["vulnerable","special needs","minors","UAM","torture","victims","guardianship"],"related_guidelines":[{"title":"Operational Standards on Vulnerability-related Aspects","url":"https://euaa.europa.eu/publications/operational-standards-indicators-vulnerability-related-aspects-asylum-procedure"}]}],"url":"https://eur-lex.europa.eu/eli/dir/2024/1346/oj/eng"},{"id":"crisis","name":"7️⃣ Crisis & Force Majeure Regulation","regulation":"Regulation (EU) 2024/1359","subsections":[{"name":"A. Activation Grounds","items":["Art 1-2: Subject matter (Crisis situation definition (mass influx, overwhelming pressure))","Art 3: Commission implementing decision establishing a situation of crisis or force majeure (Instrumentalisation (deliberate facilitation by third countries))","Art 4: Commission proposal and Council implementing decision authorising derogations and establishing solidarity measures (Force majeure (natural disaster, pandemic, exceptional circumstances))","Activation thresholds and criteria","Commission decision procedure"],"keywords":["crisis","mass influx","instrumentalisation","force majeure","activation"],"related_guidelines":[{"title":"Guidance on Contingency Planning and Preparedness","url":"https://euaa.europa.eu/publications/guidance-contingency-planning-preparedness-asylum-procedure"}]},{"name":"B. Procedural Derogations","items":["Art 6: Monitoring (Extended border procedure (up to 20 weeks))","Art 7: EU Solidarity coordinator (Extended registration deadlines)","Art 8: Solidarity and support measures in a situation of crisis (Temporary procedural derogations and safeguards)","Suspension of certain time limits","Adapted examination standards","Fundamental rights compliance"],"keywords":["derogations","extended procedure","deadlines","time limits","safeguards"],"related_guidelines":[]},{"name":"C. Crisis Solidarity","items":["Art 12: Extension of time limits set out for take charge requests, take back notifications and transfers in a situation of crisis referred to in Article 1(4), point (a), or force majeure (Mandatory relocation during crisis)","Art 13: Derogations from the obligation to take back an applicant in a situation of extraordinary mass arrivals (Enhanced solidarity contributions)","Art 14: Expedited procedure (Rapid response mechanism)","Increased relocation quotas","Emergency financial support","Operational support from EUAA"],"keywords":["crisis solidarity","mandatory relocation","rapid response","emergency","EUAA support"],"related_guidelines":[{"title":"Guidance on Contingency Planning and Preparedness","url":"https://euaa.europa.eu/publications/guidance-contingency-planning-preparedness-asylum-procedure"}]}],"url":"https://eur-lex.europa.eu/eli/reg/2024/1359/oj/eng"},{"id":"cross_cutting","name":"8️⃣ Cross-Cutting Operational Themes","regulation":"Multiple Instruments","subsections":[{"name":"A. Fundamental Principles","items":["Non-refoulement (Art 33 Geneva Convention, Art 3 ECHR, Qual Reg)","Best interests of the child (UN CRC Art 3, all regulations)","Right to family unity (ECHR Art 8, AMMR family criteria)","Access to effective remedy (EU Charter Art 47, APR appeals)","Right to dignity (EU Charter Art 1, Reception standards)"],"keywords":["non-refoulement","best interests","family unity","effective remedy","dignity"],"related_guidelines":[{"title":"Practical Guide on Family Tracing - Part I","url":"https://euaa.europa.eu/publications/practical-guide-family-tracing-part-i"}]},{"name":"B. Evidence & COI","items":["Country of Origin Information (COI) quality standards","EUAA COI Portal and reports","Burden and standard of proof (APR Art 4, Qual Reg Art 4)","Medical evidence assessment","Expert reports and testimony","Documentary evidence authentication","Oral testimony credibility"],"keywords":["evidence","COI","proof","medical reports","credibility","EUAA"],"related_guidelines":[{"title":"Practical Guide on Evidence and Risk Assessment","url":"https://euaa.europa.eu/publications/practical-guide-evidence-assessment"},{"title":"Country Guidance: Syria","url":"https://www.euaa.europa.eu/country-guidance-syria"},{"title":"Country Guidance: Iran","url":"https://www.euaa.europa.eu/country-guidance-iran"}]},{"name":"C. Vulnerability Identification","items":["Screening vulnerability assessment (Screening Reg Art 13)","Reception special needs (Reception Dir Art 22)","Procedural accommodations (APR special needs)","Trafficking indicators (Screening, Reception)","Gender-based violence identification","Mental health screening","Age assessment (medical, multidisciplinary, best interests)"],"keywords":["vulnerability","special needs","trafficking","GBV","mental health","age assessment"],"related_guidelines":[{"title":"Operational Standards on Vulnerability-related Aspects","url":"https://euaa.europa.eu/publications/operational-standards-indicators-vulnerability-related-aspects-asylum-procedure"}]},{"name":"D. Procedural Management","items":["Border vs regular procedure (APR tracks, Screening referral)","Accelerated vs standard timelines (APR deadlines)","Secondary movement handling (AMMR take-back, Eurodac hits)","Withdrawal management (explicit vs implicit, APR Art 38-39)","Subsequent application assessment (APR Art 53-55)","Transfer logistics (AMMR deadlines, monitoring)"],"keywords":["procedure","tracks","secondary movement","withdrawal","subsequent","transfer"],"related_guidelines":[]},{"name":"E. Security & Public Order","items":["Security screening (Screening Reg Art 11, Eurodac LEA access)","Exclusion assessment (Qual Reg Art 12 & 17)","Public security concerns (Qual Reg Art 23)","Detention for security (Reception Dir Art 8)","Serious criminality (Eurodac Art 31)","Proportionality in security measures"],"keywords":["security","exclusion","public order","criminality","proportionality"],"related_guidelines":[{"title":"Practical Guide on Exclusion for Serious Crimes","url":"https://euaa.europa.eu/publications/practical-guide-exclusion-serious-non-political-crimes"}]},{"name":"F. Quality Assurance & Support","items":["EUAA operational support and expertise","Quality assurance frameworks (EUAA standards)","Training and capacity building","Monitoring and evaluation (fundamental rights, APR Art 25, Reception)","Inter-agency coordination (UNHCR, IOM, NGOs)","Information exchange and good practices"],"keywords":["quality assurance","EUAA support","training","monitoring","coordination"],"related_guidelines":[{"title":"Practical Guide on Quality Assurance in Asylum Procedures","url":"https://euaa.europa.eu/publications/practical-guide-quality-assurance-asylum-procedures"},{"title":"Self-Assessment Tool on Quality of the Asylum Procedure","url":"https://reliefweb.int/report/world/self-assessment-tool-quality-asylum-procedure-august-2025"}]}],"url":"https://eur-lex.europa.eu"}]},"case_law":[{"id":"SAMPLE_2024_001","case_number":"Sample 2024/001","title":"Sample Case Law (Replace with EUAA/Court case)","court":"National Court","country":"MT","year":2024,"themes":["Credibility","Detention"],"summary":"Placeholder PDF to test Case Law tab, EUAA entry link, EUAA search button, and theme filtering.","pdf":"case-law-pdfs/2024/SAMPLE_CaseLaw.pdf","euaa_url":"https://caselaw.euaa.europa.eu/Pages/search.aspx","source_url":""}],"euaa_case_law_publications":[{"id":"QOACL_2020_1","title":"Newsletter on Asylum Case Law, Issue No 1/2020","issue":"1/2020","date":"15 December 2020","period":"Sep–Nov 2020","url":"https://www.euaa.europa.eu/publications/newsletter-asylum-case-law-issue-no-12020","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/EASO_Case_Law_Newsletter_Issue1_2020_December2.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2020_A","title":"Asylum Case Law in 2020 (annual compilation)","issue":"0/2020","date":"18 May 2021","period":"Jan–Dec 2020","url":"https://www.euaa.europa.eu/publications/asylum-case-law-2020","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/Overview_of_asylum_case_law-2020-FINAL.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2021_1","title":"Newsletter on Asylum Case Law, Issue No 1/2021","issue":"1/2021","date":"15 March 2021","period":"Dec 2020–Feb 2021","url":"https://www.euaa.europa.eu/publications/newsletter-asylum-case-law-issue-no-12021","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/EASONewslette-on-Asylum-Case-Law_Issue-1-2021.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2021_2","title":"Newsletter on Asylum Case Law, Issue No 2/2021","issue":"2/2021","date":"","period":"Mar–May 2021","url":"https://www.euaa.europa.eu/sites/default/files/publications/EASO-Newsletter-on-Asylum-Case-Law-Issue-2-2021.pdf","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/EASO-Newsletter-on-Asylum-Case-Law-Issue-2-2021.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2021_3","title":"Newsletter on Asylum Case Law, Issue No 3/2021","issue":"3/2021","date":"September 2021","period":"Jun–Aug 2021","url":"https://www.euaa.europa.eu/sites/default/files/publications/EASO_Newsletter_on_Asylum_Case_Law-Issue3-2021.pdf","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/EASO_Newsletter_on_Asylum_Case_Law-Issue3-2021.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2021_4","title":"Newsletter on Asylum Case Law, Issue No 4/2021","issue":"4/2021","date":"December 2021","period":"Sep–Nov 2021","url":"https://euaa.europa.eu/sites/default/files/publications/2021_EASO_Newsletter_Asylum_Case_Law_Issue_4.pdf","pdf_url":"https://euaa.europa.eu/sites/default/files/publications/2021_EASO_Newsletter_Asylum_Case_Law_Issue_4.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2022_1","title":"Quarterly Overview of Asylum Case Law, Issue No 1/2022","issue":"1/2022","date":"15 March 2022","period":"Dec 2021–Feb 2022","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-issue-no-12022","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2022-03/2022_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue1_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2022_2","title":"Quarterly Overview of Asylum Case Law, Issue No 2/2022","issue":"2/2022","date":"15 June 2022","period":"Mar–May 2022","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-issue-no-22022","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2022-06/2022_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue2_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2022_3","title":"Quarterly Overview of Asylum Case Law, Issue No 3/2022","issue":"3/2022","date":"15 September 2022","period":"Jun–Aug 2022","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-issue-no-32022","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2022-09/2022_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue3_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2022_4","title":"Quarterly Overview of Asylum Case Law, Issue No 4/2022","issue":"4/2022","date":"15 December 2022","period":"Sep–Nov 2022","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-issue-no-42022","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2022-12/2022_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue4_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2023_1","title":"Quarterly Overview of Asylum Case Law, Issue No 1/2023","issue":"1/2023","date":"15 March 2023","period":"Dec 2022–Feb 2023","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-issue-no-12023","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2023-03/2023_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue1_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2023_2","title":"Quarterly Overview of Asylum Case Law, Issue No 2/2023","issue":"2/2023","date":"15 June 2023","period":"Mar–May 2023","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-0","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2023-06/2023_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue2_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2023_3","title":"Quarterly Overview of Asylum Case Law, Issue No 3/2023","issue":"3/2023","date":"September 2023","period":"Jun–Aug 2023","url":"https://www.euaa.europa.eu/sites/default/files/publications/2023-09/2023_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue3_EN.pdf","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2023-09/2023_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue3_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2023_4","title":"Quarterly Overview of Asylum Case Law, Issue No 4/2023","issue":"4/2023","date":"15 December 2023","period":"Sep–Nov 2023","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-2","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2023-12/2023_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue4_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2024_1","title":"Quarterly Overview of Asylum Case Law, Issue No 1/2024","issue":"1/2024","date":"15 March 2024","period":"Dec 2023–Feb 2024","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-3","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2024-03/2024_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue1_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2024_2","title":"Quarterly Overview of Asylum Case Law, Issue No 2/2024","issue":"2/2024","date":"June 2024","period":"Mar–May 2024","url":"https://www.euaa.europa.eu/sites/default/files/publications/2024-06/2024_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue2_EN.pdf","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2024-06/2024_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue2_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2024_3","title":"Quarterly Overview of Asylum Case Law, Issue No 3/2024","issue":"3/2024","date":"September 2024","period":"Jun–Aug 2024","url":"https://www.euaa.europa.eu/sites/default/files/publications/2024-09/2024_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue3_EN_2.pdf","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2024-09/2024_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue3_EN_2.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2024_4","title":"Quarterly Overview of Asylum Case Law, Issue No 4/2024","issue":"4/2024","date":"17 December 2024","period":"Sep–Nov 2024","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-6","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2024-12/2024_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue4_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2025_1","title":"Quarterly Overview of Asylum Case Law, Issue No 1/2025","issue":"1/2025","date":"17 March 2025","period":"Dec 2024–Feb 2025","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law-issue-no-12025","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2025-03/2025_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue1_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2025_2","title":"Quarterly Overview of Asylum Case Law, Issue No 2/2025","issue":"2/2025","date":"June 2025","period":"Mar–May 2025","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2025-06/2025_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue2_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2025_3","title":"Quarterly Overview of Asylum Case Law, Issue No 3/2025","issue":"3/2025","date":"September 2025","period":"Jun–Aug 2025","url":"https://www.euaa.europa.eu/sites/default/files/publications/2025-09/2025_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue3_EN.pdf","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2025-09/2025_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue3_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2025_4","title":"Quarterly Overview of Asylum Case Law, Issue No 4/2025","issue":"4/2025","date":"December 2025","period":"Sep–Nov 2025","url":"https://www.euaa.europa.eu/sites/default/files/publications/2025-12/2025_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue4_EN.pdf","pdf_url":"https://www.euaa.europa.eu/sites/default/files/publications/2025-12/2025_EUAA_Quarterly_Overview_Asylum_Case_Law_Issue4_EN.pdf","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2026_1","title":"Quarterly Overview of Asylum Case Law, Issue No 1/2026 (placeholder)","issue":"1/2026","date":"","period":"","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law","pdf_url":"","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2026_2","title":"Quarterly Overview of Asylum Case Law, Issue No 2/2026 (placeholder)","issue":"2/2026","date":"","period":"","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law","pdf_url":"","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2026_3","title":"Quarterly Overview of Asylum Case Law, Issue No 3/2026 (placeholder)","issue":"3/2026","date":"","period":"","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law","pdf_url":"","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]},{"id":"QOACL_2026_4","title":"Quarterly Overview of Asylum Case Law, Issue No 4/2026 (placeholder)","issue":"4/2026","date":"","period":"","url":"https://www.euaa.europa.eu/publications/quarterly-overview-asylum-case-law","pdf_url":"","themes":["Access to the asylum procedure","Dublin procedure","First instance procedures","Second instance procedures","Assessment of applications","Reception","Detention","Vulnerable groups","Temporary protection","Return","Country of origin information","Effective remedy"],"keywords":["case law","EUAA"]}]};
+</script>
+    <script>
+    /* =========================================================
+       IPA NEW CEAS Guide – main script
+       ========================================================= */
+    let database = null;
+
+    async function loadDatabase() {
+        try {
+            if (typeof EMBEDDED_DATABASE !== "undefined") {
+                database = EMBEDDED_DATABASE;
+            } else {
+                const response = await fetch('complete_database.json');
+                database = await response.json();
+            }
+            displayRegulations(database.regulations);
+            displayGuidelines(database.euaa_guidelines);
+            displayProtectionIndex(database.protection_index.categories);
+            renderCaseFlowTable(buildFlowRows(database));
+            initializeCaseLawFilters(database.case_law || []);
+            initializePublications(database.euaa_case_law_publications || []);
+        } catch (error) {
+            console.error('Error loading database:', error);
+            const flowBody = document.getElementById('flowTableBody');
+            if (flowBody) flowBody.innerHTML = '<tr><td colspan="4" class="no-results"><h3>Error loading database</h3><p>Please check the console for details.</p></td></tr>';
+        }
+    }
+
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabName + '-tab').classList.add('active');
+        if (window.event && window.event.target) window.event.target.classList.add('active');
+    }
+
+    function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    /* ========== REGULATIONS ========== */
+    function performSearch() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        document.getElementById('clearBtn').style.display = q ? 'block' : 'none';
+        if (!q) { displayRegulations(database.regulations); return; }
+        const filtered = database.regulations.filter(r =>
+            `${r.title} ${r.description} ${(r.keywords || []).join(' ')}`.toLowerCase().includes(q)
+        );
+        displayRegulations(filtered, q);
+    }
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('clearBtn').style.display = 'none';
+        displayRegulations(database.regulations);
+    }
+    function displayRegulations(regs, highlight = null) {
+        const container = document.getElementById('regulationsResults');
+        if (!regs.length) { container.innerHTML = '<div class="no-results"><h3>No regulations match your search.</h3></div>'; return; }
+        container.innerHTML = regs.map(r => {
+            let title = r.title, desc = r.description;
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                desc  = desc.replace(re, '<span class="highlight">$1</span>');
+            }
+            const keywords = (r.keywords || []).map(k => `<span class="keyword-tag">${k}</span>`).join('');
+            const metaBits = [];
+            if (r.adopted) metaBits.push(`📅 Adopted ${r.adopted}`);
+            if (r.application) metaBits.push(`🟢 Applies from ${r.application}`);
+            return `
+                <div class="result-item">
+                    <span class="badge">${r.number}</span>
+                    <span class="badge" style="background:#fff2cc;color:#8b6f00;">${r.short_title}</span>
+                    <h3>${title}</h3>
+                    <div class="meta">${metaBits.join(' · ')}</div>
+                    <div class="description">${desc}</div>
+                    ${keywords ? `<div style="margin-top:6px;">${keywords}</div>` : ''}
+                    <div style="margin-top:10px;">
+                        <a href="${r.eur_lex_url}" target="_blank">📄 EUR-Lex →</a>
+                        ${r.url ? `<a href="${r.url}" target="_blank" class="reg-link" title="Open full regulation">📄 View Regulation →</a>` : ''}
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    /* ========== EUAA GUIDELINES ========== */
+    function initializeCategoryFilter() {
+        const cats = [...new Set(database.euaa_guidelines.map(g => g.category))].sort();
+        const sel = document.getElementById('categorySelect');
+        cats.forEach(c => {
+            const o = document.createElement('option');
+            o.value = c; o.textContent = c;
+            sel.appendChild(o);
+        });
+        const cc = document.getElementById('guide-cat-count');
+        if (cc) cc.textContent = cats.length;
+    }
+    function searchGuidelines() {
+        const q = document.getElementById('guideSearchInput').value.toLowerCase();
+        document.getElementById('guideClearBtn').style.display = q ? 'block' : 'none';
+        if (!q) { displayGuidelines(database.euaa_guidelines); return; }
+        const filtered = database.euaa_guidelines.filter(g =>
+            `${g.title} ${g.description} ${(g.keywords || []).join(' ')} ${g.category}`.toLowerCase().includes(q)
+        );
+        displayGuidelines(filtered, q);
+    }
+    function clearGuideSearch() {
+        document.getElementById('guideSearchInput').value = '';
+        document.getElementById('guideClearBtn').style.display = 'none';
+        document.getElementById('categorySelect').value = 'all';
+        displayGuidelines(database.euaa_guidelines);
+    }
+    function filterByCategory() {
+        const cat = document.getElementById('categorySelect').value;
+        if (cat === 'all') { displayGuidelines(database.euaa_guidelines); return; }
+        displayGuidelines(database.euaa_guidelines.filter(g => g.category === cat));
+    }
+    function displayGuidelines(guides, highlight = null) {
+        const container = document.getElementById('guidelinesResults');
+        if (!guides.length) { container.innerHTML = '<div class="no-results"><h3>No guidelines match.</h3></div>'; return; }
+        container.innerHTML = guides.map(g => {
+            let title = g.title, desc = g.description || '';
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                desc  = desc.replace(re, '<span class="highlight">$1</span>');
+            }
+            const keywords = (g.keywords || []).map(k => `<span class="keyword-tag">${k}</span>`).join('');
+            return `
+                <div class="result-item">
+                    <span class="badge">${g.category || 'EUAA'}</span>
+                    <span class="badge" style="background:#fff8e1;color:#8b6f00;">📅 ${g.date || ''}</span>
+                    <h3>${title}</h3>
+                    <div class="description">${desc}</div>
+                    ${keywords ? `<div style="margin-top:6px;">${keywords}</div>` : ''}
+                    <a href="${g.url}" target="_blank">📄 EUAA Publication →</a>
+                </div>`;
+        }).join('');
+    }
+
+    /* ========== PROTECTION INDEX (formerly Caseworker Index) ========== */
+    function searchProtectionIndex() {
+        const q = document.getElementById('indexSearchInput').value.toLowerCase().trim();
+        const clearBtn = document.getElementById('indexClearBtn');
+        const stats = document.getElementById('indexSearchStats');
+        clearBtn.style.display = q ? 'block' : 'none';
+        if (!q) { displayProtectionIndex(database.protection_index.categories); stats.textContent = ''; return; }
+
+        const filtered = [];
+        let totalMatches = 0;
+        for (const cat of database.protection_index.categories) {
+            const subs = (cat.subsections || []).filter(s => {
+                const blob = `${s.name} ${(s.items||[]).join(' ')} ${(s.keywords||[]).join(' ')}`.toLowerCase();
+                return blob.includes(q);
+            });
+            if (subs.length) {
+                filtered.push({ ...cat, subsections: subs });
+                totalMatches += subs.length;
+            }
+        }
+        stats.textContent = `Found ${totalMatches} subsection(s) matching "${q}"`;
+        displayProtectionIndex(filtered, q);
+    }
+    function clearIndexSearch() {
+        document.getElementById('indexSearchInput').value = '';
+        document.getElementById('indexClearBtn').style.display = 'none';
+        document.getElementById('indexSearchStats').textContent = '';
+        displayProtectionIndex(database.protection_index.categories);
+    }
+    function displayProtectionIndex(categories, highlight = null) {
+        const container = document.getElementById('protectionResults');
+        if (!categories || !categories.length) {
+            container.innerHTML = '<div class="no-results"><h3>😔 No results</h3><p>Try different keywords like: credibility, detention, vulnerability, interview, IPA…</p></div>';
+            return;
+        }
+        container.innerHTML = categories.map(cat => `
+            <div class="index-section">
+                <h3>${cat.name}</h3>
+                <div class="meta">
+                    ${cat.regulation || ''}
+                    ${cat.url ? `<a href="${cat.url}" target="_blank" class="reg-link" title="Open full regulation in EUR-Lex">📄 View Regulation →</a>` : ''}
+                </div>
+                ${(cat.subsections || []).map(subsec => {
+                    let name = subsec.name;
+                    if (highlight) {
+                        const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                        name = name.replace(re, '<span class="highlight">$1</span>');
+                    }
+                    return `
+                        <div class="subsection">
+                            <h4>${name}</h4>
+                            <ul>
+                                ${(subsec.items || []).map(item => {
+                                    let displayItem = item;
+                                    if (item.startsWith('Art ')) {
+                                        const colon = item.indexOf(':');
+                                        if (colon !== -1) {
+                                            const after = item.substring(colon + 1).trim();
+                                            const firstParen = after.indexOf('(');
+                                            if (firstParen !== -1) {
+                                                let depth = 0, closeIdx = -1;
+                                                for (let i = firstParen; i < after.length; i++) {
+                                                    if (after[i] === '(') depth++;
+                                                    if (after[i] === ')') {
+                                                        depth--;
+                                                        if (depth === 0) { closeIdx = i; break; }
+                                                    }
+                                                }
+                                                const numberTitle = item.substring(0, colon + 1) + ' ' + after.substring(0, firstParen).trim();
+                                                const detail = after.substring(firstParen + 1, closeIdx).trim();
+                                                displayItem = '<span class="article-number-title">' + numberTitle + '</span> <span class="article-detail">' + detail + '</span>';
+                                            } else {
+                                                displayItem = '<span class="article-number-title">' + item + '</span>';
+                                            }
+                                        } else {
+                                            displayItem = '<span class="article-number-title">' + item + '</span>';
+                                        }
+                                    }
+                                    if (highlight) {
+                                        const re = new RegExp('(' + escapeRegex(highlight) + ')', 'gi');
+                                        displayItem = displayItem.replace(re, '<span class="highlight">$1</span>');
+                                    }
+                                    const artMatch = item.match(/Art(?:icle)?\s+(\d+(?:-\d+)?(?:\(\d+\))?)/i);
+                                    if (artMatch && cat.url) {
+                                        const artNum = artMatch[1];
+                                        const artLink = cat.url + '#art_' + artNum.replace(/-.*/, '');
+                                        displayItem = '<a href="' + artLink + '" target="_blank" class="article-link" title="Open Article ' + artNum + '">📖</a> ' + displayItem;
+                                    }
+                                    return '<li>' + displayItem + '</li>';
+                                }).join('')}
+                            </ul>
+                            ${subsec.related_guidelines && subsec.related_guidelines.length ? `
+                                <div class="related-guidelines">
+                                    <strong>📚 Related EUAA Guidelines:</strong>
+                                    <ul>
+                                        ${subsec.related_guidelines.map(g =>
+                                            `<li><a href="${g.url}" target="_blank">${g.title} →</a></li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>` : ''}
+                            <div style="margin-top:10px;">
+                                ${(subsec.keywords || []).map(k => `<span class="keyword-tag">${k}</span>`).join('')}
+                            </div>
+                        </div>`;
+                }).join('')}
+            </div>`).join('');
+    }
+
+    /* ========== EUAA CASE FLOW (QR & APR Exhaustive Reference) ========== */
+    function buildFlowRows(db) {
+        // Prefer database.case_flow array if present, otherwise fall back to a hard-coded
+        // baseline derived from the EU_Asylum_Law_TRULY_EXHAUSTIVE_FINAL.html reference.
+        if (db.case_flow && Array.isArray(db.case_flow) && db.case_flow.length) return db.case_flow;
+        return [
+            // Refugee
+            { cls: "refugee", instrument: "QR", article: "Art. 13", theme: "Refugee – Grant", text: "Grant of refugee status where qualification criteria are met." },
+            { cls: "refugee", instrument: "QR", article: "Art. 9(1)", theme: "Persecution", text: "Defines acts which may amount to persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 9(2)", theme: "Persecution", text: "Illustrative list of acts of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(a)", theme: "Ground – Race", text: "Race constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(b)", theme: "Ground – Religion", text: "Religion constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(c)", theme: "Ground – Nationality", text: "Nationality constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(d)", theme: "Ground – Political Opinion", text: "Political opinion constitutes a ground of persecution." },
+            { cls: "refugee", instrument: "QR", article: "Art. 10(1)(e)", theme: "Ground – MPSG", text: "Membership of a particular social group constitutes a ground of persecution." },
+
+            // Subsidiary
+            { cls: "subsidiary", instrument: "QR", article: "Art. 18", theme: "Subsidiary – Grant", text: "Grant of subsidiary protection status." },
+            { cls: "subsidiary", instrument: "QR", article: "Art. 15(a)", theme: "Serious Harm", text: "Risk of death penalty or execution." },
+            { cls: "subsidiary", instrument: "QR", article: "Art. 15(b)", theme: "Serious Harm", text: "Risk of torture or inhuman or degrading treatment." },
+            { cls: "subsidiary", instrument: "QR", article: "Art. 15(c)", theme: "Serious Harm", text: "Serious and individual threat from indiscriminate violence." },
+
+            // Exclusion (Refugee)
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(1)(a)", theme: "Exclusion – Refugee", text: "Exclusion due to protection from another UN agency." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(1)(b)", theme: "Exclusion – Refugee", text: "Exclusion due to recognition of equivalent rights." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(2)(a)", theme: "Exclusion – Refugee", text: "Exclusion for crimes against peace, war crimes or crimes against humanity." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(2)(b)", theme: "Exclusion – Refugee", text: "Exclusion for serious non‑political crimes." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(2)(c)", theme: "Exclusion – Refugee", text: "Exclusion for acts contrary to UN principles." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(3)", theme: "Exclusion – Refugee", text: "Exclusion applies to instigators or participants." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(4)", theme: "Exclusion – Refugee", text: "Exclusion for danger to State security." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 12(5)", theme: "Exclusion – Refugee", text: "Exclusion for danger to the community." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 14(1)(b)", theme: "Exclusion – Refugee", text: "Revocation based on exclusion grounds." },
+            // Exclusion (Subsidiary)
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(a)", theme: "Exclusion – Subsidiary", text: "Exclusion for international crimes." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(b)", theme: "Exclusion – Subsidiary", text: "Exclusion for serious crime." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(c)", theme: "Exclusion – Subsidiary", text: "Exclusion for acts contrary to UN principles." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(1)(d)", theme: "Exclusion – Subsidiary", text: "Exclusion for danger to the community or State security." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 17(2)", theme: "Exclusion – Subsidiary", text: "Exclusion applies to instigators or participants." },
+            { cls: "exclusion", instrument: "QR", article: "Art. 19(1)(b)", theme: "Exclusion – Subsidiary", text: "Refusal or withdrawal of subsidiary protection on exclusion grounds." },
+
+            // IPA
+            { cls: "ipa", instrument: "QR", article: "Art. 8(1)", theme: "Internal Protection Alternative", text: "Availability of a safe and reasonable internal protection alternative." },
+
+            // Manifestly Unfounded (APR)
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(a)", theme: "Manifestly Unfounded", text: "Claim unrelated to international protection." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(b)", theme: "Manifestly Unfounded", text: "Clearly inconsistent or implausible claim." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(c)", theme: "Manifestly Unfounded", text: "Claim based on false or misleading information." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(d)", theme: "Manifestly Unfounded", text: "Failure to apply promptly without justification." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(e)", theme: "Manifestly Unfounded", text: "Application made to delay or frustrate removal." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(f)", theme: "Manifestly Unfounded", text: "Repeat application without new elements." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(g)", theme: "Manifestly Unfounded", text: "Failure to comply with procedural obligations." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(h)", theme: "Manifestly Unfounded", text: "Unlawful entry or stay without justification." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(i)", theme: "Manifestly Unfounded", text: "Application from a safe country of origin." },
+            { cls: "procedure", instrument: "APR", article: "Art. 42(1)(j)", theme: "Manifestly Unfounded", text: "Dependent application without individual grounds." },
+
+            // Withdrawal Refugee
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(2)(a)", theme: "Withdrawal – Refugee", text: "Withdrawal due to international crimes." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(2)(b)", theme: "Withdrawal – Refugee", text: "Withdrawal due to serious non‑political crime." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(2)(c)", theme: "Withdrawal – Refugee", text: "Withdrawal due to acts contrary to UN principles." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(3)", theme: "Withdrawal – Refugee", text: "Withdrawal applies to instigators or participants." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(4)", theme: "Withdrawal – Refugee", text: "Withdrawal due to danger to State security." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 12(5)", theme: "Withdrawal – Refugee", text: "Withdrawal due to danger to the community." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(b)", theme: "Withdrawal – Refugee", text: "Withdrawal following exclusion grounds." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(c)", theme: "Withdrawal – Refugee", text: "Withdrawal due to misrepresentation." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(d)", theme: "Withdrawal – Refugee", text: "Withdrawal where protection is no longer justified." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(1)(e)", theme: "Withdrawal – Refugee", text: "Withdrawal following serious crime after recognition." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 14(2)", theme: "Not to Grant – Refugee", text: "Decision not to grant refugee status for security or public order reasons." },
+
+            // Withdrawal Subsidiary
+            { cls: "withdrawal", instrument: "QR", article: "Art. 19(1)(c)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to exclusion grounds." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(a)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to international crimes." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(b)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to serious crime." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(c)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to acts contrary to UN principles." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(1)(d)", theme: "Withdrawal – Subsidiary", text: "Withdrawal due to danger to the community or State security." },
+            { cls: "withdrawal", instrument: "QR", article: "Art. 17(2)", theme: "Withdrawal – Subsidiary", text: "Withdrawal applies to instigators or participants." },
+
+            // Cessation Refugee
+            { cls: "cessation", instrument: "QR", article: "Art. 14(1)(a)", theme: "Cessation – Refugee", text: "Cessation where refugee protection is no longer required." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(a)", theme: "Cessation – Refugee", text: "Voluntary re‑availment of protection of country of origin." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(b)", theme: "Cessation – Refugee", text: "Voluntary re‑acquisition of nationality." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(c)", theme: "Cessation – Refugee", text: "Acquisition of a new nationality with protection." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(d)", theme: "Cessation – Refugee", text: "Voluntary re‑establishment in the country of origin." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(e)", theme: "Cessation – Refugee", text: "Circumstances leading to recognition have ceased." },
+            { cls: "cessation", instrument: "QR", article: "Art. 11(1)(f)", theme: "Cessation – Refugee", text: "Stateless person able to return due to changed circumstances." },
+
+            // Cessation Subsidiary
+            { cls: "cessation", instrument: "QR", article: "Art. 19(1)(a)", theme: "Cessation – Subsidiary", text: "Cessation of subsidiary protection due to changed circumstances." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(1)", theme: "Cessation – Subsidiary", text: "General cessation clause for subsidiary protection." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(2)(a)", theme: "Cessation – Subsidiary", text: "Durable change in the country of origin." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(2)(b)", theme: "Cessation – Subsidiary", text: "Protection no longer required due to personal circumstances." },
+            { cls: "cessation", instrument: "QR", article: "Art. 16(3)", theme: "Cessation – Subsidiary", text: "Exception where risk of serious harm persists." }
+        ];
+    }
+
+    function renderCaseFlowTable(rows) {
+        const tbody = document.getElementById('flowTableBody');
+        if (!rows.length) {
+            tbody.innerHTML = '<tr><td colspan="4" class="no-results"><h3>No case flow entries</h3></td></tr>';
+            return;
+        }
+        tbody.innerHTML = rows.map(r => `
+            <tr class="${r.cls}">
+                <td><strong>${r.instrument}</strong></td>
+                <td>${r.article}</td>
+                <td>${r.theme}</td>
+                <td>${r.text}</td>
+            </tr>`).join('');
+    }
+
+    function searchFlow() {
+        const q = document.getElementById('flowSearchInput').value.toLowerCase().trim();
+        const clearBtn = document.getElementById('flowClearBtn');
+        const stats = document.getElementById('flowSearchStats');
+        clearBtn.style.display = q ? 'block' : 'none';
+        const allRows = buildFlowRows(database);
+        if (!q) {
+            renderCaseFlowTable(allRows);
+            stats.textContent = '';
+            return;
+        }
+        const filtered = allRows.filter(r =>
+            `${r.instrument} ${r.article} ${r.theme} ${r.text}`.toLowerCase().includes(q)
+        );
+        stats.textContent = `Showing ${filtered.length} of ${allRows.length} flow entries`;
+        renderFlowTableWithHighlight(filtered, q);
+    }
+    function renderFlowTableWithHighlight(rows, q) {
+        const tbody = document.getElementById('flowTableBody');
+        const re = new RegExp(`(${escapeRegex(q)})`, 'gi');
+        tbody.innerHTML = rows.map(r => `
+            <tr class="${r.cls}">
+                <td><strong>${r.instrument.replace(re, '<span class="highlight">$1</span>')}</strong></td>
+                <td>${r.article.replace(re, '<span class="highlight">$1</span>')}</td>
+                <td>${r.theme.replace(re, '<span class="highlight">$1</span>')}</td>
+                <td>${r.text.replace(re, '<span class="highlight">$1</span>')}</td>
+            </tr>`).join('');
+    }
+    function clearFlowSearch() {
+        document.getElementById('flowSearchInput').value = '';
+        document.getElementById('flowClearBtn').style.display = 'none';
+        document.getElementById('flowSearchStats').textContent = '';
+        renderCaseFlowTable(buildFlowRows(database));
+    }
+
+    /* ========== EUAA CASE LAW (PDF library) ========== */
+    function openEUAAAdvancedSearch() {
+        window.open('https://caselaw.euaa.europa.eu/Pages/search.aspx', '_blank');
+    }
+    function openEUAAQuery(q) {
+        const query = (q || '').trim();
+        const url = query
+            ? 'https://caselaw.euaa.europa.eu/pages/searchresults.aspx?Keywords=' + encodeURIComponent(query)
+            : 'https://caselaw.euaa.europa.eu/Pages/search.aspx';
+        window.open(url, '_blank');
+    }
+    function openEUAAFromInput() {
+        const v = document.getElementById('euaaQueryInput').value;
+        openEUAAQuery(v);
+    }
+
+    function initializeCaseLawFilters(cases) {
+        const courtSel = document.getElementById('caseLawCourtSelect');
+        const countrySel = document.getElementById('caseLawCountrySelect');
+        const yearSel = document.getElementById('caseLawYearSelect');
+        const themeSel = document.getElementById('caseLawThemeSelect');
+        const keepFirst = sel => { while (sel && sel.options.length > 1) sel.remove(1); };
+        keepFirst(courtSel); keepFirst(countrySel); keepFirst(yearSel); keepFirst(themeSel);
+
+        const courts = [...new Set((cases || []).map(c => c.court).filter(Boolean))].sort();
+        const countries = [...new Set((cases || []).map(c => c.country).filter(Boolean))].sort();
+        const years = [...new Set((cases || []).map(c => String(c.year)).filter(y => y && y !== 'undefined' && y !== 'null'))].sort((a,b) => b.localeCompare(a));
+        const themes = [...new Set((cases || []).flatMap(c => (c.themes || [])).filter(Boolean))].sort();
+
+        courts.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; courtSel.appendChild(o); });
+        countries.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; countrySel.appendChild(o); });
+        years.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; yearSel.appendChild(o); });
+        themes.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; themeSel.appendChild(o); });
+
+        const chipsEl = document.getElementById('caseLawThemeChips');
+        if (chipsEl) chipsEl.innerHTML = themes.slice(0, 20).map(t => `<span class="theme-chip" data-theme="${t}" onclick="toggleThemeChip('${t}')">${t}</span>`).join('');
+
+        const themesSet = new Set();
+        (cases || []).forEach(c => (c.themes || []).forEach(t => themesSet.add(t)));
+        document.getElementById('case-law-count').textContent = (cases || []).length;
+        document.getElementById('case-law-themes').textContent = themesSet.size;
+
+        if (years.length) {
+            const minY = years[years.length - 1];
+            const maxY = years[0];
+            document.getElementById('case-law-years').textContent = (minY === maxY) ? maxY : `${minY}–${maxY}`;
+        } else {
+            document.getElementById('case-law-years').textContent = '—';
+        }
+    }
+    function toggleThemeChip(theme) {
+        const sel = document.getElementById('caseLawThemeSelect');
+        const chipsEl = document.getElementById('caseLawThemeChips');
+        if (!sel) return;
+        sel.value = (sel.value === theme) ? 'all' : theme;
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.toggle('active', ch.getAttribute('data-theme') === sel.value));
+        searchCaseLaw();
+    }
+    function clearCaseLawSearch() {
+        document.getElementById('caseLawSearchInput').value = '';
+        document.getElementById('caseLawClearBtn').style.display = 'none';
+        document.getElementById('caseLawCourtSelect').value = 'all';
+        document.getElementById('caseLawCountrySelect').value = 'all';
+        document.getElementById('caseLawYearSelect').value = 'all';
+        document.getElementById('caseLawThemeSelect').value = 'all';
+        const chipsEl = document.getElementById('caseLawThemeChips');
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.remove('active'));
+        document.getElementById('caseLawSearchStats').textContent = '';
+        displayCaseLaw(database.case_law || []);
+    }
+    function searchCaseLaw() {
+        const q = document.getElementById('caseLawSearchInput').value.toLowerCase().trim();
+        const court = document.getElementById('caseLawCourtSelect').value;
+        const country = document.getElementById('caseLawCountrySelect').value;
+        const year = document.getElementById('caseLawYearSelect').value;
+        const theme = document.getElementById('caseLawThemeSelect').value;
+        const clearBtn = document.getElementById('caseLawClearBtn');
+        const stats = document.getElementById('caseLawSearchStats');
+
+        clearBtn.style.display = q ? 'block' : 'none';
+
+        const allCases = database.case_law || [];
+        const filtered = allCases.filter(c => {
+            if (court !== 'all' && (c.court || '') !== court) return false;
+            if (country !== 'all' && (c.country || '') !== country) return false;
+            if (year !== 'all' && String(c.year || '') !== year) return false;
+            if (theme !== 'all' && !(c.themes || []).includes(theme)) return false;
+            if (!q) return true;
+            const blob = `${c.title || ''} ${c.case_number || ''} ${(c.themes || []).join(' ')} ${c.summary || ''}`.toLowerCase();
+            return blob.includes(q);
+        });
+
+        const filterInfo = [
+            court !== 'all' ? `Court: ${court}` : null,
+            country !== 'all' ? `Country: ${country}` : null,
+            year !== 'all' ? `Year: ${year}` : null,
+            theme !== 'all' ? `Theme: ${theme}` : null
+        ].filter(Boolean).join(' • ');
+
+        if (q || filterInfo) {
+            stats.textContent = `Showing ${filtered.length} case(s)` + (q ? ` matching "${q}"` : '') + (filterInfo ? ` • ${filterInfo}` : '');
+        } else {
+            stats.textContent = '';
+        }
+        displayCaseLaw(filtered, q);
+    }
+    function displayCaseLaw(cases, highlight = null) {
+        const container = document.getElementById('caseLawResults');
+        if (!cases || !cases.length) {
+            container.innerHTML = '<div class="no-results"><h3>No case law found</h3><p>Use the search above, or click <strong>🔎 Search on EUAA</strong> to run a live query on caselaw.euaa.europa.eu.</p></div>';
+            return;
+        }
+        container.innerHTML = cases.map(c => {
+            let title = c.title || 'Untitled case';
+            let summary = c.summary || '';
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                summary = summary.replace(re, '<span class="highlight">$1</span>');
+            }
+            const themes = (c.themes || []).map(t => `<span class="keyword-tag">${t}</span>`).join('');
+            const pdfLink = c.pdf ? `<a href="${c.pdf}" target="_blank">📄 Open PDF →</a>` : '';
+            const euaaLink = c.euaa_url ? `<a href="${c.euaa_url}" target="_blank">🔗 EUAA Case Law →</a>` : '';
+            const srcLink = c.source_url ? `<a href="${c.source_url}" target="_blank">⚖️ Official Source →</a>` : '';
+            const metaBits = [];
+            if (c.case_number) metaBits.push(`<span class="case-badge">${c.case_number}</span>`);
+            if (c.court) metaBits.push(`<span class="case-badge">${c.court}</span>`);
+            if (c.country) metaBits.push(`<span class="case-badge">${c.country}</span>`);
+            if (c.year) metaBits.push(`<span class="case-badge">${c.year}</span>`);
+            return `
+                <div class="case-card">
+                    <div class="case-meta-row">${metaBits.join('')}</div>
+                    <h3>${title}</h3>
+                    ${summary ? `<div class="description">${summary}</div>` : ''}
+                    ${themes ? `<div style="margin-top:10px;">${themes}</div>` : ''}
+                    <div class="case-actions">${pdfLink}${euaaLink}${srcLink}</div>
+                </div>`;
+        }).join('');
+    }
+
+    /* ========== EUAA PUBLICATIONS (Quarterly Overview) ========== */
+    function initializePublications(pubList) {
+        const ySel = document.getElementById('pubYearSelect');
+        const iSel = document.getElementById('pubIssueSelect');
+        const tSel = document.getElementById('pubThemeSelect');
+        const chipsEl = document.getElementById('pubThemeChips');
+
+        const keepFirst = sel => { while (sel && sel.options.length > 1) sel.remove(1); };
+        keepFirst(ySel); keepFirst(iSel); keepFirst(tSel);
+
+        const years = [...new Set((pubList || []).map(p => (p.issue || '').split('/')[1]).filter(Boolean))].sort((a,b)=>b.localeCompare(a));
+        const issues = [...new Set((pubList || []).map(p => p.issue).filter(Boolean))].sort();
+        const themes = [...new Set((pubList || []).flatMap(p => (p.themes || [])).filter(Boolean))].sort();
+
+        years.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; ySel.appendChild(o); });
+        issues.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; iSel.appendChild(o); });
+        themes.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; tSel.appendChild(o); });
+
+        if (chipsEl) chipsEl.innerHTML = themes.slice(0, 20).map(t => `<span class="theme-chip" data-theme="${t}" onclick="togglePubThemeChip('${t}')">${t}</span>`).join('');
+
+        displayPublications(pubList);
+    }
+    function togglePubThemeChip(theme) {
+        const sel = document.getElementById('pubThemeSelect');
+        const chipsEl = document.getElementById('pubThemeChips');
+        if (!sel) return;
+        sel.value = (sel.value === theme) ? 'all' : theme;
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.toggle('active', ch.getAttribute('data-theme') === sel.value));
+        searchPublications();
+    }
+    function clearPublicationsSearch() {
+        document.getElementById('pubSearchInput').value = '';
+        document.getElementById('pubClearBtn').style.display = 'none';
+        document.getElementById('pubYearSelect').value = 'all';
+        document.getElementById('pubIssueSelect').value = 'all';
+        document.getElementById('pubThemeSelect').value = 'all';
+        const chipsEl = document.getElementById('pubThemeChips');
+        if (chipsEl) chipsEl.querySelectorAll('.theme-chip').forEach(ch => ch.classList.remove('active'));
+        document.getElementById('pubSearchStats').textContent = '';
+        displayPublications(database.euaa_case_law_publications || []);
+    }
+    function searchPublications() {
+        const q = document.getElementById('pubSearchInput').value.toLowerCase().trim();
+        const y = document.getElementById('pubYearSelect').value;
+        const issue = document.getElementById('pubIssueSelect').value;
+        const theme = document.getElementById('pubThemeSelect').value;
+        const clearBtn = document.getElementById('pubClearBtn');
+        const stats = document.getElementById('pubSearchStats');
+
+        clearBtn.style.display = q ? 'block' : 'none';
+
+        const pubs = database.euaa_case_law_publications || [];
+        const filtered = pubs.filter(p => {
+            const year = (p.issue || '').split('/')[1] || '';
+            if (y !== 'all' && year !== y) return false;
+            if (issue !== 'all' && p.issue !== issue) return false;
+            if (theme !== 'all' && !(p.themes || []).includes(theme)) return false;
+            if (!q) return true;
+            const blob = `${p.title || ''} ${p.issue || ''} ${(p.themes || []).join(' ')} ${(p.keywords || []).join(' ')} ${p.period || ''}`.toLowerCase();
+            return blob.includes(q);
+        });
+
+        const filterInfo = [
+            y !== 'all' ? `Year: ${y}` : null,
+            issue !== 'all' ? `Issue: ${issue}` : null,
+            theme !== 'all' ? `Theme: ${theme}` : null
+        ].filter(Boolean).join(' • ');
+
+        if (q || filterInfo) {
+            stats.textContent = `Showing ${filtered.length} issue(s)` + (q ? ` matching "${q}"` : '') + (filterInfo ? ` • ${filterInfo}` : '');
+        } else {
+            stats.textContent = '';
+        }
+        displayPublications(filtered, q);
+    }
+    function displayPublications(pubs, highlight = null) {
+        const container = document.getElementById('pubResults');
+        if (!pubs || !pubs.length) {
+            container.innerHTML = '<div class="no-results"><h3>No quarterly overviews found</h3><p>No issues match your search/filters.</p></div>';
+            return;
+        }
+        container.innerHTML = pubs.map(p => {
+            let title = p.title || 'Quarterly overview';
+            let period = p.period || '';
+            if (highlight) {
+                const re = new RegExp(`(${escapeRegex(highlight)})`, 'gi');
+                title = title.replace(re, '<span class="highlight">$1</span>');
+                period = period.replace(re, '<span class="highlight">$1</span>');
+            }
+            const themes = (p.themes || []).map(t => `<span class="keyword-tag">${t}</span>`).join('');
+            const metaBits = [];
+            if (p.issue) metaBits.push(`<span class="case-badge">Issue ${p.issue}</span>`);
+            if (p.date) metaBits.push(`<span class="case-badge">${p.date}</span>`);
+            const viewLink = p.url ? `<a href="${p.url}" target="_blank">🔗 EUAA Publication →</a>` : '';
+            const pdfLink = p.pdf_url ? `<a href="${p.pdf_url}" target="_blank">📄 Download PDF →</a>` : '';
+            return `
+                <div class="case-card pub-card">
+                    <div class="case-meta-row">${metaBits.join('')}</div>
+                    <h3>${title}</h3>
+                    ${period ? `<div class="meta">Period: ${period}</div>` : ''}
+                    ${themes ? `<div style="margin-top:10px;">${themes}</div>` : ''}
+                    <div class="pub-actions">${viewLink}${pdfLink}</div>
+                </div>`;
+        }).join('');
+    }
+
+    window.addEventListener('DOMContentLoaded', loadDatabase);
+    </script>
+</body>
+</html>

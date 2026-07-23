@@ -1,0 +1,220 @@
+{
+  "euaa_guidelines": [
+    {
+      "title": "Practical Guide on Registration and Lodging of Applications",
+      "category": "Access to Asylum Procedure",
+      "date": "12/2025",
+      "url": "https://www.euaa.europa.eu/publications/practical-guide-registration-and-lodging-applications-international-protection",
+      "description": "Operational guidance to register and lodge applications for international protection, covering access, timelines and safeguards.",
+      "keywords": ["registration", "lodging", "access", "application"]
+    },
+    {
+      "title": "Practical Guide on Free Legal Counselling",
+      "category": "Legal Assistance",
+      "date": "10/2025",
+      "url": "https://euaa.europa.eu/publications/practical-guide-free-legal-counselling",
+      "description": "Guidance on the design and organisation of national systems of free legal counselling under CEAS.",
+      "keywords": ["legal aid", "counselling", "assistance", "lawyer"]
+    },
+    {
+      "title": "Practical Guide on Information Provision in the Asylum Procedure",
+      "category": "Information Provision",
+      "date": "12/2024",
+      "url": "https://www.euaa.europa.eu/publications/practical-guide-information-provision-asylum-procedure",
+      "description": "Methodological guidance on providing information to applicants throughout the asylum procedure.",
+      "keywords": ["information", "communication", "procedural rights"]
+    },
+    {
+      "title": "Practical Guide on Evidence and Risk Assessment",
+      "category": "Examination of Application",
+      "date": "01/2024",
+      "url": "https://euaa.europa.eu/publications/practical-guide-evidence-assessment",
+      "description": "Methodology on credibility assessment, COI use and future‑oriented risk assessment.",
+      "keywords": ["evidence", "credibility", "risk assessment", "COI"]
+    },
+    {
+      "title": "Practical Guide on Audio Recording of Personal Interviews",
+      "category": "Interview Process",
+      "date": "10/2025",
+      "url": "https://euaa.europa.eu/publications/practical-guide-audio-recording-personal-interviews",
+      "description": "Guidance on establishing lawful and effective audio recording of personal interviews.",
+      "keywords": ["audio recording", "interview", "documentation"]
+    },
+    {
+      "title": "Guidance on Remote Interviews",
+      "category": "Interview Process",
+      "date": "04/2025",
+      "url": "https://euaa.europa.eu/publications/guidance-remote-interviews",
+      "description": "Standards and safeguards for conducting remote interviews in asylum procedures.",
+      "keywords": ["remote interview", "online", "procedural safeguards"]
+    },
+    {
+      "title": "Practical Guide on Interpretation in the Asylum Procedure",
+      "category": "Language Services",
+      "date": "02/2024",
+      "url": "https://euaa.europa.eu/publications/practical-guide-interpretation-asylum-procedure",
+      "description": "Defines interpreters’ roles, professional standards and quality requirements.",
+      "keywords": ["interpretation", "language", "interpreter"]
+    },
+    {
+      "title": "Practical Guide on Qualification for International Protection",
+      "category": "Qualification",
+      "date": "04/2018",
+      "url": "https://euaa.europa.eu/publications/practical-guide-qualification-international-protection",
+      "description": "Legal and practical guidance on refugee status and subsidiary protection assessment.",
+      "keywords": ["qualification", "refugee status", "subsidiary protection"]
+    },
+    {
+      "title": "Practical Guide on Membership of a Particular Social Group",
+      "category": "Qualification",
+      "date": "05/2025",
+      "url": "https://euaa.europa.eu/publications/practical-guide-membership-particular-social-group",
+      "description": "Application of PSG ground including gender‑ and SOGIESC‑related claims.",
+      "keywords": ["PSG", "persecution", "gender", "LGBTQI"]
+    },
+    {
+      "title": "Practical Guide on Nationality",
+      "category": "Qualification",
+      "date": "03/2025",
+      "url": "https://euaa.europa.eu/publications/practical-guide-nationality-concepts-related-nationality-and-statelessness-context-international-protection",
+      "description": "Explains nationality and statelessness concepts relevant to protection assessment.",
+      "keywords": ["nationality", "stateless", "citizenship"]
+    },
+    {
+      "title": "Practical Guide on SOGIESC – Examination Procedure",
+      "category": "Vulnerable Groups",
+      "date": "11/2024",
+      "url": "https://euaa.europa.eu/publications/practical-guide-SOGIESC-examination-procedure",
+      "description": "Guidance on examining asylum applications based on SOGIESC grounds.",
+      "keywords": ["SOGIESC", "LGBTQI", "credibility", "sensitivity"]
+    },
+    {
+      "title": "Practical Guide on SOGIESC – Reception",
+      "category": "Vulnerable Groups",
+      "date": "11/2024",
+      "url": "https://euaa.europa.eu/publications/practical-guide-SOGIESC-reception",
+      "description": "Standards for reception conditions for applicants with diverse SOGIESC.",
+      "keywords": ["SOGIESC", "reception", "accommodation", "safety"]
+    },
+    {
+      "title": "Guidelines on Alternatives to Detention",
+      "category": "Detention",
+      "date": "12/2024",
+      "url": "https://euaa.europa.eu/publications/guidelines-alternatives-detention",
+      "description": "Framework for defining and applying alternatives to detention in asylum procedures.",
+      "keywords": ["detention", "alternatives", "proportionality"]
+    },
+    {
+      "title": "Guidance on the Dublin Procedure",
+      "category": "Responsibility Determination",
+      "date": "03/2020",
+      "url": "https://www.euaa.europa.eu/publications/guidance-dublin-procedure",
+      "description": "Operational indicators for responsibility determination under Dublin/AMMR logic.",
+      "keywords": ["Dublin", "responsibility", "family unity"]
+    },
+    {
+      "title": "Practical Guide on Family Tracing – Part I",
+      "category": "Family Unity",
+      "date": "04/2025",
+      "url": "https://euaa.europa.eu/publications/practical-guide-family-tracing-part-i",
+      "description": "Best‑interest‑based guidance for tracing families of unaccompanied minors.",
+      "keywords": ["family tracing", "UAM", "best interests"]
+    },
+    {
+      "title": "Practical Guide on Family Tracing – Part II",
+      "category": "Family Unity",
+      "date": "04/2025",
+      "url": "https://euaa.europa.eu/publications/practical-guide-family-tracing-part-ii",
+      "description": "Operational prioritisation of family unity cases under AMMR.",
+      "keywords": ["family tracing", "prioritisation", "responsibility"]
+    },
+    {
+      "title": "Practical Guide on Exclusion for Serious Crimes",
+      "category": "Exclusion",
+      "date": "12/2021",
+      "url": "https://euaa.europa.eu/publications/practical-guide-exclusion-serious-non-political-crimes",
+      "description": "Legal framework for applying exclusion clauses for serious non‑political crimes.",
+      "keywords": ["exclusion", "serious crime", "Article 12"]
+    },
+    {
+      "title": "Practical Guide on Quality Assurance in Asylum Procedures",
+      "category": "Quality Assurance",
+      "date": "05/2024",
+      "url": "https://euaa.europa.eu/publications/practical-guide-quality-assurance-asylum-procedures",
+      "description": "Methodology for quality control, review and consistency in asylum decision‑making.",
+      "keywords": ["quality", "QA", "monitoring"]
+    },
+    {
+      "title": "Operational Standards and Indicators on the Asylum Procedure",
+      "category": "Operational Standards",
+      "date": "11/2025",
+      "url": "https://www.euaa.europa.eu/sites/default/files/publications/2025-12/2025_Operational-Standards-and-Indicators-on-the-Asylum-Procedure_EN.pdf",
+      "description": "EU‑wide operational benchmarks for fair and effective asylum procedures.",
+      "keywords": ["operational standards", "indicators", "best practices"]
+    },
+    {
+      "title": "Operational Standards on Vulnerability-related Aspects",
+      "category": "Vulnerable Groups",
+      "date": "11/2025",
+      "url": "https://euaa.europa.eu/publications/operational-standards-indicators-vulnerability-related-aspects-asylum-procedure",
+      "description": "Standards for identifying and responding to vulnerability in asylum procedures.",
+      "keywords": ["vulnerability", "special needs", "minors"]
+    },
+    {
+      "title": "Guidance on Contingency Planning and Preparedness",
+      "category": "Crisis Management",
+      "date": "05/2024",
+      "url": "https://euaa.europa.eu/publications/guidance-contingency-planning-preparedness-asylum-procedure",
+      "description": "Operational guidance for preparedness and crisis response in asylum systems.",
+      "keywords": ["contingency", "crisis", "preparedness"]
+    },
+    {
+      "title": "Practical Guide on the Management of a Reception Centre",
+      "category": "Reception",
+      "date": "12/2025",
+      "url": "https://www.euaa.europa.eu/publications/practical-guide-management-reception-centre-arrival",
+      "description": "Guidance on organisation and daily management of reception facilities.",
+      "keywords": ["reception", "centre management", "accommodation"]
+    },
+    {
+      "title": "Self-Assessment Tool on Quality of the Asylum Procedure",
+      "category": "Quality Assurance",
+      "date": "08/2025",
+      "url": "https://reliefweb.int/report/world/self-assessment-tool-quality-asylum-procedure-august-2025",
+      "description": "Digital self‑assessment tool to monitor quality of national asylum procedures.",
+      "keywords": ["self-assessment", "quality", "monitoring"]
+    },
+    {
+      "title": "Asylum Report 2025",
+      "category": "Statistics & Reports",
+      "date": "2025",
+      "url": "https://www.euaa.europa.eu/publications/asylum-report-2025",
+      "description": "Annual overview of asylum trends, policy and practice in the EU+.",
+      "keywords": ["statistics", "trends", "policy"]
+    },
+    {
+      "title": "Country Guidance: Explained",
+      "category": "Country Guidance",
+      "date": "02/2025",
+      "url": "https://www.euaa.europa.eu/country-guidance-explained-0",
+      "description": "Methodological framework for EUAA Country Guidance documents.",
+      "keywords": ["country guidance", "methodology", "COI"]
+    },
+    {
+      "title": "Country Guidance: Syria",
+      "category": "Country Guidance",
+      "date": "12/2025",
+      "url": "https://www.euaa.europa.eu/country-guidance-syria",
+      "description": "Common EU+ assessment of protection needs following developments in Syria.",
+      "keywords": ["Syria", "COI", "country guidance"]
+    },
+    {
+      "title": "Country Guidance: Iran",
+      "category": "Country Guidance",
+      "date": "01/2025",
+      "url": "https://www.euaa.europa.eu/country-guidance-iran",
+      "description": "Updated country guidance on Iran including risk profiles and actors of persecution.",
+      "keywords": ["Iran", "COI", "country guidance"]
+    }
+  ]
+}
