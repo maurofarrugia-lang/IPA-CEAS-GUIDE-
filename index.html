@@ -6,19 +6,19 @@
     <title>IPA NEW CEAS Guide</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; min-height: 100vh; }
-        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(33, 150, 243, 0.2); overflow: hidden; }
-        .header { background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%); color: white; padding: 36px 30px; text-align: center; position: relative; }
-        .header h1 { font-size: 2.1em; margin-bottom: 10px; letter-spacing: 0.3px; }
-        .header p { opacity: 0.95; font-size: 1.1em; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #fef0f4 0%, #e6f3f7 50%, #f3eafd 100%); padding: 20px; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; background: #fffdfd; border-radius: 20px; box-shadow: 0 10px 40px rgba(173, 139, 175, 0.15); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #f8c8dc 0%, #c8e6f5 50%, #d8c5ec 100%); color: #5a4a5e; padding: 36px 30px; text-align: center; position: relative; }
+        .header h1 { font-size: 2.1em; margin-bottom: 10px; letter-spacing: 0.3px; color: #6b5a72; }
+        .header p { opacity: 0.85; font-size: 1.1em; color: #6b5a72; }
         .header .badge-row { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
-        .header .badge-row span { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); padding: 5px 12px; border-radius: 16px; font-size: 0.85em; }
+        .header .badge-row span { background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(155, 130, 165, 0.30); padding: 5px 12px; border-radius: 16px; font-size: 0.85em; color: #6b5a72; }
 
-        .tab-nav { display: flex; background: #f5f5f5; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; }
-        .tab-button { flex: 1; min-width: 150px; padding: 15px 18px; background: none; border: none; cursor: pointer; font-size: 1em; font-weight: 600; color: #666; transition: all 0.3s; position: relative; }
-        .tab-button:hover { background: #e3f2fd; color: #0d47a1; }
-        .tab-button.active { color: #0d47a1; background: white; }
-        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: #0d47a1; }
+        .tab-nav { display: flex; background: #faf4f7; border-bottom: 2px solid #ead7e0; flex-wrap: wrap; }
+        .tab-button { flex: 1; min-width: 150px; padding: 15px 18px; background: none; border: none; cursor: pointer; font-size: 1em; font-weight: 600; color: #8b7484; transition: all 0.3s; position: relative; }
+        .tab-button:hover { background: #fdeef3; color: #a07590; }
+        .tab-button.active { color: #a07590; background: #fffdfd; }
+        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: #d8a8be; }
         .tab-content { display: none; padding: 30px; animation: fadeIn 0.3s; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -36,32 +36,32 @@
         #indexSearchInput:focus,
         #caseLawSearchInput:focus,
         #flowSearchInput:focus,
-        #euaaQueryInput:focus { outline: none; border-color: #0d47a1; box-shadow: 0 0 0 4px rgba(13, 71, 161, 0.12); }
+        #euaaQueryInput:focus { outline: none; border-color: #d8a8be; box-shadow: 0 0 0 4px rgba(216, 168, 190, 0.20); }
 
-        .clear-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; display: none; }
-        .clear-btn:hover { background: #d32f2f; }
+        .clear-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: #e8a5b6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; display: none; }
+        .clear-btn:hover { background: #d893a4; }
         .results { margin-top: 20px; }
-        .result-item, .index-section { background: #f8f9fa; padding: 20px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #0d47a1; transition: all 0.3s; }
-        .result-item:hover, .index-section:hover { box-shadow: 0 4px 12px rgba(13, 71, 161, 0.15); transform: translateX(5px); }
-        .result-item h3, .index-section h3 { color: #0d47a1; margin-bottom: 10px; font-size: 1.3em; }
-        .badge { display: inline-block; background: #e3f2fd; color: #0d47a1; padding: 4px 12px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; margin-right: 6px; }
-        .meta { color: #666; font-size: 0.9em; margin: 8px 0; }
-        .description { color: #333; line-height: 1.6; margin: 10px 0; }
-        .keyword-tag { display: inline-block; background: #bbdefb; color: #1565c0; padding: 3px 10px; border-radius: 10px; font-size: 0.85em; margin: 3px; }
-        .result-item a { display: inline-block; margin-top: 10px; color: #0d47a1; text-decoration: none; font-weight: 600; }
+        .result-item, .index-section { background: #fdf6f9; padding: 20px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #d8a8be; transition: all 0.3s; }
+        .result-item:hover, .index-section:hover { box-shadow: 0 4px 12px rgba(216, 168, 190, 0.20); transform: translateX(5px); }
+        .result-item h3, .index-section h3 { color: #a07590; margin-bottom: 10px; font-size: 1.3em; }
+        .badge { display: inline-block; background: #fce4ec; color: #a07590; padding: 4px 12px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; margin-right: 6px; }
+        .meta { color: #8b7484; font-size: 0.9em; margin: 8px 0; }
+        .description { color: #5a4a5e; line-height: 1.6; margin: 10px 0; }
+        .keyword-tag { display: inline-block; background: #f3d8e3; color: #a07590; padding: 3px 10px; border-radius: 10px; font-size: 0.85em; margin: 3px; }
+        .result-item a { display: inline-block; margin-top: 10px; color: #a07590; text-decoration: none; font-weight: 600; }
         .result-item a:hover { text-decoration: underline; }
-        .no-results { text-align: center; padding: 60px 20px; color: #999; }
-        .highlight { background-color: #ffeb3b; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+        .no-results { text-align: center; padding: 60px 20px; color: #b39cad; }
+        .highlight { background-color: #fff7c2; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
         .stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; }
-        .stat-card h3 { font-size: 2em; margin-bottom: 5px; }
-        .stat-card p { opacity: 0.9; font-size: 0.9em; }
+        .stat-card { background: linear-gradient(135deg, #f8c8dc 0%, #c8e6f5 100%); color: #6b5a72; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-card h3 { font-size: 2em; margin-bottom: 5px; color: #5a4a5e; }
+        .stat-card p { opacity: 0.8; font-size: 0.9em; color: #6b5a72; }
 
-        .category-filter select { padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: white; }
-        .subsection { margin-left: 20px; margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 3px solid #90caf9; }
-        .subsection h4 { color: #1976d2; font-size: 1.1em; margin-bottom: 10px; }
+        .category-filter select { padding: 10px 15px; border: 2px solid #ead7e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: #fffdfd; }
+        .subsection { margin-left: 20px; margin-top: 15px; padding: 15px; background: #fffdfd; border-radius: 8px; border-left: 3px solid #c8e6f5; }
+        .subsection h4 { color: #7e9cb3; font-size: 1.1em; margin-bottom: 10px; }
         .subsection ul { margin-left: 20px; }
-        .subsection li { margin: 8px 0; color: #555; line-height: 1.6; }
+        .subsection li { margin: 8px 0; color: #6b5a72; line-height: 1.6; }
         @media (max-width: 768px) {
             .header h1 { font-size: 1.5em; }
             .tab-button { font-size: 0.9em; padding: 12px 10px; }
@@ -71,15 +71,15 @@
         /* Regulation article lists / EUR-Lex link */
         .reg-link {
             margin-left: 15px;
-            color: #0d47a1;
+            color: #a07590;
             text-decoration: none;
             font-size: 0.9em;
             transition: color 0.3s;
         }
-        .reg-link:hover { color: #1565c0; text-decoration: underline; }
+        .reg-link:hover { color: #7e5e74; text-decoration: underline; }
 
         .article-link {
-            color: #0d47a1;
+            color: #a07590;
             text-decoration: none;
             font-size: 1.1em;
             margin-right: 8px;
@@ -88,55 +88,55 @@
         }
         .article-link:hover { transform: scale(1.2); }
 
-        /* Related EUAA Guidelines inside Protection Index entries */
+        /* Related EUAA Guidelines inside Article Search entries */
         .related-guidelines {
             margin-top: 15px;
             padding: 12px;
-            background: #f0f8ff;
-            border-left: 3px solid #0d47a1;
+            background: #f5eaf0;
+            border-left: 3px solid #d8a8be;
             border-radius: 4px;
         }
-        .related-guidelines strong { color: #1565c0; display: block; margin-bottom: 8px; }
+        .related-guidelines strong { color: #7e5e74; display: block; margin-bottom: 8px; }
         .related-guidelines ul { margin: 0; padding-left: 20px; list-style-type: none; }
         .related-guidelines ul li { margin: 5px 0; }
         .related-guidelines ul li::before {
             content: "→ ";
-            color: #0d47a1;
+            color: #a07590;
             font-weight: bold;
             margin-right: 5px;
         }
-        .related-guidelines a { color: #1565c0; text-decoration: none; font-size: 0.95em; }
-        .related-guidelines a:hover { text-decoration: underline; color: #0d47a1; }
+        .related-guidelines a { color: #7e5e74; text-decoration: none; font-size: 0.95em; }
+        .related-guidelines a:hover { text-decoration: underline; color: #a07590; }
 
-        /* Protection Index: article number+title bold pink, details normal black */
-        #protectionResults li .article-number-title { color: #e91e63; font-weight: bold; }
-        #protectionResults li .article-detail { color: #000; font-weight: normal; }
+        /* Article Search: article number+title bold pink, details normal */
+        #articleResults li .article-number-title { color: #c2185b; font-weight: bold; }
+        #articleResults li .article-detail { color: #2e2e2e; font-weight: normal; }
 
-        /* EUAA Case Flow table styling (from exhaustive reference) */
+        /* Grounds Index table styling (from exhaustive reference) */
         .flow-table-wrapper { overflow-x: auto; }
         .flow-table { width: 100%; border-collapse: collapse; margin-top: 14px; background: white; }
         .flow-table th, .flow-table td { border: 1px solid #e0e0e0; padding: 10px 12px; vertical-align: top; text-align: left; }
-        .flow-table th { background: #0d47a1; color: #fff; font-size: 0.95em; }
-        .flow-table tr.refugee { background: #e6f2ff; }
-        .flow-table tr.subsidiary { background: #e6ffe6; }
-        .flow-table tr.exclusion { background: #ffe6e6; }
-        .flow-table tr.withdrawal { background: #ffd6d6; }
-        .flow-table tr.cessation { background: #ececec; }
-        .flow-table tr.procedure { background: #fff2cc; }
-        .flow-table tr.ipa { background: #f0e6ff; }
+        .flow-table th { background: #d8a8be; color: #fffdfd; font-size: 0.95em; }
+        .flow-table tr.refugee { background: #e6f3f7; }
+        .flow-table tr.subsidiary { background: #f0fde8; }
+        .flow-table tr.exclusion { background: #fdecea; }
+        .flow-table tr.withdrawal { background: #fde2e8; }
+        .flow-table tr.cessation { background: #f4ecf0; }
+        .flow-table tr.procedure { background: #fdf5d8; }
+        .flow-table tr.ipa { background: #f0e6fa; }
         .flow-legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; font-size: 0.92em; }
         .flow-legend span { padding: 5px 10px; border-radius: 4px; font-weight: 600; }
-        .flow-legend .l-refugee { background: #e6f2ff; color: #0d47a1; }
-        .flow-legend .l-subsidiary { background: #e6ffe6; color: #1b5e20; }
-        .flow-legend .l-exclusion { background: #ffe6e6; color: #b71c1c; }
-        .flow-legend .l-withdrawal { background: #ffd6d6; color: #880e4f; }
-        .flow-legend .l-cessation { background: #ececec; color: #424242; }
-        .flow-legend .l-procedure { background: #fff2cc; color: #8b6f00; }
-        .flow-legend .l-ipa { background: #f0e6ff; color: #4a148c; }
+        .flow-legend .l-refugee { background: #e6f3f7; color: #5a7d8c; }
+        .flow-legend .l-subsidiary { background: #f0fde8; color: #5a7d4e; }
+        .flow-legend .l-exclusion { background: #fdecea; color: #a85a5a; }
+        .flow-legend .l-withdrawal { background: #fde2e8; color: #a85a7e; }
+        .flow-legend .l-cessation { background: #f4ecf0; color: #6b5a72; }
+        .flow-legend .l-procedure { background: #fdf5d8; color: #8b7e3a; }
+        .flow-legend .l-ipa { background: #f0e6fa; color: #7a5ea8; }
 
         .flow-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
         .euaa-query-btn {
-            background: #6a1b9a;
+            background: #b89bc4;
             color: white;
             border: none;
             padding: 10px 16px;
@@ -150,39 +150,39 @@
         /* EUAA Case Law styling */
         .case-law-actions-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
         .case-law-filters { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .case-law-filters select { padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: white; }
+        .case-law-filters select { padding: 10px 15px; border: 2px solid #ead7e0; border-radius: 8px; font-size: 1em; cursor: pointer; background: #fffdfd; }
         @media (max-width: 768px) { .case-law-filters { grid-template-columns: 1fr; } }
         .case-card {
-            background: #f8f9fa; padding: 20px; margin-bottom: 15px; border-radius: 10px;
-            border-left: 4px solid #6a1b9a; transition: all 0.3s;
+            background: #fdf6f9; padding: 20px; margin-bottom: 15px; border-radius: 10px;
+            border-left: 4px solid #b89bc4; transition: all 0.3s;
         }
-        .case-card:hover { box-shadow: 0 4px 12px rgba(106, 27, 154, 0.15); transform: translateX(5px); }
-        .case-card h3 { color: #6a1b9a; margin-bottom: 10px; font-size: 1.25em; }
+        .case-card:hover { box-shadow: 0 4px 12px rgba(184, 155, 196, 0.20); transform: translateX(5px); }
+        .case-card h3 { color: #7a5ea8; margin-bottom: 10px; font-size: 1.25em; }
         .case-badge {
-            display: inline-block; background: #f3e5f5; color: #6a1b9a;
+            display: inline-block; background: #f0e6fa; color: #7a5ea8;
             padding: 4px 12px; border-radius: 12px; font-size: 0.8em;
             font-weight: bold; margin-bottom: 8px; margin-right: 8px;
         }
         .case-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
         .case-actions a {
             display: inline-block; margin-top: 10px; margin-right: 12px;
-            color: #6a1b9a; text-decoration: none; font-weight: 700;
+            color: #7a5ea8; text-decoration: none; font-weight: 700;
         }
         .case-actions a:hover { text-decoration: underline; }
         .theme-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .theme-chip {
-            background: #f3e5f5; color: #6a1b9a; border: 1px solid #6a1b9a;
+            background: #f0e6fa; color: #7a5ea8; border: 1px solid #b89bc4;
             padding: 6px 10px; border-radius: 16px; font-size: 0.9em;
             cursor: pointer; transition: all 0.2s; user-select: none;
         }
         .theme-chip:hover { transform: translateY(-1px); }
-        .theme-chip.active { background: #6a1b9a; color: white; }
-        .pub-card { border-left-color: #0d47a1; }
-        .pub-card h3 { color: #0d47a1; }
-        .pub-actions a { color: #0d47a1; font-weight: 700; text-decoration: none; margin-right: 12px; }
+        .theme-chip.active { background: #7a5ea8; color: white; }
+        .pub-card { border-left-color: #d8a8be; }
+        .pub-card h3 { color: #a07590; }
+        .pub-actions a { color: #a07590; font-weight: 700; text-decoration: none; margin-right: 12px; }
         .pub-actions a:hover { text-decoration: underline; }
 
-        .footer-note { text-align: right; font-style: italic; color: #888; margin-top: 30px; font-size: 0.9em; padding: 12px 30px; }
+        .footer-note { text-align: right; font-style: italic; color: #b39cad; margin-top: 30px; font-size: 0.9em; padding: 12px 30px; }
     </style>
 </head>
 <body>
@@ -193,8 +193,8 @@
             <div class="badge-row">
                 <span>🇪🇺 7 Regulations</span>
                 <span>📖 27 EUAA Guidelines</span>
-                <span>⚖️ Protection Index</span>
-                <span>🔁 EUAA Case Flow</span>
+                <span>⚖️ Article Search</span>
+                <span>🔁 Grounds Index</span>
                 <span>📚 EUAA Case Law</span>
             </div>
         </div>
@@ -202,8 +202,8 @@
         <div class="tab-nav">
             <button class="tab-button active" onclick="switchTab('regulations')">📋 Regulations</button>
             <button class="tab-button" onclick="switchTab('guidelines')">📖 EUAA Guidelines</button>
-            <button class="tab-button" onclick="switchTab('protection')">⚖️ Protection Index</button>
-            <button class="tab-button" onclick="switchTab('flow')">🔁 EUAA Case Flow</button>
+            <button class="tab-button" onclick="switchTab('article')">⚖️ Article Search</button>
+            <button class="tab-button" onclick="switchTab('grounds')">🔁 Grounds Index</button>
             <button class="tab-button" onclick="switchTab('case-law')">📚⚖️ EUAA Case Law</button>
         </div>
 
@@ -246,7 +246,7 @@
         </div>
 
         <!-- ======== PROTECTION INDEX TAB ======== -->
-        <div id="protection-tab" class="tab-content">
+        <div id="article-tab" class="tab-content">
             <div class="stats-panel">
                 <div class="stat-card"><h3 id="pi-categories">8</h3><p>Categories</p></div>
                 <div class="stat-card"><h3 id="pi-regulations">7</h3><p>Regulations</p></div>
@@ -254,17 +254,17 @@
             </div>
             <div class="search-section">
                 <div class="search-box">
-                    <input type="text" id="indexSearchInput" placeholder="🔍 Search the Protection Index (e.g., credibility, detention, vulnerability, interview)…" oninput="searchProtectionIndex()">
+                    <input type="text" id="indexSearchInput" placeholder="🔍 Search the Article Search by article or keyword (e.g., credibility, detention, vulnerability, interview)…" oninput="searchArticleSearch()">
                     <button class="clear-btn" id="indexClearBtn" onclick="clearIndexSearch()">✕</button>
                 </div>
                 <div class="meta" id="indexSearchStats" style="margin-top:10px;"></div>
             </div>
-            <div class="results" id="protectionResults"></div>
+            <div class="results" id="articleResults"></div>
         </div>
 
         <!-- ======== EUAA CASE FLOW TAB ======== -->
-        <div id="flow-tab" class="tab-content">
-            <h2 style="color:#0d47a1; margin-bottom: 6px;">🔁 EUAA Case Flow — Exhaustive Quick Reference (QR & APR)</h2>
+        <div id="grounds-tab" class="tab-content">
+            <h2 style="color:#a07590; margin-bottom: 6px;">🔁 Grounds Index — Exhaustive Quick Reference (QR & APR)</h2>
             <p class="meta" style="margin-bottom:12px;">Colour-coded by theme: Refugee (blue) · Subsidiary (green) · Exclusion (red) · Withdrawal (light red) · Cessation (grey) · APR Procedure (yellow) · IPA (purple)</p>
 
             <div class="flow-legend">
@@ -338,7 +338,7 @@
 
             <hr style="margin:30px 0; border:none; border-top:1px solid #eee;" />
 
-            <h2 style="color:#0d47a1; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
+            <h2 style="color:#a07590; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
             <div class="search-section">
                 <div class="search-box">
                     <input type="text" id="pubSearchInput" placeholder="🔍 Search Quarterly Overviews by issue, keywords, or themes…" oninput="searchPublications()">
@@ -369,7 +369,7 @@
             database = await response.json();
             displayRegulations(database.regulations);
             displayGuidelines(database.euaa_guidelines);
-            displayProtectionIndex(database.protection_index.categories);
+            displayArticleSearch(database.article_search.categories);
             renderCaseFlowTable(buildFlowRows(database));
             initializeCaseLawFilters(database.case_law || []);
             initializePublications(database.euaa_case_law_publications || []);
@@ -489,17 +489,17 @@
         }).join('');
     }
 
-    /* ========== PROTECTION INDEX (formerly Caseworker Index) ========== */
-    function searchProtectionIndex() {
+    /* ========== Article Search (formerly Protection / Caseworker Index) ========== */
+    function searchArticleSearch() {
         const q = document.getElementById('indexSearchInput').value.toLowerCase().trim();
         const clearBtn = document.getElementById('indexClearBtn');
         const stats = document.getElementById('indexSearchStats');
         clearBtn.style.display = q ? 'block' : 'none';
-        if (!q) { displayProtectionIndex(database.protection_index.categories); stats.textContent = ''; return; }
+        if (!q) { displayArticleSearch(database.article_search.categories); stats.textContent = ''; return; }
 
         const filtered = [];
         let totalMatches = 0;
-        for (const cat of database.protection_index.categories) {
+        for (const cat of database.article_search.categories) {
             const subs = (cat.subsections || []).filter(s => {
                 const blob = `${s.name} ${(s.items||[]).join(' ')} ${(s.keywords||[]).join(' ')}`.toLowerCase();
                 return blob.includes(q);
@@ -510,16 +510,16 @@
             }
         }
         stats.textContent = `Found ${totalMatches} subsection(s) matching "${q}"`;
-        displayProtectionIndex(filtered, q);
+        displayArticleSearch(filtered, q);
     }
-    function clearIndexSearch() {
+    function clearArticleSearch() {
         document.getElementById('indexSearchInput').value = '';
         document.getElementById('indexClearBtn').style.display = 'none';
         document.getElementById('indexSearchStats').textContent = '';
-        displayProtectionIndex(database.protection_index.categories);
+        displayArticleSearch(database.article_search.categories);
     }
-    function displayProtectionIndex(categories, highlight = null) {
-        const container = document.getElementById('protectionResults');
+    function displayArticleSearch(categories, highlight = null) {
+        const container = document.getElementById('articleResults');
         if (!categories || !categories.length) {
             container.innerHTML = '<div class="no-results"><h3>😔 No results</h3><p>Try different keywords like: credibility, detention, vulnerability, interview, IPA…</p></div>';
             return;
@@ -863,7 +863,10 @@
             }
             const themes = (c.themes || []).map(t => `<span class="keyword-tag">${t}</span>`).join('');
             const pdfLink = c.pdf ? `<a href="${c.pdf}" target="_blank">📄 Open PDF →</a>` : '';
-            const euaaLink = c.euaa_url ? `<a href="${c.euaa_url}" target="_blank">🔗 EUAA Case Law →</a>` : '';
+            const euaaFallback = c.title ? `https://caselaw.euaa.europa.eu/pages/searchresults.aspx?Keywords=${encodeURIComponent(c.title)}` : 'https://caselaw.euaa.europa.eu/Pages/search.aspx';
+            const euaaLink = c.euaa_url
+                ? `<a href="${c.euaa_url}" target="_blank" rel="noopener">🔗 Open in EUAA Caselaw Database →</a>`
+                : `<a href="${euaaFallback}" target="_blank" rel="noopener">🔗 Open in EUAA Caselaw Database →</a>`;
             const srcLink = c.source_url ? `<a href="${c.source_url}" target="_blank">⚖️ Official Source →</a>` : '';
             const metaBits = [];
             if (c.case_number) metaBits.push(`<span class="case-badge">${c.case_number}</span>`);

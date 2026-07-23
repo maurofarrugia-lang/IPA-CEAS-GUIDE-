@@ -109,10 +109,10 @@
         .related-guidelines a:hover { text-decoration: underline; color: #0d47a1; }
 
         /* Protection Index: article number+title bold pink, details normal black */
-        #protectionResults li .article-number-title { color: #e91e63; font-weight: bold; }
-        #protectionResults li .article-detail { color: #000; font-weight: normal; }
+        #articleResults li .article-number-title { color: #e91e63; font-weight: bold; }
+        #articleResults li .article-detail { color: #000; font-weight: normal; }
 
-        /* EUAA Case Flow table styling (from exhaustive reference) */
+        /* Grounds Index table styling (from exhaustive reference) */
         .flow-table-wrapper { overflow-x: auto; }
         .flow-table { width: 100%; border-collapse: collapse; margin-top: 14px; background: white; }
         .flow-table th, .flow-table td { border: 1px solid #e0e0e0; padding: 10px 12px; vertical-align: top; text-align: left; }
@@ -194,7 +194,7 @@
                 <span>🇪🇺 7 Regulations</span>
                 <span>📖 27 EUAA Guidelines</span>
                 <span>⚖️ Protection Index</span>
-                <span>🔁 EUAA Case Flow</span>
+                <span>🔁 Grounds Index</span>
                 <span>📚 EUAA Case Law</span>
             </div>
         </div>
@@ -203,7 +203,7 @@
             <button class="tab-button active" onclick="switchTab('regulations')">📋 Regulations</button>
             <button class="tab-button" onclick="switchTab('guidelines')">📖 EUAA Guidelines</button>
             <button class="tab-button" onclick="switchTab('protection')">⚖️ Protection Index</button>
-            <button class="tab-button" onclick="switchTab('flow')">🔁 EUAA Case Flow</button>
+            <button class="tab-button" onclick="switchTab('flow')">🔁 Grounds Index</button>
             <button class="tab-button" onclick="switchTab('case-law')">📚⚖️ EUAA Case Law</button>
         </div>
 
@@ -246,7 +246,7 @@
         </div>
 
         <!-- ======== PROTECTION INDEX TAB ======== -->
-        <div id="protection-tab" class="tab-content">
+        <div id="article-tab" class="tab-content">
             <div class="stats-panel">
                 <div class="stat-card"><h3 id="pi-categories">8</h3><p>Categories</p></div>
                 <div class="stat-card"><h3 id="pi-regulations">7</h3><p>Regulations</p></div>
@@ -254,17 +254,17 @@
             </div>
             <div class="search-section">
                 <div class="search-box">
-                    <input type="text" id="indexSearchInput" placeholder="🔍 Search the Protection Index (e.g., credibility, detention, vulnerability, interview)…" oninput="searchProtectionIndex()">
-                    <button class="clear-btn" id="indexClearBtn" onclick="clearIndexSearch()">✕</button>
+                    <input type="text" id="indexSearchInput" placeholder="🔍 Search the Article Search by article or keyword (e.g., credibility, detention, vulnerability, interview)…" oninput="searchArticleSearch()">
+                    <button class="clear-btn" id="indexClearBtn" onclick="clearArticleSearch()">✕</button>
                 </div>
                 <div class="meta" id="indexSearchStats" style="margin-top:10px;"></div>
             </div>
-            <div class="results" id="protectionResults"></div>
+            <div class="results" id="articleResults"></div>
         </div>
 
         <!-- ======== EUAA CASE FLOW TAB ======== -->
-        <div id="flow-tab" class="tab-content">
-            <h2 style="color:#0d47a1; margin-bottom: 6px;">🔁 EUAA Case Flow — Exhaustive Quick Reference (QR & APR)</h2>
+        <div id="grounds-tab" class="tab-content">
+            <h2 style="color:#a07590; margin-bottom: 6px;">🔁 Grounds Index — Exhaustive Quick Reference (QR & APR)</h2>
             <p class="meta" style="margin-bottom:12px;">Colour-coded by theme: Refugee (blue) · Subsidiary (green) · Exclusion (red) · Withdrawal (light red) · Cessation (grey) · APR Procedure (yellow) · IPA (purple)</p>
 
             <div class="flow-legend">
@@ -338,7 +338,7 @@
 
             <hr style="margin:30px 0; border:none; border-top:1px solid #eee;" />
 
-            <h2 style="color:#0d47a1; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
+            <h2 style="color:#a07590; margin-bottom:10px;">📰 EUAA Quarterly Overview of Asylum Case Law</h2>
             <div class="search-section">
                 <div class="search-box">
                     <input type="text" id="pubSearchInput" placeholder="🔍 Search Quarterly Overviews by issue, keywords, or themes…" oninput="searchPublications()">
@@ -377,7 +377,7 @@ const EMBEDDED_DATABASE = {"definitions":[{"term":"Third-country national","defi
             }
             displayRegulations(database.regulations);
             displayGuidelines(database.euaa_guidelines);
-            displayProtectionIndex(database.protection_index.categories);
+            displayArticleSearch(database.article_search.categories);
             renderCaseFlowTable(buildFlowRows(database));
             initializeCaseLawFilters(database.case_law || []);
             initializePublications(database.euaa_case_law_publications || []);
@@ -498,16 +498,16 @@ const EMBEDDED_DATABASE = {"definitions":[{"term":"Third-country national","defi
     }
 
     /* ========== PROTECTION INDEX (formerly Caseworker Index) ========== */
-    function searchProtectionIndex() {
+    function searchArticleSearch() {
         const q = document.getElementById('indexSearchInput').value.toLowerCase().trim();
         const clearBtn = document.getElementById('indexClearBtn');
         const stats = document.getElementById('indexSearchStats');
         clearBtn.style.display = q ? 'block' : 'none';
-        if (!q) { displayProtectionIndex(database.protection_index.categories); stats.textContent = ''; return; }
+        if (!q) { displayArticleSearch(database.article_search.categories); stats.textContent = ''; return; }
 
         const filtered = [];
         let totalMatches = 0;
-        for (const cat of database.protection_index.categories) {
+        for (const cat of database.article_search.categories) {
             const subs = (cat.subsections || []).filter(s => {
                 const blob = `${s.name} ${(s.items||[]).join(' ')} ${(s.keywords||[]).join(' ')}`.toLowerCase();
                 return blob.includes(q);
@@ -518,16 +518,16 @@ const EMBEDDED_DATABASE = {"definitions":[{"term":"Third-country national","defi
             }
         }
         stats.textContent = `Found ${totalMatches} subsection(s) matching "${q}"`;
-        displayProtectionIndex(filtered, q);
+        displayArticleSearch(filtered, q);
     }
-    function clearIndexSearch() {
+    function clearArticleSearch() {
         document.getElementById('indexSearchInput').value = '';
         document.getElementById('indexClearBtn').style.display = 'none';
         document.getElementById('indexSearchStats').textContent = '';
-        displayProtectionIndex(database.protection_index.categories);
+        displayArticleSearch(database.article_search.categories);
     }
-    function displayProtectionIndex(categories, highlight = null) {
-        const container = document.getElementById('protectionResults');
+    function displayArticleSearch(categories, highlight = null) {
+        const container = document.getElementById('articleResults');
         if (!categories || !categories.length) {
             container.innerHTML = '<div class="no-results"><h3>😔 No results</h3><p>Try different keywords like: credibility, detention, vulnerability, interview, IPA…</p></div>';
             return;
@@ -871,7 +871,10 @@ const EMBEDDED_DATABASE = {"definitions":[{"term":"Third-country national","defi
             }
             const themes = (c.themes || []).map(t => `<span class="keyword-tag">${t}</span>`).join('');
             const pdfLink = c.pdf ? `<a href="${c.pdf}" target="_blank">📄 Open PDF →</a>` : '';
-            const euaaLink = c.euaa_url ? `<a href="${c.euaa_url}" target="_blank">🔗 EUAA Case Law →</a>` : '';
+            const fallbackUrl = c.title
+                ? 'https://caselaw.euaa.europa.eu/pages/searchresults.aspx?Keywords=' + encodeURIComponent(c.title)
+                : 'https://caselaw.euaa.europa.eu/Pages/search.aspx';
+            const euaaLink = c.euaa_url ? `<a href="${c.euaa_url}" target="_blank" rel="noopener">🔗 Open in EUAA Caselaw Database →</a>` : `<a href="${fallbackUrl}" target="_blank" rel="noopener">🔗 Open in EUAA Caselaw Database →</a>`;
             const srcLink = c.source_url ? `<a href="${c.source_url}" target="_blank">⚖️ Official Source →</a>` : '';
             const metaBits = [];
             if (c.case_number) metaBits.push(`<span class="case-badge">${c.case_number}</span>`);
